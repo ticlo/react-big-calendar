@@ -1,12 +1,10 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.accessor = accessor;
 exports.wrapAccessor = void 0;
-var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/typeof"));
 /**
  * Retrieve via an accessor-like property
  *
@@ -16,7 +14,7 @@ var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/typeof
  */
 function accessor(data, field) {
   var value = null;
-  if (typeof field === 'function') value = field(data);else if (typeof field === 'string' && (0, _typeof2.default)(data) === 'object' && data != null && field in data) value = data[field];
+  if (typeof field === 'function') value = field(data);else if (typeof field === 'string' && typeof data === 'object' && data != null && field in data) value = data[field];
   return value;
 }
 var wrapAccessor = exports.wrapAccessor = function wrapAccessor(acc) {

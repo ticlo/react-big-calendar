@@ -24,6 +24,9 @@ module.exports = function (api) {
               node: 'current',
             },
           }),
+          targets: {
+            "chrome": "124",
+          }
         },
       ],
       // FIXME: Passing `useESModules` to babel-preset-react-app is an
@@ -40,7 +43,7 @@ module.exports = function (api) {
     ],
     plugins: [
       ['@babel/plugin-transform-runtime'],
-      ['transform-react-remove-prop-types', { mode: 'wrap' }],
+      ['transform-react-remove-prop-types', { mode: 'remove' }],
       ['@babel/plugin-proposal-class-properties', { loose: true }],
       ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
       ['@babel/plugin-proposal-private-methods', { loose: true }],

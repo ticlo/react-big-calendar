@@ -11,7 +11,6 @@ exports.getShowMoreNodeFromPoint = getShowMoreNodeFromPoint;
 exports.isEvent = isEvent;
 exports.isShowMore = isShowMore;
 exports.objectsCollide = objectsCollide;
-var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/typeof"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
 var _contains = _interopRequireDefault(require("dom-helpers/contains"));
@@ -448,7 +447,7 @@ var Selection = /*#__PURE__*/function () {
  */
 function normalizeDistance() {
   var distance = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  if ((0, _typeof2.default)(distance) !== 'object') distance = {
+  if (typeof distance !== 'object') distance = {
     top: distance,
     left: distance,
     right: distance,

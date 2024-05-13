@@ -40,11 +40,11 @@ function _default(_ref) {
     delete styledEvents[i].idx;
     delete styledEvents[i].size;
   }
-  for (var _i2 = 0; _i2 < styledEvents.length - 1; ++_i2) {
-    var se1 = styledEvents[_i2];
+  for (var _i = 0; _i < styledEvents.length - 1; ++_i) {
+    var se1 = styledEvents[_i];
     var y1 = se1.style.top;
     var y2 = se1.style.top + se1.style.height;
-    for (var j = _i2 + 1; j < styledEvents.length; ++j) {
+    for (var j = _i + 1; j < styledEvents.length; ++j) {
       var se2 = styledEvents[j];
       var y3 = se2.style.top;
       var y4 = se2.style.top + se2.style.height;
@@ -55,32 +55,32 @@ function _default(_ref) {
       }
     }
   }
-  for (var _i4 = 0; _i4 < styledEvents.length; ++_i4) {
-    var se = styledEvents[_i4];
+  for (var _i2 = 0; _i2 < styledEvents.length; ++_i2) {
+    var se = styledEvents[_i2];
     var bitmap = [];
-    for (var _j2 = 0; _j2 < 100; ++_j2) bitmap.push(1); // 1 means available
+    for (var _j = 0; _j < 100; ++_j) bitmap.push(1); // 1 means available
 
-    for (var _j4 = 0; _j4 < se.friends.length; ++_j4) if (se.friends[_j4].idx !== undefined) bitmap[se.friends[_j4].idx] = 0; // 0 means reserved
+    for (var _j2 = 0; _j2 < se.friends.length; ++_j2) if (se.friends[_j2].idx !== undefined) bitmap[se.friends[_j2].idx] = 0; // 0 means reserved
 
     se.idx = bitmap.indexOf(1);
   }
-  for (var _i6 = 0; _i6 < styledEvents.length; ++_i6) {
+  for (var _i3 = 0; _i3 < styledEvents.length; ++_i3) {
     var size = 0;
-    if (styledEvents[_i6].size) continue;
+    if (styledEvents[_i3].size) continue;
     var allFriends = [];
-    var maxIdx = getMaxIdxDFS(styledEvents[_i6], 0, allFriends);
+    var maxIdx = getMaxIdxDFS(styledEvents[_i3], 0, allFriends);
     size = 100 / (maxIdx + 1);
-    styledEvents[_i6].size = size;
-    for (var _j6 = 0; _j6 < allFriends.length; ++_j6) allFriends[_j6].size = size;
+    styledEvents[_i3].size = size;
+    for (var _j3 = 0; _j3 < allFriends.length; ++_j3) allFriends[_j3].size = size;
   }
-  for (var _i8 = 0; _i8 < styledEvents.length; ++_i8) {
-    var e = styledEvents[_i8];
+  for (var _i4 = 0; _i4 < styledEvents.length; ++_i4) {
+    var e = styledEvents[_i4];
     e.style.left = e.idx * e.size;
 
     // stretch to maximum
     var _maxIdx = 0;
-    for (var _j8 = 0; _j8 < e.friends.length; ++_j8) {
-      var idx = e.friends[_j8].idx;
+    for (var _j4 = 0; _j4 < e.friends.length; ++_j4) {
+      var idx = e.friends[_j4].idx;
       _maxIdx = _maxIdx > idx ? _maxIdx : idx;
     }
     if (_maxIdx <= e.idx) e.size = 100 - e.idx * e.size;

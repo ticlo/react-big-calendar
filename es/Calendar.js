@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
-var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/typeof"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
 var _callSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/callSuper"));
@@ -68,7 +67,7 @@ var Calendar = /*#__PURE__*/function (_React$Component) {
           return obj[name] = _Views.default[name];
         }, {});
       }
-      if ((0, _typeof2.default)(views) === 'object') {
+      if (typeof views === 'object') {
         return (0, _mapValues.default)(views, function (value, key) {
           if (value === true) {
             return _Views.default[key];
