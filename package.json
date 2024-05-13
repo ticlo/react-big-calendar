@@ -1,6 +1,6 @@
 {
   "name": "react-big-calendar",
-  "version": "1.12.1",
+  "version": "1.12.1-ticlo",
   "description": "Calendar! with events",
   "author": {
     "name": "Jason Quense",
@@ -15,12 +15,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "dist/react-big-calendar.esm.js",
-  "style": "lib/css/react-big-calendar.css",
+  "main": "es/index.js",
+  "module": "es/index.js",
   "files": [
-    "lib/",
-    "dist/",
+    "es/",
     "LICENSE",
     "README.md",
     "CHANGELOG.md"
@@ -35,6 +33,7 @@
   ],
   "scripts": {
     "build": "zx .scripts/build.mjs",
+    "build-ex": "cross-env NODE_ENV=production babel src --out-dir es",
     "build-storybook": "build-storybook",
     "lint": "NODE_ENV=development eslint src test",
     "prepare": "is-ci || husky install",
@@ -81,6 +80,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-plugin-transform-rename-import": "^2.3.0",
     "babel-preset-react-app": "^10.0.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.31.0",
     "eslint-config-jason": "^8.2.2",
     "eslint-config-prettier": "^8.6.0",
