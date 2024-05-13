@@ -1,14 +1,11 @@
-'use strict'
+"use strict";
 
-var _interopRequireDefault =
-  require('@babel/runtime/helpers/interopRequireDefault').default
-Object.defineProperty(exports, '__esModule', {
-  value: true,
-})
-exports.default = messages
-var _objectSpread2 = _interopRequireDefault(
-  require('@babel/runtime/helpers/esm/objectSpread2')
-)
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = messages;
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 var defaultMessages = {
   date: 'Date',
   time: 'Time',
@@ -26,12 +23,9 @@ var defaultMessages = {
   agenda: 'Agenda',
   noEventsInRange: 'There are no events in this range.',
   showMore: function showMore(total) {
-    return '+'.concat(total, ' more')
-  },
-}
+    return "+".concat(total, " more");
+  }
+};
 function messages(msgs) {
-  return (0, _objectSpread2.default)(
-    (0, _objectSpread2.default)({}, defaultMessages),
-    msgs
-  )
+  return (0, _objectSpread2.default)((0, _objectSpread2.default)({}, defaultMessages), msgs);
 }

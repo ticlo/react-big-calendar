@@ -1,23 +1,20 @@
-'use strict'
+"use strict";
 
-var _interopRequireDefault =
-  require('@babel/runtime/helpers/interopRequireDefault').default
-Object.defineProperty(exports, '__esModule', {
-  value: true,
-})
-exports.getStyledEvents = getStyledEvents
-var _overlap = _interopRequireDefault(require('./layout-algorithms/overlap'))
-var _noOverlap = _interopRequireDefault(
-  require('./layout-algorithms/no-overlap')
-)
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getStyledEvents = getStyledEvents;
+var _overlap = _interopRequireDefault(require("./layout-algorithms/overlap"));
+var _noOverlap = _interopRequireDefault(require("./layout-algorithms/no-overlap"));
 /*eslint no-unused-vars: "off"*/
 
 var DefaultAlgorithms = {
   overlap: _overlap.default,
-  'no-overlap': _noOverlap.default,
-}
+  'no-overlap': _noOverlap.default
+};
 function isFunction(a) {
-  return !!(a && a.constructor && a.call && a.apply)
+  return !!(a && a.constructor && a.call && a.apply);
 }
 
 //
@@ -26,13 +23,12 @@ function getStyledEvents(_ref) {
     minimumStartDifference = _ref.minimumStartDifference,
     slotMetrics = _ref.slotMetrics,
     accessors = _ref.accessors,
-    dayLayoutAlgorithm = _ref.dayLayoutAlgorithm
-  var algorithm = dayLayoutAlgorithm
-  if (dayLayoutAlgorithm in DefaultAlgorithms)
-    algorithm = DefaultAlgorithms[dayLayoutAlgorithm]
+    dayLayoutAlgorithm = _ref.dayLayoutAlgorithm;
+  var algorithm = dayLayoutAlgorithm;
+  if (dayLayoutAlgorithm in DefaultAlgorithms) algorithm = DefaultAlgorithms[dayLayoutAlgorithm];
   if (!isFunction(algorithm)) {
     // invalid algorithm
-    return []
+    return [];
   }
-  return algorithm.apply(this, arguments)
+  return algorithm.apply(this, arguments);
 }
