@@ -281,7 +281,6 @@ export interface Messages {
     yesterday?: string | undefined;
     tomorrow?: string | undefined;
     today?: string | undefined;
-    agenda?: string | undefined;
     showMore?: ((count: number) => string) | undefined;
     noEventsInRange?: string | undefined;
 }
@@ -426,7 +425,7 @@ export interface CalendarProps<TEvent extends object = Event, TResource extends 
     onKeyPressEvent?: ((event: TEvent, e: React.SyntheticEvent<HTMLElement>) => void) | undefined;
     onSelecting?: (range: { start: Date; end: Date }) => boolean | undefined;
     // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-    onRangeChange?: (range: Date[] | { start: Date; end: Date }, view?: View) => void | undefined;
+    onRangeChange?: (range:  { start: Date; end: Date }, view?: View) => void | undefined;
     showAllEvents?: boolean | undefined;
     selected?: any;
     views?: ViewsProps<TEvent, TResource> | undefined;
@@ -530,7 +529,6 @@ export const Views: {
     WEEK: "week";
     WORK_WEEK: "work_week";
     DAY: "day";
-    AGENDA: "agenda";
 };
 export function move(View: ViewStatic | ViewKey, options: MoveOptions): Date;
 

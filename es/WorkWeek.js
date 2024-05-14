@@ -16,9 +16,12 @@ var _Week = _interopRequireDefault(require("./Week"));
 var _TimeGrid = _interopRequireDefault(require("./TimeGrid"));
 var _excluded = ["date", "localizer", "min", "max", "scrollToTime", "enableAutoScroll"];
 function workWeekRange(date, options) {
-  return _Week.default.range(date, options).filter(function (d) {
+  var r = _Week.default.range(date, options).filter(function (d) {
     return [6, 0].indexOf(d.getDay()) === -1;
   });
+  r.start = r[0];
+  r.end = r.at(-1).setHours(23, 59, 59, 999);
+  return r;
 }
 var WorkWeek = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2.default)(WorkWeek, _React$Component);

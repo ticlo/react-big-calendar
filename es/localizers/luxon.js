@@ -19,22 +19,17 @@ var weekRangeFormat = function weekRangeFormat(_ref, culture, local) {
   // updated to use this localizer 'eq()' method
   local.format(end, local.eq(start, end, 'month') ? 'dd' : 'LLLL dd', culture);
 };
-var dateRangeFormat = function dateRangeFormat(_ref2, culture, local) {
+var timeRangeFormat = function timeRangeFormat(_ref2, culture, local) {
   var start = _ref2.start,
     end = _ref2.end;
-  return local.format(start, 'D', culture) + ' – ' + local.format(end, 'D', culture);
-};
-var timeRangeFormat = function timeRangeFormat(_ref3, culture, local) {
-  var start = _ref3.start,
-    end = _ref3.end;
   return local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture);
 };
-var timeRangeStartFormat = function timeRangeStartFormat(_ref4, culture, local) {
-  var start = _ref4.start;
+var timeRangeStartFormat = function timeRangeStartFormat(_ref3, culture, local) {
+  var start = _ref3.start;
   return local.format(start, 't', culture) + ' – ';
 };
-var timeRangeEndFormat = function timeRangeEndFormat(_ref5, culture, local) {
-  var end = _ref5.end;
+var timeRangeEndFormat = function timeRangeEndFormat(_ref4, culture, local) {
+  var end = _ref4.end;
   return ' – ' + local.format(end, 't', culture);
 };
 var formats = exports.formats = {
@@ -48,11 +43,7 @@ var formats = exports.formats = {
   timeGutterFormat: 't',
   monthHeaderFormat: 'LLLL yyyy',
   dayHeaderFormat: 'EEEE LLL dd',
-  dayRangeHeaderFormat: weekRangeFormat,
-  agendaHeaderFormat: dateRangeFormat,
-  agendaDateFormat: 'EEE LLL dd',
-  agendaTimeFormat: 't',
-  agendaTimeRangeFormat: timeRangeFormat
+  dayRangeHeaderFormat: weekRangeFormat
 };
 function fixUnit(unit) {
   var datePart = unit ? pluralizeUnit(unit.toLowerCase()) : unit;
@@ -68,9 +59,9 @@ function fixUnit(unit) {
 // Luxon uses 1 based values for month and weekday
 // So we default to Sunday (7)
 function _default(DateTime) {
-  var _ref6 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    _ref6$firstDayOfWeek = _ref6.firstDayOfWeek,
-    firstDayOfWeek = _ref6$firstDayOfWeek === void 0 ? 7 : _ref6$firstDayOfWeek;
+  var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+    _ref5$firstDayOfWeek = _ref5.firstDayOfWeek,
+    firstDayOfWeek = _ref5$firstDayOfWeek === void 0 ? 7 : _ref5$firstDayOfWeek;
   function formatDate(value, format) {
     return DateTime.fromJSDate(value).toFormat(format);
   }
@@ -315,15 +306,15 @@ function _default(DateTime) {
   }
 
   // These two are used by eventLevels
-  function sortEvents(_ref7) {
-    var _ref7$evtA = _ref7.evtA,
-      aStart = _ref7$evtA.start,
-      aEnd = _ref7$evtA.end,
-      aAllDay = _ref7$evtA.allDay,
-      _ref7$evtB = _ref7.evtB,
-      bStart = _ref7$evtB.start,
-      bEnd = _ref7$evtB.end,
-      bAllDay = _ref7$evtB.allDay;
+  function sortEvents(_ref6) {
+    var _ref6$evtA = _ref6.evtA,
+      aStart = _ref6$evtA.start,
+      aEnd = _ref6$evtA.end,
+      aAllDay = _ref6$evtA.allDay,
+      _ref6$evtB = _ref6.evtB,
+      bStart = _ref6$evtB.start,
+      bEnd = _ref6$evtB.end,
+      bAllDay = _ref6$evtB.allDay;
     var startSort = +startOf(aStart, 'day') - +startOf(bStart, 'day');
     var durA = daySpan(aStart, aEnd);
     var durB = daySpan(bStart, bEnd);
@@ -338,13 +329,13 @@ function _default(DateTime) {
     +aEnd - +bEnd // then sort by end time *don't need moment conversion here either
     ;
   }
-  function inEventRange(_ref8) {
-    var _ref8$event = _ref8.event,
-      start = _ref8$event.start,
-      end = _ref8$event.end,
-      _ref8$range = _ref8.range,
-      rangeStart = _ref8$range.start,
-      rangeEnd = _ref8$range.end;
+  function inEventRange(_ref7) {
+    var _ref7$event = _ref7.event,
+      start = _ref7$event.start,
+      end = _ref7$event.end,
+      _ref7$range = _ref7.range,
+      rangeStart = _ref7$range.start,
+      rangeEnd = _ref7$range.end;
     var eStart = startOf(start, 'day');
     var startsBeforeEnd = lte(eStart, rangeEnd, 'day');
     // when the event is zero duration we need to handle a bit differently

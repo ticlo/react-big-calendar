@@ -37,11 +37,6 @@ export const formats = {
   monthHeaderFormat: 'LLLL yyyy',
   dayHeaderFormat: 'EEEE LLL dd',
   dayRangeHeaderFormat: weekRangeFormat,
-  agendaHeaderFormat: dateRangeFormat,
-
-  agendaDateFormat: 'EEE LLL dd',
-  agendaTimeFormat: 't',
-  agendaTimeRangeFormat: timeRangeFormat,
 }
 
 function fixUnit(unit) {

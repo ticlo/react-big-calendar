@@ -73,7 +73,10 @@ Week.range = function (date, _ref2) {
   var firstOfWeek = localizer.startOfWeek();
   var start = localizer.startOf(date, 'week', firstOfWeek);
   var end = localizer.endOf(date, 'week', firstOfWeek);
-  return localizer.range(start, end);
+  var r = localizer.range(start, end);
+  r.start = start;
+  r.end = end;
+  return r;
 };
 Week.title = function (date, _ref3) {
   var localizer = _ref3.localizer;

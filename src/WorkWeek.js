@@ -5,9 +5,12 @@ import Week from './Week'
 import TimeGrid from './TimeGrid'
 
 function workWeekRange(date, options) {
-  return Week.range(date, options).filter(
+  let r = Week.range(date, options).filter(
     (d) => [6, 0].indexOf(d.getDay()) === -1
   )
+  r.start = r[0];
+  r.end = r.at(-1).setHours(23, 59, 59, 999);
+  return r;
 }
 
 class WorkWeek extends React.Component {
