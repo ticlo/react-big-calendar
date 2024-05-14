@@ -1,4 +1,7 @@
-# react-big-calendar
+# ticlo-big-calendar
+
+This project is forked from https://github.com/jquense/react-big-calendar
+It's intended to be used only by the [ticlo](https://github.com/ticlo/ticlo) project
 
 An events calendar component built for React and designed for modern browsers (read: not IE) and uses flexbox over the classic tables-caption approach.
 
