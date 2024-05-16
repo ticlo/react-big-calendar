@@ -101,7 +101,10 @@ Day.propTypes = {
 }
 
 Day.range = (date, { localizer }) => {
-  return [localizer.startOf(date, 'day')]
+  let r = [localizer.startOf(date, 'day')]
+  r.start = r[0];
+  r.end = localizer.endOf(date, 'day')
+  return r;
 }
 
 Day.navigate = (date, action, { localizer }) => {

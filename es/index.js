@@ -16,6 +16,12 @@ Object.defineProperty(exports, "DateLocalizer", {
     return _localizer.DateLocalizer;
   }
 });
+Object.defineProperty(exports, "EventCell", {
+  enumerable: true,
+  get: function get() {
+    return _EventCell.default;
+  }
+});
 Object.defineProperty(exports, "Navigate", {
   enumerable: true,
   get: function get() {
@@ -48,6 +54,7 @@ var _localizer = require("./localizer");
 var _luxon = _interopRequireDefault(require("./localizers/luxon"));
 var _move = _interopRequireDefault(require("./utils/move"));
 var _constants = require("./utils/constants");
+var _EventCell = _interopRequireDefault(require("./EventCell"));
 var components = exports.components = {
   eventWrapper: _EventWrapper.default,
   timeSlotWrapper: _BackgroundWrapper.default,

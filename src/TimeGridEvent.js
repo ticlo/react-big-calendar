@@ -61,7 +61,7 @@ function TimeGridEvent(props) {
         onKeyDown={onKeyPress}
         title={
           tooltip
-            ? (typeof label === 'string' ? label + ': ' : '') + tooltip
+            ? (typeof label === 'string' ? label + '\n' : '') + tooltip
             : undefined
         }
         className={clsx(

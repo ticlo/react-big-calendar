@@ -65,7 +65,7 @@ function TimeGridEvent(props) {
     onDoubleClick: onDoubleClick,
     style: eventStyle,
     onKeyDown: onKeyPress,
-    title: tooltip ? (typeof label === 'string' ? label + ': ' : '') + tooltip : undefined,
+    title: tooltip ? (typeof label === 'string' ? label + '\n' : '') + tooltip : undefined,
     className: (0, _clsx.default)(isBackgroundEvent ? 'rbc-background-event' : 'rbc-event', className, userProps.className, {
       'rbc-selected': selected,
       'rbc-event-continues-earlier': continuesPrior,

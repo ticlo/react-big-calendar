@@ -19,7 +19,7 @@ import {
     StartOfWeek,
     Unit,
 } from "date-arithmetic";
-import { Validator } from "prop-types";
+import  { Validator } from "prop-types";
 import * as React from "react";
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
@@ -593,6 +593,17 @@ export interface DayProps {
     date: Date;
 }
 export class Day extends React.Component<DayProps> {}
-
+export interface EventCellProps<TEvent extends object = Event> {
+    event: TEvent,
+    slotStart?: Date
+    slotEnd?: Date
+    selected: boolean,
+    accessors: any,
+    components: any,
+    getters: any,
+    localizer: DateLocalizer,
+    onSelect: Function,
+}
+export class EventCell<TEvent extends object = Event> extends React.Component<EventCellProps<TEvent>> {}
 // Turn off automatic exports
 export {};

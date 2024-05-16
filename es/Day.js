@@ -59,7 +59,10 @@ var Day = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 Day.range = function (date, _ref) {
   var localizer = _ref.localizer;
-  return [localizer.startOf(date, 'day')];
+  var r = [localizer.startOf(date, 'day')];
+  r.start = r[0];
+  r.end = localizer.endOf(date, 'day');
+  return r;
 };
 Day.navigate = function (date, action, _ref2) {
   var localizer = _ref2.localizer;
