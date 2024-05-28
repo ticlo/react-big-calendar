@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { uncontrollable } from 'uncontrollable'
 import clsx from 'clsx'
 import {
   accessor,
@@ -43,7 +42,7 @@ function isValidView(view, { views: _views }) {
   return names.indexOf(view) !== -1
 }
 
-class Calendar extends React.Component {
+export default class Calendar extends React.Component {
   static propTypes = {
     /**
      * The localizer used for formatting dates and times according to the `format` and `culture`
@@ -1153,9 +1152,3 @@ class Calendar extends React.Component {
     this.handleNavigate(navigate.DATE, date)
   }
 }
-
-export default uncontrollable(Calendar, {
-  view: 'onView',
-  date: 'onNavigate',
-  selected: 'onSelectEvent',
-})

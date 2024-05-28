@@ -33,6 +33,7 @@ function TimeGridEvent(props) {
 
   const inner = [
     <div key="1" className="rbc-event-label">
+      {event.icon}
       {label}
     </div>,
     <div key="2" className="rbc-event-content">

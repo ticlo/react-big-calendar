@@ -40,7 +40,7 @@ function TimeGridEvent(props) {
   var inner = [/*#__PURE__*/_react.default.createElement("div", {
     key: "1",
     className: "rbc-event-label"
-  }, label), /*#__PURE__*/_react.default.createElement("div", {
+  }, event.icon, label), /*#__PURE__*/_react.default.createElement("div", {
     key: "2",
     className: "rbc-event-content"
   }, Event ? /*#__PURE__*/_react.default.createElement(Event, {

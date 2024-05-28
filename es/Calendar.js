@@ -13,7 +13,6 @@ var _callSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/cal
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inherits"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/slicedToArray"));
 var _react = _interopRequireDefault(require("react"));
-var _uncontrollable = require("uncontrollable");
 var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = require("./utils/propTypes");
 var _helpers = require("./utils/helpers");
@@ -51,7 +50,7 @@ function isValidView(view, _ref) {
   var names = viewNames(_views);
   return names.indexOf(view) !== -1;
 }
-var Calendar = /*#__PURE__*/function (_React$Component) {
+var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2.default)(Calendar, _React$Component);
   function Calendar() {
     var _this;
@@ -347,8 +346,3 @@ Calendar.defaultProps = {
   },
   dayLayoutAlgorithm: 'overlap'
 };
-var _default = exports.default = (0, _uncontrollable.uncontrollable)(Calendar, {
-  view: 'onView',
-  date: 'onNavigate',
-  selected: 'onSelectEvent'
-});
