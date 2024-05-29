@@ -1,10 +1,12 @@
+process.env.NODE_ENV = 'production';
+
 module.exports = {
   parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  extends: ['jason/react', 'prettier', 'plugin:storybook/recommended'],
+  extends: [ 'prettier', 'plugin:storybook/recommended'],
   plugins: ['react-hooks'],
   env: {
     node: true,
@@ -14,7 +16,7 @@ module.exports = {
   overrides: [
     {
       // or whatever matches stories specified in .storybook/main.js
-      files: ['*.stories.@(ts|tsx|js|jsx|mjs|cjs)'],
+      files: ['*.stories.@(js|jsx|mjs|cjs)'],
       rules: {
         // example of overriding a rule
         //'storybook/hierarchy-separator': 'error',

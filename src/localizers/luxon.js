@@ -13,8 +13,13 @@ const weekRangeFormat = ({ start, end }, culture, local) =>
 const dateRangeFormat = ({ start, end }, culture, local) =>
   local.format(start, 'D', culture) + ' – ' + local.format(end, 'D', culture)
 
-const timeRangeFormat = ({ start, end }, culture, local) =>
-  local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture)
+const timeRangeFormat = ({ start, end }, culture, local) => {
+  if (start.getMonth() === end.getMonth() && start.getDate() === end.getDate()) {
+    return local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture)
+  }
+  return local.format(start, 'ff', culture) + ' – ' + local.format(end, 'ff', culture)
+}
+
 
 const timeRangeStartFormat = ({ start }, culture, local) =>
   local.format(start, 't', culture) + ' – '

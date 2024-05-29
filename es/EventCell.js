@@ -54,7 +54,10 @@ var EventCell = /*#__PURE__*/function (_React$Component) {
       var userProps = getters.eventProp(event, start, end, selected);
       var content = /*#__PURE__*/_react.default.createElement("div", {
         className: "rbc-event-content",
-        title: tooltip || undefined
+        title: "".concat(localizer.format({
+          start: start,
+          end: end
+        }, 'eventTimeRangeFormat'), "\n").concat(tooltip)
       }, Event ? /*#__PURE__*/_react.default.createElement(Event, {
         event: event,
         continuesPrior: continuesPrior,

@@ -40,7 +40,7 @@ class EventCell extends React.Component {
     let userProps = getters.eventProp(event, start, end, selected)
 
     const content = (
-      <div className="rbc-event-content" title={tooltip || undefined}>
+      <div className="rbc-event-content" title={`${localizer.format({ start, end }, 'eventTimeRangeFormat')}\n${tooltip}`}>
         {Event ? (
           <Event
             event={event}

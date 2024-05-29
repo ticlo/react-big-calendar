@@ -22,7 +22,10 @@ var weekRangeFormat = function weekRangeFormat(_ref, culture, local) {
 var timeRangeFormat = function timeRangeFormat(_ref2, culture, local) {
   var start = _ref2.start,
     end = _ref2.end;
-  return local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture);
+  if (start.getMonth() === end.getMonth() && start.getDate() === end.getDate()) {
+    return local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture);
+  }
+  return local.format(start, 'ff', culture) + ' – ' + local.format(end, 'ff', culture);
 };
 var timeRangeStartFormat = function timeRangeStartFormat(_ref3, culture, local) {
   var start = _ref3.start;
