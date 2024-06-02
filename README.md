@@ -40,7 +40,7 @@ $ yarn storybook
 ### Localization and Date Formatting
 
 `react-big-calendar` includes four options for handling the date formatting and culture localization, depending
-on your preference of DateTime libraries. You can use either the [Moment.js](https://momentjs.com/), [Globalize.js](https://github.com/jquery/globalize), [date-fns](https://date-fns.org/), [Day.js](https://day.js.org) localizers.
+on your preference of DateTime libraries. You can use either the [Moment.js](https://momentjs.com/), [Globalize.js](https://github.com/jquery/globalize), [date-fns](https://date-fns.org/), [Day.tsx](https://day.js.org) localizers.
 
 Regardless of your choice, you **must** choose a localizer to use this library:
 
@@ -121,9 +121,9 @@ const MyCalendar = (props) => (
 )
 ```
 
-#### Day.js
+#### Day.tsx
 
-Note that the dayjsLocalizer extends Day.js with the following plugins:
+Note that the dayjsLocalizer extends Day.tsx with the following plugins:
 
 - [IsBetween](https://day.js.org/docs/en/plugin/is-between)
 - [IsSameOrAfter](https://day.js.org/docs/en/plugin/is-same-or-after)

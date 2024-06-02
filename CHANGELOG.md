@@ -129,7 +129,7 @@
 
 ### Bug Fixes
 
-* **DnD:** dragAndDrop EventWrapper.js error: cannot add property 'X', object is not extensible ([0c4826a](https://github.com/jquense/react-big-calendar/commit/0c4826a70378de7923bd772b15d481e3c30c530b))
+* **DnD:** dragAndDrop EventWrapper.ts error: cannot add property 'X', object is not extensible ([0c4826a](https://github.com/jquense/react-big-calendar/commit/0c4826a70378de7923bd772b15d481e3c30c530b))
 
 ## [1.8.5](https://github.com/jquense/react-big-calendar/compare/v1.8.4...v1.8.5) (2023-10-30)
 
@@ -607,7 +607,7 @@ import {
 
 ### Bug Fixes
 
-- prevent un/mounting of date components ([#1276](https://github.com/jquense/react-big-calendar/issues/1276)) ([3c25009](https://github.com/jquense/react-big-calendar/commit/3c25009)), closes [/github.com/jquense/react-big-calendar/blob/master/src/DateContentRow.js#L121](https://github.com//github.com/jquense/react-big-calendar/blob/master/src/DateContentRow.js/issues/L121)
+- prevent un/mounting of date components ([#1276](https://github.com/jquense/react-big-calendar/issues/1276)) ([3c25009](https://github.com/jquense/react-big-calendar/commit/3c25009)), closes [/github.com/jquense/react-big-calendar/blob/master/src/DateContentRow.tsx#L121](https://github.com//github.com/jquense/react-big-calendar/blob/master/src/DateContentRow.js/issues/L121)
 - support point-in-time events in the Agenda view ([#1246](https://github.com/jquense/react-big-calendar/issues/1246)) ([58c39c3](https://github.com/jquense/react-big-calendar/commit/58c39c3))
 - TimeGrid display on DST change days when min is after the transition ([#1303](https://github.com/jquense/react-big-calendar/issues/1303)) ([b436017](https://github.com/jquense/react-big-calendar/commit/b436017)), closes [#1098](https://github.com/jquense/react-big-calendar/issues/1098) [#1273](https://github.com/jquense/react-big-calendar/issues/1273)
 - update time indicator position if min prop changes ([#1311](https://github.com/jquense/react-big-calendar/issues/1311)) ([97ea841](https://github.com/jquense/react-big-calendar/commit/97ea841))
@@ -628,7 +628,7 @@ import {
 
 ### Bug Fixes
 
-- allow override onShowMore callback ([#1214](https://github.com/jquense/react-big-calendar/issues/1214)) ([8fefeee](https://github.com/jquense/react-big-calendar/commit/8fefeee)), closes [/github.com/jquense/react-big-calendar/blob/f9a873368a78f5ced81b799c4dffe1095b3ab712/src/Calendar.jsx#L280](https://github.com//github.com/jquense/react-big-calendar/blob/f9a873368a78f5ced81b799c4dffe1095b3ab712/src/Calendar.jsx/issues/L280) [/github.com/jquense/react-big-calendar/blob/1d62c432eaa183ed6b38f08cfcec5ee7edcbfe41/src/Month.js#L300-L307](https://github.com//github.com/jquense/react-big-calendar/blob/1d62c432eaa183ed6b38f08cfcec5ee7edcbfe41/src/Month.js/issues/L300-L307) [#1147](https://github.com/jquense/react-big-calendar/issues/1147)
+- allow override onShowMore callback ([#1214](https://github.com/jquense/react-big-calendar/issues/1214)) ([8fefeee](https://github.com/jquense/react-big-calendar/commit/8fefeee)), closes [/github.com/jquense/react-big-calendar/blob/f9a873368a78f5ced81b799c4dffe1095b3ab712/src/Calendar.jsx#L280](https://github.com//github.com/jquense/react-big-calendar/blob/f9a873368a78f5ced81b799c4dffe1095b3ab712/src/Calendar.jsx/issues/L280) [/github.com/jquense/react-big-calendar/blob/1d62c432eaa183ed6b38f08cfcec5ee7edcbfe41/src/Month.tsx#L300-L307](https://github.com//github.com/jquense/react-big-calendar/blob/1d62c432eaa183ed6b38f08cfcec5ee7edcbfe41/src/Month.js/issues/L300-L307) [#1147](https://github.com/jquense/react-big-calendar/issues/1147)
 - firefox event click bug ([#1262](https://github.com/jquense/react-big-calendar/issues/1262)) ([b526416](https://github.com/jquense/react-big-calendar/commit/b526416)), closes [#1173](https://github.com/jquense/react-big-calendar/issues/1173)
 - issue with gutter width initialization ([#1181](https://github.com/jquense/react-big-calendar/issues/1181)) ([69b28af](https://github.com/jquense/react-big-calendar/commit/69b28af))
 - misplacement of current time indicator ([#1239](https://github.com/jquense/react-big-calendar/issues/1239)) ([2d6e99e](https://github.com/jquense/react-big-calendar/commit/2d6e99e)), closes [#1054](https://github.com/jquense/react-big-calendar/issues/1054)

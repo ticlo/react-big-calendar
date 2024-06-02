@@ -1,94 +1,90 @@
-"use strict";
-
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _toArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/toArray"));
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
-var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
-var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
-var _callSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/callSuper"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inherits"));
-var _react = _interopRequireDefault(require("react"));
-var _constants = require("./utils/constants");
-var _propTypes = require("./utils/propTypes");
-var _TimeGrid = _interopRequireDefault(require("./TimeGrid"));
-var _excluded = ["date", "localizer", "min", "max", "scrollToTime", "enableAutoScroll"];
-var Week = /*#__PURE__*/function (_React$Component) {
-  (0, _inherits2.default)(Week, _React$Component);
-  function Week() {
-    (0, _classCallCheck2.default)(this, Week);
-    return (0, _callSuper2.default)(this, Week, arguments);
-  }
-  (0, _createClass2.default)(Week, [{
-    key: "render",
-    value: function render() {
-      /**
-       * This allows us to default min, max, and scrollToTime
-       * using our localizer. This is necessary until such time
-       * as TimeGrid is converted to a functional component.
-       */
-      var _this$props = this.props,
-        date = _this$props.date,
-        localizer = _this$props.localizer,
-        _this$props$min = _this$props.min,
-        min = _this$props$min === void 0 ? localizer.startOf(new Date(), 'day') : _this$props$min,
-        _this$props$max = _this$props.max,
-        max = _this$props$max === void 0 ? localizer.endOf(new Date(), 'day') : _this$props$max,
-        _this$props$scrollToT = _this$props.scrollToTime,
-        scrollToTime = _this$props$scrollToT === void 0 ? localizer.startOf(new Date(), 'day') : _this$props$scrollToT,
-        _this$props$enableAut = _this$props.enableAutoScroll,
-        enableAutoScroll = _this$props$enableAut === void 0 ? true : _this$props$enableAut,
-        props = (0, _objectWithoutProperties2.default)(_this$props, _excluded);
-      var range = Week.range(date, this.props);
-      return /*#__PURE__*/_react.default.createElement(_TimeGrid.default, Object.assign({}, props, {
-        range: range,
-        eventOffset: 15,
-        localizer: localizer,
-        min: min,
-        max: max,
-        scrollToTime: scrollToTime,
-        enableAutoScroll: enableAutoScroll
-      }));
+import PropTypes from 'prop-types';
+import React from 'react';
+import { navigate } from './utils/constants';
+import { DayLayoutAlgorithmPropType } from './utils/propTypes';
+import TimeGrid from './TimeGrid';
+class Week extends React.Component {
+    render() {
+        /**
+         * This allows us to default min, max, and scrollToTime
+         * using our localizer. This is necessary until such time
+         * as TimeGrid is converted to a functional component.
+         */
+        let { date, localizer, min = localizer.startOf(new Date(), 'day'), max = localizer.endOf(new Date(), 'day'), scrollToTime = localizer.startOf(new Date(), 'day'), enableAutoScroll = true, ...props } = this.props;
+        let range = Week.range(date, this.props);
+        return (React.createElement(TimeGrid, { ...props, range: range, eventOffset: 15, localizer: localizer, min: min, max: max, scrollToTime: scrollToTime, enableAutoScroll: enableAutoScroll }));
     }
-  }]);
-  return Week;
-}(_react.default.Component);
-Week.defaultProps = _TimeGrid.default.defaultProps;
-Week.navigate = function (date, action, _ref) {
-  var localizer = _ref.localizer;
-  switch (action) {
-    case _constants.navigate.PREVIOUS:
-      return localizer.add(date, -1, 'week');
-    case _constants.navigate.NEXT:
-      return localizer.add(date, 1, 'week');
-    default:
-      return date;
-  }
+}
+Week.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+    events: PropTypes.array.isRequired,
+    backgroundEvents: PropTypes.array.isRequired,
+    resources: PropTypes.array,
+    step: PropTypes.number,
+    timeslots: PropTypes.number,
+    range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+    min: PropTypes.instanceOf(Date),
+    max: PropTypes.instanceOf(Date),
+    getNow: PropTypes.func.isRequired,
+    scrollToTime: PropTypes.instanceOf(Date),
+    enableAutoScroll: PropTypes.bool,
+    showMultiDayTimes: PropTypes.bool,
+    rtl: PropTypes.bool,
+    resizable: PropTypes.bool,
+    width: PropTypes.number,
+    accessors: PropTypes.object.isRequired,
+    components: PropTypes.object.isRequired,
+    getters: PropTypes.object.isRequired,
+    localizer: PropTypes.object.isRequired,
+    allDayMaxRows: PropTypes.number,
+    selected: PropTypes.object,
+    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
+    longPressThreshold: PropTypes.number,
+    onNavigate: PropTypes.func,
+    onSelectSlot: PropTypes.func,
+    onSelectEnd: PropTypes.func,
+    onSelectStart: PropTypes.func,
+    onSelectEvent: PropTypes.func,
+    onDoubleClickEvent: PropTypes.func,
+    onKeyPressEvent: PropTypes.func,
+    onShowMore: PropTypes.func,
+    onDrillDown: PropTypes.func,
+    getDrilldownView: PropTypes.func.isRequired,
+    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
+    showAllEvents: PropTypes.bool,
+    doShowMoreDrillDown: PropTypes.bool,
+    popup: PropTypes.bool,
+    handleDragStart: PropTypes.func,
+    popupOffset: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.shape({
+            x: PropTypes.number,
+            y: PropTypes.number,
+        }),
+    ]),
 };
-Week.range = function (date, _ref2) {
-  var localizer = _ref2.localizer;
-  var firstOfWeek = localizer.startOfWeek();
-  var start = localizer.startOf(date, 'week', firstOfWeek);
-  var end = localizer.endOf(date, 'week', firstOfWeek);
-  var r = localizer.range(start, end);
-  r.start = start;
-  r.end = end;
-  return r;
+Week.defaultProps = TimeGrid.defaultProps;
+Week.navigate = (date, action, { localizer }) => {
+    switch (action) {
+        case navigate.PREVIOUS:
+            return localizer.add(date, -1, 'week');
+        case navigate.NEXT:
+            return localizer.add(date, 1, 'week');
+        default:
+            return date;
+    }
 };
-Week.title = function (date, _ref3) {
-  var localizer = _ref3.localizer;
-  var _Week$range = Week.range(date, {
-      localizer: localizer
-    }),
-    _Week$range2 = (0, _toArray2.default)(_Week$range),
-    start = _Week$range2[0],
-    rest = _Week$range2.slice(1);
-  return localizer.format({
-    start: start,
-    end: rest.pop()
-  }, 'dayRangeHeaderFormat');
+Week.range = (date, { localizer }) => {
+    let firstOfWeek = localizer.startOfWeek();
+    let start = localizer.startOf(date, 'week', firstOfWeek);
+    let end = localizer.endOf(date, 'week', firstOfWeek);
+    let r = localizer.range(start, end);
+    r.start = start;
+    r.end = end;
+    return r;
 };
-var _default = exports.default = Week;
+Week.title = (date, { localizer }) => {
+    let [start, ...rest] = Week.range(date, { localizer });
+    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat');
+};
+export default Week;

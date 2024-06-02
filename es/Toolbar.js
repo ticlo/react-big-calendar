@@ -1,79 +1,38 @@
-"use strict";
-
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
-var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
-var _callSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/callSuper"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inherits"));
-var _react = _interopRequireDefault(require("react"));
-var _clsx = _interopRequireDefault(require("clsx"));
-var _constants = require("./utils/constants");
-var Toolbar = /*#__PURE__*/function (_React$Component) {
-  (0, _inherits2.default)(Toolbar, _React$Component);
-  function Toolbar() {
-    var _this;
-    (0, _classCallCheck2.default)(this, Toolbar);
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
+import PropTypes from 'prop-types';
+import React from 'react';
+import clsx from 'clsx';
+import { navigate } from './utils/constants';
+class Toolbar extends React.Component {
+    render() {
+        let { localizer: { messages }, label, } = this.props;
+        return (React.createElement("div", { className: "rbc-toolbar" },
+            React.createElement("span", { className: "rbc-btn-group" },
+                React.createElement("button", { type: "button", onClick: this.navigate.bind(null, navigate.TODAY) }, messages.today),
+                React.createElement("button", { type: "button", onClick: this.navigate.bind(null, navigate.PREVIOUS) }, messages.previous),
+                React.createElement("button", { type: "button", onClick: this.navigate.bind(null, navigate.NEXT) }, messages.next)),
+            React.createElement("span", { className: "rbc-toolbar-label" }, label),
+            React.createElement("span", { className: "rbc-btn-group" }, this.viewNamesGroup(messages))));
     }
-    _this = (0, _callSuper2.default)(this, Toolbar, [].concat(args));
-    _this.navigate = function (action) {
-      _this.props.onNavigate(action);
+    navigate = (action) => {
+        this.props.onNavigate(action);
     };
-    _this.view = function (view) {
-      _this.props.onView(view);
+    view = (view) => {
+        this.props.onView(view);
     };
-    return _this;
-  }
-  (0, _createClass2.default)(Toolbar, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-        messages = _this$props.localizer.messages,
-        label = _this$props.label;
-      return /*#__PURE__*/_react.default.createElement("div", {
-        className: "rbc-toolbar"
-      }, /*#__PURE__*/_react.default.createElement("span", {
-        className: "rbc-btn-group"
-      }, /*#__PURE__*/_react.default.createElement("button", {
-        type: "button",
-        onClick: this.navigate.bind(null, _constants.navigate.TODAY)
-      }, messages.today), /*#__PURE__*/_react.default.createElement("button", {
-        type: "button",
-        onClick: this.navigate.bind(null, _constants.navigate.PREVIOUS)
-      }, messages.previous), /*#__PURE__*/_react.default.createElement("button", {
-        type: "button",
-        onClick: this.navigate.bind(null, _constants.navigate.NEXT)
-      }, messages.next)), /*#__PURE__*/_react.default.createElement("span", {
-        className: "rbc-toolbar-label"
-      }, label), /*#__PURE__*/_react.default.createElement("span", {
-        className: "rbc-btn-group"
-      }, this.viewNamesGroup(messages)));
+    viewNamesGroup(messages) {
+        let viewNames = this.props.views;
+        const view = this.props.view;
+        if (viewNames.length > 1) {
+            return viewNames.map((name) => (React.createElement("button", { type: "button", key: name, className: clsx({ 'rbc-active': view === name }), onClick: this.view.bind(null, name) }, messages[name])));
+        }
     }
-  }, {
-    key: "viewNamesGroup",
-    value: function viewNamesGroup(messages) {
-      var _this2 = this;
-      var viewNames = this.props.views;
-      var view = this.props.view;
-      if (viewNames.length > 1) {
-        return viewNames.map(function (name) {
-          return /*#__PURE__*/_react.default.createElement("button", {
-            type: "button",
-            key: name,
-            className: (0, _clsx.default)({
-              'rbc-active': view === name
-            }),
-            onClick: _this2.view.bind(null, name)
-          }, messages[name]);
-        });
-      }
-    }
-  }]);
-  return Toolbar;
-}(_react.default.Component);
-var _default = exports.default = Toolbar;
+}
+Toolbar.propTypes = {
+    view: PropTypes.string.isRequired,
+    views: PropTypes.arrayOf(PropTypes.string).isRequired,
+    label: PropTypes.node.isRequired,
+    localizer: PropTypes.object,
+    onNavigate: PropTypes.func.isRequired,
+    onView: PropTypes.func.isRequired,
+};
+export default Toolbar;

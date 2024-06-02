@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2020",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "lib": [
+      "esnext",
+      "es2022",
+      "es2021",
+      "es2020",
+      "es2019",
+      "es2018",
+      "es2017",
+      "es2016",
+      "es2015",
+      "dom"
+    ],
+    "allowJs": true,
+    "checkJs": true,
+    "alwaysStrict": true,
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "@types"
+    ],
+    "paths": {
+      "resize-observer-polyfill": ["./@types/resize-observer-polyfill"]
+    },
+    "outDir": "es"
+  },
+  "compileOnSave": true,
+  "include": [
+    "src/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "nodenext"
+    }
+  }
+}

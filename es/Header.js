@@ -1,16 +1,9 @@
-"use strict";
-
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _react = _interopRequireDefault(require("react"));
-var Header = function Header(_ref) {
-  var label = _ref.label;
-  return /*#__PURE__*/_react.default.createElement("span", {
-    role: "columnheader",
-    "aria-sort": "none"
-  }, label);
+import PropTypes from 'prop-types';
+import React from 'react';
+const Header = ({ label }) => {
+    return (React.createElement("span", { role: "columnheader", "aria-sort": "none" }, label));
 };
-var _default = exports.default = Header;
+Header.propTypes = {
+    label: PropTypes.node,
+};
+export default Header;

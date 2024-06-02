@@ -1,10 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.accessor = accessor;
-exports.wrapAccessor = void 0;
 /**
  * Retrieve via an accessor-like property
  *
@@ -12,13 +5,15 @@ exports.wrapAccessor = void 0;
  *    accessor(data, func)    // => retrieves func(data)
  *    ... otherwise null
  */
-function accessor(data, field) {
-  var value = null;
-  if (typeof field === 'function') value = field(data);else if (typeof field === 'string' && typeof data === 'object' && data != null && field in data) value = data[field];
-  return value;
+export function accessor(data, field) {
+    var value = null;
+    if (typeof field === 'function')
+        value = field(data);
+    else if (typeof field === 'string' &&
+        typeof data === 'object' &&
+        data != null &&
+        field in data)
+        value = data[field];
+    return value;
 }
-var wrapAccessor = exports.wrapAccessor = function wrapAccessor(acc) {
-  return function (data) {
-    return accessor(data, acc);
-  };
-};
+export const wrapAccessor = (acc) => (data) => accessor(data, acc);

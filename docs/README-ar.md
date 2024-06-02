@@ -37,7 +37,7 @@ $ yarn storybook
 ### التعريب وتنسيق التاريخ
 
 يشمل `react-big-calendar` أربع خيارات لمعالجة تنسيق التاريخ والتعريب الثقافي، اعتمادًا
-على تفضيلك لمكتبات DateTime. يمكنك استخدام إما [Moment.js](https://momentjs.com/)، [Globalize.js](https://github.com/jquery/globalize)، [date-fns](https://date-fns.org/)، [Day.js](https://day.js.org) localizers.
+على تفضيلك لمكتبات DateTime. يمكنك استخدام إما [Moment.js](https://momentjs.com/)، [Globalize.js](https://github.com/jquery/globalize)، [date-fns](https://date-fns.org/)، [Day.tsx](https://day.js.org) localizers.
 
 بغض النظر عن اختيارك، يجب أن تختار **بالتأكيد** معربًا لاستخدام هذه المكتبة:
 
@@ -118,9 +118,9 @@ const MyCalendar = (props) => (
 )
 ```
 
-#### Day.js
+#### Day.tsx
 
-يرجى ملاحظة أن dayjsLocalizer يوسع Day.js بالإضافات التالية:
+يرجى ملاحظة أن dayjsLocalizer يوسع Day.tsx بالإضافات التالية:
 
 - [IsBetween](https://day.js.org/docs/en/plugin/is-between)
 - [IsSameOrAfter](https://day.js.org/docs/en/plugin/is-same-or-after)

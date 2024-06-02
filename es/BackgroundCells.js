@@ -1,183 +1,131 @@
-"use strict";
-
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard").default;
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
-var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
-var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
-var _callSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/callSuper"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inherits"));
-var _react = _interopRequireWildcard(require("react"));
-var _clsx = _interopRequireDefault(require("clsx"));
-var _helpers = require("./utils/helpers");
-var _selection = require("./utils/selection");
-var _Selection = _interopRequireWildcard(require("./Selection"));
-var BackgroundCells = /*#__PURE__*/function (_React$Component) {
-  (0, _inherits2.default)(BackgroundCells, _React$Component);
-  function BackgroundCells(props, context) {
-    var _this;
-    (0, _classCallCheck2.default)(this, BackgroundCells);
-    _this = (0, _callSuper2.default)(this, BackgroundCells, [props, context]);
-    _this.state = {
-      selecting: false
-    };
-    _this.containerRef = /*#__PURE__*/(0, _react.createRef)();
-    return _this;
-  }
-  (0, _createClass2.default)(BackgroundCells, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.selectable && this._selectable();
+import React, { createRef } from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { notify } from './utils/helpers';
+import { dateCellSelection, getSlotAtX, pointInBox } from './utils/selection';
+import Selection, { getBoundsForNode, isEvent, isShowMore } from './Selection';
+class BackgroundCells extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            selecting: false,
+        };
+        this.containerRef = createRef();
     }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this._teardownSelectable();
+    componentDidMount() {
+        this.props.selectable && this._selectable();
     }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (!prevProps.selectable && this.props.selectable) this._selectable();
-      if (prevProps.selectable && !this.props.selectable) this._teardownSelectable();
+    componentWillUnmount() {
+        this._teardownSelectable();
     }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-        range = _this$props.range,
-        getNow = _this$props.getNow,
-        getters = _this$props.getters,
-        currentDate = _this$props.date,
-        Wrapper = _this$props.components.dateCellWrapper,
-        localizer = _this$props.localizer;
-      var _this$state = this.state,
-        selecting = _this$state.selecting,
-        startIdx = _this$state.startIdx,
-        endIdx = _this$state.endIdx;
-      var current = getNow();
-      return /*#__PURE__*/_react.default.createElement("div", {
-        className: "rbc-row-bg",
-        ref: this.containerRef
-      }, range.map(function (date, index) {
-        var selected = selecting && index >= startIdx && index <= endIdx;
-        var _getters$dayProp = getters.dayProp(date),
-          className = _getters$dayProp.className,
-          style = _getters$dayProp.style;
-        return /*#__PURE__*/_react.default.createElement(Wrapper, {
-          key: index,
-          value: date,
-          range: range
-        }, /*#__PURE__*/_react.default.createElement("div", {
-          style: style,
-          className: (0, _clsx.default)('rbc-day-bg', className, selected && 'rbc-selected-cell', localizer.isSameDate(date, current) && 'rbc-today', currentDate && localizer.neq(currentDate, date, 'month') && 'rbc-off-range-bg')
+    componentDidUpdate(prevProps) {
+        if (!prevProps.selectable && this.props.selectable)
+            this._selectable();
+        if (prevProps.selectable && !this.props.selectable)
+            this._teardownSelectable();
+    }
+    render() {
+        let { range, getNow, getters, date: currentDate, components: { dateCellWrapper: Wrapper }, localizer, } = this.props;
+        let { selecting, startIdx, endIdx } = this.state;
+        let current = getNow();
+        return (React.createElement("div", { className: "rbc-row-bg", ref: this.containerRef }, range.map((date, index) => {
+            let selected = selecting && index >= startIdx && index <= endIdx;
+            const { className, style } = getters.dayProp(date);
+            return (React.createElement(Wrapper, { key: index, value: date, range: range },
+                React.createElement("div", { style: style, className: clsx('rbc-day-bg', className, selected && 'rbc-selected-cell', localizer.isSameDate(date, current) && 'rbc-today', currentDate &&
+                        localizer.neq(currentDate, date, 'month') &&
+                        'rbc-off-range-bg') })));
+        })));
+    }
+    _selectable() {
+        let node = this.containerRef.current;
+        let selector = (this._selector = new Selection(this.props.container, {
+            longPressThreshold: this.props.longPressThreshold,
         }));
-      }));
-    }
-  }, {
-    key: "_selectable",
-    value: function _selectable() {
-      var _this2 = this;
-      var node = this.containerRef.current;
-      var selector = this._selector = new _Selection.default(this.props.container, {
-        longPressThreshold: this.props.longPressThreshold
-      });
-      var selectorClicksHandler = function selectorClicksHandler(point, actionType) {
-        if (!(0, _Selection.isEvent)(node, point) && !(0, _Selection.isShowMore)(node, point)) {
-          var rowBox = (0, _Selection.getBoundsForNode)(node);
-          var _this2$props = _this2.props,
-            range = _this2$props.range,
-            rtl = _this2$props.rtl;
-          if ((0, _selection.pointInBox)(rowBox, point)) {
-            var currentCell = (0, _selection.getSlotAtX)(rowBox, point.x, rtl, range.length);
-            _this2._selectSlot({
-              startIdx: currentCell,
-              endIdx: currentCell,
-              action: actionType,
-              box: point
+        let selectorClicksHandler = (point, actionType) => {
+            if (!isEvent(node, point) && !isShowMore(node, point)) {
+                let rowBox = getBoundsForNode(node);
+                let { range, rtl } = this.props;
+                if (pointInBox(rowBox, point)) {
+                    let currentCell = getSlotAtX(rowBox, point.x, rtl, range.length);
+                    this._selectSlot({
+                        startIdx: currentCell,
+                        endIdx: currentCell,
+                        action: actionType,
+                        box: point,
+                    });
+                }
+            }
+            this._initial = {};
+            this.setState({ selecting: false });
+        };
+        selector.on('selecting', (box) => {
+            let { range, rtl } = this.props;
+            let startIdx = -1;
+            let endIdx = -1;
+            if (!this.state.selecting) {
+                notify(this.props.onSelectStart, [box]);
+                this._initial = { x: box.x, y: box.y };
+            }
+            if (selector.isSelected(node)) {
+                let nodeBox = getBoundsForNode(node);
+                ({ startIdx, endIdx } = dateCellSelection(this._initial, nodeBox, box, range.length, rtl));
+            }
+            this.setState({
+                selecting: true,
+                startIdx,
+                endIdx,
             });
-          }
-        }
-        _this2._initial = {};
-        _this2.setState({
-          selecting: false
         });
-      };
-      selector.on('selecting', function (box) {
-        var _this2$props2 = _this2.props,
-          range = _this2$props2.range,
-          rtl = _this2$props2.rtl;
-        var startIdx = -1;
-        var endIdx = -1;
-        if (!_this2.state.selecting) {
-          (0, _helpers.notify)(_this2.props.onSelectStart, [box]);
-          _this2._initial = {
-            x: box.x,
-            y: box.y
-          };
-        }
-        if (selector.isSelected(node)) {
-          var nodeBox = (0, _Selection.getBoundsForNode)(node);
-          var _dateCellSelection = (0, _selection.dateCellSelection)(_this2._initial, nodeBox, box, range.length, rtl);
-          startIdx = _dateCellSelection.startIdx;
-          endIdx = _dateCellSelection.endIdx;
-        }
-        _this2.setState({
-          selecting: true,
-          startIdx: startIdx,
-          endIdx: endIdx
+        selector.on('beforeSelect', (box) => {
+            if (this.props.selectable !== 'ignoreEvents')
+                return;
+            return !isEvent(this.containerRef.current, box);
         });
-      });
-      selector.on('beforeSelect', function (box) {
-        if (_this2.props.selectable !== 'ignoreEvents') return;
-        return !(0, _Selection.isEvent)(_this2.containerRef.current, box);
-      });
-      selector.on('click', function (point) {
-        return selectorClicksHandler(point, 'click');
-      });
-      selector.on('doubleClick', function (point) {
-        return selectorClicksHandler(point, 'doubleClick');
-      });
-      selector.on('select', function (bounds) {
-        _this2._selectSlot((0, _objectSpread2.default)((0, _objectSpread2.default)({}, _this2.state), {}, {
-          action: 'select',
-          bounds: bounds
-        }));
-        _this2._initial = {};
-        _this2.setState({
-          selecting: false
+        selector.on('click', (point) => selectorClicksHandler(point, 'click'));
+        selector.on('doubleClick', (point) => selectorClicksHandler(point, 'doubleClick'));
+        selector.on('select', (bounds) => {
+            this._selectSlot({ ...this.state, action: 'select', bounds });
+            this._initial = {};
+            this.setState({ selecting: false });
+            notify(this.props.onSelectEnd, [this.state]);
         });
-        (0, _helpers.notify)(_this2.props.onSelectEnd, [_this2.state]);
-      });
     }
-  }, {
-    key: "_teardownSelectable",
-    value: function _teardownSelectable() {
-      if (!this._selector) return;
-      this._selector.teardown();
-      this._selector = null;
+    _teardownSelectable() {
+        if (!this._selector)
+            return;
+        this._selector.teardown();
+        this._selector = null;
     }
-  }, {
-    key: "_selectSlot",
-    value: function _selectSlot(_ref) {
-      var endIdx = _ref.endIdx,
-        startIdx = _ref.startIdx,
-        action = _ref.action,
-        bounds = _ref.bounds,
-        box = _ref.box;
-      if (endIdx !== -1 && startIdx !== -1) this.props.onSelectSlot && this.props.onSelectSlot({
-        start: startIdx,
-        end: endIdx,
-        action: action,
-        bounds: bounds,
-        box: box,
-        resourceId: this.props.resourceId
-      });
+    _selectSlot({ endIdx, startIdx, action, bounds, box }) {
+        if (endIdx !== -1 && startIdx !== -1)
+            this.props.onSelectSlot &&
+                this.props.onSelectSlot({
+                    start: startIdx,
+                    end: endIdx,
+                    action,
+                    bounds,
+                    box,
+                    resourceId: this.props.resourceId,
+                });
     }
-  }]);
-  return BackgroundCells;
-}(_react.default.Component);
-var _default = exports.default = BackgroundCells;
+}
+BackgroundCells.propTypes = {
+    date: PropTypes.instanceOf(Date),
+    getNow: PropTypes.func.isRequired,
+    getters: PropTypes.object.isRequired,
+    components: PropTypes.object.isRequired,
+    container: PropTypes.func,
+    dayPropGetter: PropTypes.func,
+    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
+    longPressThreshold: PropTypes.number,
+    onSelectSlot: PropTypes.func.isRequired,
+    onSelectEnd: PropTypes.func,
+    onSelectStart: PropTypes.func,
+    range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+    rtl: PropTypes.bool,
+    type: PropTypes.string,
+    resourceId: PropTypes.any,
+    localizer: PropTypes.any,
+};
+export default BackgroundCells;

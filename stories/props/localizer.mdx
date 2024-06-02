@@ -8,7 +8,7 @@ import LinkTo from '@storybook/addon-links/react'
 The localizer used for **formatting dates** and times according to the <LinkTo kind="props" story="formats">formats</LinkTo> and <LinkTo kind="props" story="culture">culture</LinkTo>. To format buttons and messaging use the <LinkTo kind="props" story="messages">messages</LinkTo> prop.
 
 ```js
-// When using `Day.js`
+// When using `Day.tsx`
 import { dayjsLocalizer } from 'react-big-calendar'
 import dayjs from 'dayjs'
 // and, for optional time zone support
@@ -17,7 +17,7 @@ import timezone from 'dayjs/plugin/timezone'
 dayjs.extend(timezone)
 // end optional time zone support
 
-// Note that the dayjsLocalizer extends Day.js with the following plugins:
+// Note that the dayjsLocalizer extends Day.tsx with the following plugins:
 // - IsBetween
 // - IsSameOrAfter
 // - IsSameOrBefore
