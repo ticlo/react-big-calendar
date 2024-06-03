@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from 'react'
-import PropTypes from 'prop-types'
 import getOffset from 'dom-helpers/offset'
 
 import useClickOutside from './hooks/useClickOutside'
@@ -102,25 +101,29 @@ function Pop({
   )
 }
 
-const Popup = React.forwardRef((props, ref) => (
+interface PopupProps {
+  accessors: object;
+  getters: object;
+  selected?: object;
+  components: object;
+  localizer: object;
+  position: object;
+  show: (...args: unknown[]) => unknown;
+  events: unknown[];
+  slotStart: Date;
+  slotEnd?: Date;
+  onSelect?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
+  handleDragStart?: (...args: unknown[]) => unknown;
+  style?: object;
+  offset?: {
+    x?: number;
+    y?: number;
+  };
+}
+
+const Popup = React.forwardRef<HTMLElement, PopupProps>((props, ref) => (
   <Pop {...props} popperRef={ref} />
 ))
-Popup.propTypes = {
-  accessors: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
-  selected: PropTypes.object,
-  components: PropTypes.object.isRequired,
-  localizer: PropTypes.object.isRequired,
-  position: PropTypes.object.isRequired,
-  show: PropTypes.func.isRequired,
-  events: PropTypes.array.isRequired,
-  slotStart: PropTypes.instanceOf(Date).isRequired,
-  slotEnd: PropTypes.instanceOf(Date),
-  onSelect: PropTypes.func,
-  onDoubleClick: PropTypes.func,
-  onKeyPress: PropTypes.func,
-  handleDragStart: PropTypes.func,
-  style: PropTypes.object,
-  offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-}
 export default Popup

@@ -1,5 +1,4 @@
 import React, { createRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import chunk from 'lodash/chunk';
 import { navigate, views } from './utils/constants';
@@ -195,45 +194,6 @@ class MonthView extends React.Component {
         this._pendingSelection = [];
     }
 }
-MonthView.propTypes = {
-    events: PropTypes.array.isRequired,
-    date: PropTypes.instanceOf(Date),
-    min: PropTypes.instanceOf(Date),
-    max: PropTypes.instanceOf(Date),
-    step: PropTypes.number,
-    getNow: PropTypes.func.isRequired,
-    scrollToTime: PropTypes.instanceOf(Date),
-    enableAutoScroll: PropTypes.bool,
-    rtl: PropTypes.bool,
-    resizable: PropTypes.bool,
-    width: PropTypes.number,
-    accessors: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    localizer: PropTypes.object.isRequired,
-    selected: PropTypes.object,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    longPressThreshold: PropTypes.number,
-    onNavigate: PropTypes.func,
-    onSelectSlot: PropTypes.func,
-    onSelectEvent: PropTypes.func,
-    onDoubleClickEvent: PropTypes.func,
-    onKeyPressEvent: PropTypes.func,
-    onShowMore: PropTypes.func,
-    showAllEvents: PropTypes.bool,
-    doShowMoreDrillDown: PropTypes.bool,
-    onDrillDown: PropTypes.func,
-    getDrilldownView: PropTypes.func.isRequired,
-    popup: PropTypes.bool,
-    handleDragStart: PropTypes.func,
-    popupOffset: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.shape({
-            x: PropTypes.number,
-            y: PropTypes.number,
-        }),
-    ]),
-};
 MonthView.range = (date, { localizer }) => {
     let start = localizer.firstVisibleDay(date, localizer);
     let end = localizer.lastVisibleDay(date, localizer);

@@ -1,5 +1,4 @@
 import React, { createRef } from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import chunk from 'lodash/chunk'
@@ -21,7 +20,44 @@ import { inRange, sortWeekEvents } from './utils/eventLevels'
 let eventsForWeek = (evts, start, end, accessors, localizer) =>
   evts.filter((e) => inRange(e, start, end, accessors, localizer))
 
-class MonthView extends React.Component {
+interface MonthViewProps {
+  events: unknown[];
+  date?: Date;
+  min?: Date;
+  max?: Date;
+  step?: number;
+  getNow: (...args: unknown[]) => unknown;
+  scrollToTime?: Date;
+  enableAutoScroll?: boolean;
+  rtl?: boolean;
+  resizable?: boolean;
+  width?: number;
+  accessors: object;
+  components: object;
+  getters: object;
+  localizer: object;
+  selected?: object;
+  selectable?: true | false | "ignoreEvents";
+  longPressThreshold?: number;
+  onNavigate?: (...args: unknown[]) => unknown;
+  onSelectSlot?: (...args: unknown[]) => unknown;
+  onSelectEvent?: (...args: unknown[]) => unknown;
+  onDoubleClickEvent?: (...args: unknown[]) => unknown;
+  onKeyPressEvent?: (...args: unknown[]) => unknown;
+  onShowMore?: (...args: unknown[]) => unknown;
+  showAllEvents?: boolean;
+  doShowMoreDrillDown?: boolean;
+  onDrillDown?: (...args: unknown[]) => unknown;
+  getDrilldownView: (...args: unknown[]) => unknown;
+  popup?: boolean;
+  handleDragStart?: (...args: unknown[]) => unknown;
+  popupOffset?: number | {
+    x?: number;
+    y?: number;
+  };
+}
+
+class MonthView extends React.Component<MonthViewProps> {
   constructor(...args) {
     super(...args)
 
@@ -360,54 +396,6 @@ class MonthView extends React.Component {
     clearTimeout(this._selectTimer)
     this._pendingSelection = []
   }
-}
-
-MonthView.propTypes = {
-  events: PropTypes.array.isRequired,
-  date: PropTypes.instanceOf(Date),
-
-  min: PropTypes.instanceOf(Date),
-  max: PropTypes.instanceOf(Date),
-
-  step: PropTypes.number,
-  getNow: PropTypes.func.isRequired,
-
-  scrollToTime: PropTypes.instanceOf(Date),
-  enableAutoScroll: PropTypes.bool,
-  rtl: PropTypes.bool,
-  resizable: PropTypes.bool,
-  width: PropTypes.number,
-
-  accessors: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
-  localizer: PropTypes.object.isRequired,
-
-  selected: PropTypes.object,
-  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-  longPressThreshold: PropTypes.number,
-
-  onNavigate: PropTypes.func,
-  onSelectSlot: PropTypes.func,
-  onSelectEvent: PropTypes.func,
-  onDoubleClickEvent: PropTypes.func,
-  onKeyPressEvent: PropTypes.func,
-  onShowMore: PropTypes.func,
-  showAllEvents: PropTypes.bool,
-  doShowMoreDrillDown: PropTypes.bool,
-  onDrillDown: PropTypes.func,
-  getDrilldownView: PropTypes.func.isRequired,
-
-  popup: PropTypes.bool,
-  handleDragStart: PropTypes.func,
-
-  popupOffset: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-    }),
-  ]),
 }
 
 MonthView.range = (date, { localizer }) => {

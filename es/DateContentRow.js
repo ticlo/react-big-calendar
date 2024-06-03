@@ -2,7 +2,6 @@ import React, { createRef } from 'react';
 import clsx from 'clsx';
 import getHeight from 'dom-helpers/height';
 import qsa from 'dom-helpers/querySelectorAll';
-import PropTypes from 'prop-types';
 import BackgroundCells from './BackgroundCells';
 import EventRow from './EventRow';
 import EventEndingRow from './EventEndingRow';
@@ -95,37 +94,6 @@ class DateContentRow extends React.Component {
                         !!extra.length && (React.createElement(EventEndingRow, { segments: extra, onShowMore: this.handleShowMore, ...eventRowProps })))))));
     }
 }
-DateContentRow.propTypes = {
-    date: PropTypes.instanceOf(Date),
-    events: PropTypes.array.isRequired,
-    range: PropTypes.array.isRequired,
-    rtl: PropTypes.bool,
-    resizable: PropTypes.bool,
-    resourceId: PropTypes.any,
-    renderForMeasure: PropTypes.bool,
-    renderHeader: PropTypes.func,
-    container: PropTypes.func,
-    selected: PropTypes.object,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    longPressThreshold: PropTypes.number,
-    onShowMore: PropTypes.func,
-    showAllEvents: PropTypes.bool,
-    onSelectSlot: PropTypes.func,
-    onSelect: PropTypes.func,
-    onSelectEnd: PropTypes.func,
-    onSelectStart: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    dayPropGetter: PropTypes.func,
-    getNow: PropTypes.func.isRequired,
-    isAllDay: PropTypes.bool,
-    accessors: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    localizer: PropTypes.object.isRequired,
-    minRows: PropTypes.number.isRequired,
-    maxRows: PropTypes.number.isRequired,
-};
 DateContentRow.defaultProps = {
     minRows: 0,
     maxRows: Infinity,

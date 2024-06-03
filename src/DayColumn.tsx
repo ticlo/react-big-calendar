@@ -1,5 +1,4 @@
 import React, { createRef } from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 import Selection, { getBoundsForNode, isEvent } from './Selection'
@@ -14,7 +13,40 @@ import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
 import DayColumnWrapper from './DayColumnWrapper'
 
-class DayColumn extends React.Component {
+interface DayColumnProps {
+  events: unknown[];
+  backgroundEvents: unknown[];
+  step: number;
+  date: Date;
+  min: Date;
+  max: Date;
+  getNow: (...args: unknown[]) => unknown;
+  isNow?: boolean;
+  rtl?: boolean;
+  resizable?: boolean;
+  accessors: object;
+  components: object;
+  getters: object;
+  localizer: object;
+  showMultiDayTimes?: boolean;
+  culture?: string;
+  timeslots?: number;
+  selected?: object;
+  selectable?: true | false | "ignoreEvents";
+  eventOffset?: number;
+  longPressThreshold?: number;
+  onSelecting?: (...args: unknown[]) => unknown;
+  onSelectSlot: (...args: unknown[]) => unknown;
+  onSelectEvent: (...args: unknown[]) => unknown;
+  onDoubleClickEvent: (...args: unknown[]) => unknown;
+  onKeyPressEvent?: (...args: unknown[]) => unknown;
+  className?: string;
+  dragThroughEvents?: boolean;
+  resource?: any;
+  dayLayoutAlgorithm?: unknown;
+}
+
+class DayColumn extends React.Component<DayColumnProps> {
   state = { selecting: false, timeIndicatorPosition: null }
   intervalTriggered = false
 
@@ -400,46 +432,6 @@ class DayColumn extends React.Component {
   _keyPress = (...args) => {
     notify(this.props.onKeyPressEvent, args)
   }
-}
-
-DayColumn.propTypes = {
-  events: PropTypes.array.isRequired,
-  backgroundEvents: PropTypes.array.isRequired,
-  step: PropTypes.number.isRequired,
-  date: PropTypes.instanceOf(Date).isRequired,
-  min: PropTypes.instanceOf(Date).isRequired,
-  max: PropTypes.instanceOf(Date).isRequired,
-  getNow: PropTypes.func.isRequired,
-  isNow: PropTypes.bool,
-
-  rtl: PropTypes.bool,
-  resizable: PropTypes.bool,
-
-  accessors: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
-  localizer: PropTypes.object.isRequired,
-
-  showMultiDayTimes: PropTypes.bool,
-  culture: PropTypes.string,
-  timeslots: PropTypes.number,
-
-  selected: PropTypes.object,
-  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-  eventOffset: PropTypes.number,
-  longPressThreshold: PropTypes.number,
-
-  onSelecting: PropTypes.func,
-  onSelectSlot: PropTypes.func.isRequired,
-  onSelectEvent: PropTypes.func.isRequired,
-  onDoubleClickEvent: PropTypes.func.isRequired,
-  onKeyPressEvent: PropTypes.func,
-
-  className: PropTypes.string,
-  dragThroughEvents: PropTypes.bool,
-  resource: PropTypes.any,
-
-  dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
 }
 
 DayColumn.defaultProps = {

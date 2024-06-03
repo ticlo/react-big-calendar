@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'
 import EventRowMixin from './EventRowMixin'
@@ -9,7 +8,13 @@ let isSegmentInSlot = (seg, slot) => seg.left <= slot && seg.right >= slot
 let eventsInSlot = (segments, slot) =>
   segments.filter((seg) => isSegmentInSlot(seg, slot)).map((seg) => seg.event)
 
-class EventEndingRow extends React.Component {
+interface EventEndingRowProps {
+  segments?: unknown[];
+  slots?: number;
+  onShowMore?: (...args: unknown[]) => unknown;
+}
+
+class EventEndingRow extends React.Component<EventEndingRowProps> {
   render() {
     let {
       segments,
@@ -98,13 +103,6 @@ class EventEndingRow extends React.Component {
     e.stopPropagation()
     this.props.onShowMore(slot, e.target)
   }
-}
-
-EventEndingRow.propTypes = {
-  segments: PropTypes.array,
-  slots: PropTypes.number,
-  onShowMore: PropTypes.func,
-  ...EventRowMixin.propTypes,
 }
 
 EventEndingRow.defaultProps = {

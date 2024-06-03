@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import React from 'react';
 import EventRowMixin from './EventRowMixin';
@@ -18,10 +17,6 @@ class EventRow extends React.Component {
         }, [])));
     }
 }
-EventRow.propTypes = {
-    segments: PropTypes.array,
-    ...EventRowMixin.propTypes,
-};
 EventRow.defaultProps = {
     ...EventRowMixin.defaultProps,
 };

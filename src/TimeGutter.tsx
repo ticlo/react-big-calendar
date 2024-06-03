@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import clsx from 'clsx'
-import PropTypes from 'prop-types'
 
 import { getSlotMetrics } from './utils/TimeSlots'
 import TimeSlotGroup from './TimeSlotGroup'
@@ -21,6 +20,19 @@ function adjustForDST({ min, max, localizer }) {
   return { start: min, end: max }
 }
 
+interface TimeGutterProps {
+  min: Date;
+  max: Date;
+  timeslots: number;
+  step: number;
+  getNow: (...args: unknown[]) => unknown;
+  components: object;
+  getters?: object;
+  localizer: object;
+  resource?: string;
+  gutterRef?: any;
+}
+
 const TimeGutter = ({
   min,
   max,
@@ -31,8 +43,8 @@ const TimeGutter = ({
   resource,
   components,
   getters,
-  gutterRef,
-}) => {
+  gutterRef
+}: TimeGutterProps) => {
   const { timeGutterWrapper: TimeGutterWrapper } = components
   const { start, end } = useMemo(
     () => adjustForDST({ min, max, localizer }),
@@ -99,20 +111,6 @@ const TimeGutter = ({
       </div>
     </TimeGutterWrapper>
   )
-}
-
-TimeGutter.propTypes = {
-  min: PropTypes.instanceOf(Date).isRequired,
-  max: PropTypes.instanceOf(Date).isRequired,
-  timeslots: PropTypes.number.isRequired,
-  step: PropTypes.number.isRequired,
-  getNow: PropTypes.func.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object,
-
-  localizer: PropTypes.object.isRequired,
-  resource: PropTypes.string,
-  gutterRef: PropTypes.any,
 }
 
 export default React.forwardRef((props, ref) => (

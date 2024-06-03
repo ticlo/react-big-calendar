@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { getSlotMetrics } from './utils/TimeSlots';
 import TimeSlotGroup from './TimeSlotGroup';
 /**
@@ -18,7 +17,7 @@ function adjustForDST({ min, max, localizer }) {
     }
     return { start: min, end: max };
 }
-const TimeGutter = ({ min, max, timeslots, step, localizer, getNow, resource, components, getters, gutterRef, }) => {
+const TimeGutter = ({ min, max, timeslots, step, localizer, getNow, resource, components, getters, gutterRef }) => {
     const { timeGutterWrapper: TimeGutterWrapper } = components;
     const { start, end } = useMemo(() => adjustForDST({ min, max, localizer }), 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,17 +54,5 @@ const TimeGutter = ({ min, max, timeslots, step, localizer, getNow, resource, co
         React.createElement("div", { className: "rbc-time-gutter rbc-time-column", ref: gutterRef }, slotMetrics.groups.map((grp, idx) => {
             return (React.createElement(TimeSlotGroup, { key: idx, group: grp, resource: resource, components: components, renderSlot: renderSlot, getters: getters }));
         }))));
-};
-TimeGutter.propTypes = {
-    min: PropTypes.instanceOf(Date).isRequired,
-    max: PropTypes.instanceOf(Date).isRequired,
-    timeslots: PropTypes.number.isRequired,
-    step: PropTypes.number.isRequired,
-    getNow: PropTypes.func.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object,
-    localizer: PropTypes.object.isRequired,
-    resource: PropTypes.string,
-    gutterRef: PropTypes.any,
 };
 export default React.forwardRef((props, ref) => (React.createElement(TimeGutter, { gutterRef: ref, ...props })));

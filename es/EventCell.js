@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
 class EventCell extends React.Component {
@@ -24,21 +23,4 @@ class EventCell extends React.Component {
                 }), onClick: (e) => onSelect && onSelect(event, e), onDoubleClick: (e) => onDoubleClick && onDoubleClick(event, e), onKeyDown: (e) => onKeyPress && onKeyPress(event, e) }, typeof children === 'function' ? children(content) : content)));
     }
 }
-EventCell.propTypes = {
-    event: PropTypes.object.isRequired,
-    slotStart: PropTypes.instanceOf(Date),
-    slotEnd: PropTypes.instanceOf(Date),
-    resizable: PropTypes.bool,
-    selected: PropTypes.bool,
-    isAllDay: PropTypes.bool,
-    continuesPrior: PropTypes.bool,
-    continuesAfter: PropTypes.bool,
-    accessors: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    localizer: PropTypes.object,
-    onSelect: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-};
 export default EventCell;

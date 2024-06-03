@@ -1,5 +1,4 @@
 import React, { createRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { notify } from './utils/helpers';
 import { dateCellSelection, getSlotAtX, pointInBox } from './utils/selection';
@@ -110,22 +109,4 @@ class BackgroundCells extends React.Component {
                 });
     }
 }
-BackgroundCells.propTypes = {
-    date: PropTypes.instanceOf(Date),
-    getNow: PropTypes.func.isRequired,
-    getters: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    container: PropTypes.func,
-    dayPropGetter: PropTypes.func,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    longPressThreshold: PropTypes.number,
-    onSelectSlot: PropTypes.func.isRequired,
-    onSelectEnd: PropTypes.func,
-    onSelectStart: PropTypes.func,
-    range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    rtl: PropTypes.bool,
-    type: PropTypes.string,
-    resourceId: PropTypes.any,
-    localizer: PropTypes.any,
-};
 export default BackgroundCells;

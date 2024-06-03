@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
 import { navigate } from './utils/constants';
@@ -27,12 +26,4 @@ class Toolbar extends React.Component {
         }
     }
 }
-Toolbar.propTypes = {
-    view: PropTypes.string.isRequired,
-    views: PropTypes.arrayOf(PropTypes.string).isRequired,
-    label: PropTypes.node.isRequired,
-    localizer: PropTypes.object,
-    onNavigate: PropTypes.func.isRequired,
-    onView: PropTypes.func.isRequired,
-};
 export default Toolbar;

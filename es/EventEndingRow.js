@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
 import EventRowMixin from './EventRowMixin';
@@ -57,12 +56,6 @@ class EventEndingRow extends React.Component {
         this.props.onShowMore(slot, e.target);
     }
 }
-EventEndingRow.propTypes = {
-    segments: PropTypes.array,
-    slots: PropTypes.number,
-    onShowMore: PropTypes.func,
-    ...EventRowMixin.propTypes,
-};
 EventEndingRow.defaultProps = {
     ...EventRowMixin.defaultProps,
 };

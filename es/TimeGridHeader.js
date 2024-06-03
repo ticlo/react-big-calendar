@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import scrollbarSize from 'dom-helpers/scrollbarSize';
 import React from 'react';
@@ -51,30 +50,4 @@ class TimeGridHeader extends React.Component {
                     maxRows: this.props.allDayMaxRows + 1, range: range, events: groupedEvents.get(id) || [], resourceId: resource && id, className: "rbc-allday-cell", selectable: selectable, selected: this.props.selected, components: components, accessors: accessors, getters: getters, localizer: localizer, onSelect: this.props.onSelectEvent, onShowMore: this.props.onShowMore, onDoubleClick: this.props.onDoubleClickEvent, onKeyDown: this.props.onKeyPressEvent, onSelectSlot: this.props.onSelectSlot, longPressThreshold: this.props.longPressThreshold, resizable: resizable }))))));
     }
 }
-TimeGridHeader.propTypes = {
-    range: PropTypes.array.isRequired,
-    events: PropTypes.array.isRequired,
-    resources: PropTypes.object,
-    getNow: PropTypes.func.isRequired,
-    isOverflowing: PropTypes.bool,
-    rtl: PropTypes.bool,
-    resizable: PropTypes.bool,
-    width: PropTypes.number,
-    localizer: PropTypes.object.isRequired,
-    accessors: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    selected: PropTypes.object,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    longPressThreshold: PropTypes.number,
-    allDayMaxRows: PropTypes.number,
-    onSelectSlot: PropTypes.func,
-    onSelectEvent: PropTypes.func,
-    onDoubleClickEvent: PropTypes.func,
-    onKeyPressEvent: PropTypes.func,
-    onDrillDown: PropTypes.func,
-    onShowMore: PropTypes.func,
-    getDrilldownView: PropTypes.func.isRequired,
-    scrollRef: PropTypes.any,
-};
 export default TimeGridHeader;

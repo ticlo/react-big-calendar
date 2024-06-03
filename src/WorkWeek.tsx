@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 
 import Week from './Week'
@@ -13,7 +12,16 @@ function workWeekRange(date, options) {
   return r;
 }
 
-class WorkWeek extends React.Component {
+interface WorkWeekProps {
+  date: Date;
+  localizer?: any;
+  min?: Date;
+  max?: Date;
+  scrollToTime?: Date;
+  enableAutoScroll?: boolean;
+}
+
+class WorkWeek extends React.Component<WorkWeekProps> {
   render() {
     /**
      * This allows us to default min, max, and scrollToTime
@@ -43,15 +51,6 @@ class WorkWeek extends React.Component {
       />
     )
   }
-}
-
-WorkWeek.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
-  localizer: PropTypes.any,
-  min: PropTypes.instanceOf(Date),
-  max: PropTypes.instanceOf(Date),
-  scrollToTime: PropTypes.instanceOf(Date),
-  enableAutoScroll: PropTypes.bool,
 }
 
 WorkWeek.defaultProps = TimeGrid.defaultProps

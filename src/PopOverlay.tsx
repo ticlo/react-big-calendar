@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 import { Overlay } from 'react-overlays'
 import Popup from './Popup'
 
@@ -64,32 +63,32 @@ function CalOverlay({
   )
 }
 
-const PopOverlay = React.forwardRef((props, ref) => (
+interface PopOverlayProps {
+  popupOffset?: number | {
+    x?: number;
+    y?: number;
+  };
+  overlay?: {
+    position?: object;
+    events?: unknown[];
+    date?: Date;
+    end?: Date;
+  };
+  accessors: object;
+  localizer: object;
+  components: object;
+  getters: object;
+  selected?: object;
+  handleSelectEvent?: (...args: unknown[]) => unknown;
+  handleDoubleClickEvent?: (...args: unknown[]) => unknown;
+  handleKeyPressEvent?: (...args: unknown[]) => unknown;
+  handleDragStart?: (...args: unknown[]) => unknown;
+  onHide?: (...args: unknown[]) => unknown;
+  overlayDisplay?: (...args: unknown[]) => unknown;
+}
+
+const PopOverlay = React.forwardRef<HTMLElement, PopOverlayProps>((props, ref) => (
   <CalOverlay {...props} containerRef={ref} />
 ))
-
-PopOverlay.propTypes = {
-  popupOffset: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-  ]),
-  overlay: PropTypes.shape({
-    position: PropTypes.object,
-    events: PropTypes.array,
-    date: PropTypes.instanceOf(Date),
-    end: PropTypes.instanceOf(Date),
-  }),
-  accessors: PropTypes.object.isRequired,
-  localizer: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
-  selected: PropTypes.object,
-  handleSelectEvent: PropTypes.func,
-  handleDoubleClickEvent: PropTypes.func,
-  handleKeyPressEvent: PropTypes.func,
-  handleDragStart: PropTypes.func,
-  onHide: PropTypes.func,
-  overlayDisplay: PropTypes.func,
-}
 
 export default PopOverlay

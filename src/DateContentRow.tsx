@@ -2,7 +2,6 @@ import React, { createRef } from 'react'
 import clsx from 'clsx'
 import getHeight from 'dom-helpers/height'
 import qsa from 'dom-helpers/querySelectorAll'
-import PropTypes from 'prop-types'
 
 import BackgroundCells from './BackgroundCells'
 import EventRow from './EventRow'
@@ -11,7 +10,39 @@ import NoopWrapper from './NoopWrapper'
 import ScrollableWeekWrapper from './ScrollableWeekWrapper'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
 
-class DateContentRow extends React.Component {
+interface DateContentRowProps {
+  date?: Date;
+  events: unknown[];
+  range: unknown[];
+  rtl?: boolean;
+  resizable?: boolean;
+  resourceId?: any;
+  renderForMeasure?: boolean;
+  renderHeader?: (...args: unknown[]) => unknown;
+  container?: (...args: unknown[]) => unknown;
+  selected?: object;
+  selectable?: true | false | "ignoreEvents";
+  longPressThreshold?: number;
+  onShowMore?: (...args: unknown[]) => unknown;
+  showAllEvents?: boolean;
+  onSelectSlot?: (...args: unknown[]) => unknown;
+  onSelect?: (...args: unknown[]) => unknown;
+  onSelectEnd?: (...args: unknown[]) => unknown;
+  onSelectStart?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
+  dayPropGetter?: (...args: unknown[]) => unknown;
+  getNow: (...args: unknown[]) => unknown;
+  isAllDay?: boolean;
+  accessors: object;
+  components: object;
+  getters: object;
+  localizer: object;
+  minRows: number;
+  maxRows: number;
+}
+
+class DateContentRow extends React.Component<DateContentRowProps> {
   constructor(...args) {
     super(...args)
 
@@ -198,44 +229,6 @@ class DateContentRow extends React.Component {
       </div>
     )
   }
-}
-
-DateContentRow.propTypes = {
-  date: PropTypes.instanceOf(Date),
-  events: PropTypes.array.isRequired,
-  range: PropTypes.array.isRequired,
-
-  rtl: PropTypes.bool,
-  resizable: PropTypes.bool,
-  resourceId: PropTypes.any,
-  renderForMeasure: PropTypes.bool,
-  renderHeader: PropTypes.func,
-
-  container: PropTypes.func,
-  selected: PropTypes.object,
-  selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-  longPressThreshold: PropTypes.number,
-
-  onShowMore: PropTypes.func,
-  showAllEvents: PropTypes.bool,
-  onSelectSlot: PropTypes.func,
-  onSelect: PropTypes.func,
-  onSelectEnd: PropTypes.func,
-  onSelectStart: PropTypes.func,
-  onDoubleClick: PropTypes.func,
-  onKeyPress: PropTypes.func,
-  dayPropGetter: PropTypes.func,
-
-  getNow: PropTypes.func.isRequired,
-  isAllDay: PropTypes.bool,
-
-  accessors: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
-  localizer: PropTypes.object.isRequired,
-
-  minRows: PropTypes.number.isRequired,
-  maxRows: PropTypes.number.isRequired,
 }
 
 DateContentRow.defaultProps = {

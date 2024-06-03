@@ -1,8 +1,25 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'
 
-class EventCell extends React.Component {
+interface EventCellProps {
+  event: object;
+  slotStart?: Date;
+  slotEnd?: Date;
+  resizable?: boolean;
+  selected?: boolean;
+  isAllDay?: boolean;
+  continuesPrior?: boolean;
+  continuesAfter?: boolean;
+  accessors: object;
+  components: object;
+  getters: object;
+  localizer?: object;
+  onSelect?: (...args: unknown[]) => unknown;
+  onDoubleClick?: (...args: unknown[]) => unknown;
+  onKeyPress?: (...args: unknown[]) => unknown;
+}
+
+class EventCell extends React.Component<EventCellProps> {
   render() {
     let {
       style,
@@ -78,27 +95,6 @@ class EventCell extends React.Component {
       </EventWrapper>
     )
   }
-}
-
-EventCell.propTypes = {
-  event: PropTypes.object.isRequired,
-  slotStart: PropTypes.instanceOf(Date),
-  slotEnd: PropTypes.instanceOf(Date),
-
-  resizable: PropTypes.bool,
-  selected: PropTypes.bool,
-  isAllDay: PropTypes.bool,
-  continuesPrior: PropTypes.bool,
-  continuesAfter: PropTypes.bool,
-
-  accessors: PropTypes.object.isRequired,
-  components: PropTypes.object.isRequired,
-  getters: PropTypes.object.isRequired,
-  localizer: PropTypes.object,
-
-  onSelect: PropTypes.func,
-  onDoubleClick: PropTypes.func,
-  onKeyPress: PropTypes.func,
 }
 
 export default EventCell

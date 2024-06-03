@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import Week from './Week';
 import TimeGrid from './TimeGrid';
@@ -20,14 +19,6 @@ class WorkWeek extends React.Component {
         return (React.createElement(TimeGrid, { ...props, range: range, eventOffset: 15, localizer: localizer, min: min, max: max, scrollToTime: scrollToTime, enableAutoScroll: enableAutoScroll }));
     }
 }
-WorkWeek.propTypes = {
-    date: PropTypes.instanceOf(Date).isRequired,
-    localizer: PropTypes.any,
-    min: PropTypes.instanceOf(Date),
-    max: PropTypes.instanceOf(Date),
-    scrollToTime: PropTypes.instanceOf(Date),
-    enableAutoScroll: PropTypes.bool,
-};
 WorkWeek.defaultProps = TimeGrid.defaultProps;
 WorkWeek.range = workWeekRange;
 WorkWeek.navigate = Week.navigate;

@@ -1,9 +1,17 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import clsx from 'clsx'
 import { navigate } from './utils/constants'
 
-class Toolbar extends React.Component {
+interface ToolbarProps {
+  view: string;
+  views: string[];
+  label: React.ReactNode;
+  localizer?: object;
+  onNavigate: (...args: unknown[]) => unknown;
+  onView: (...args: unknown[]) => unknown;
+}
+
+class Toolbar extends React.Component<ToolbarProps> {
   render() {
     let {
       localizer: { messages },
@@ -65,15 +73,6 @@ class Toolbar extends React.Component {
       ))
     }
   }
-}
-
-Toolbar.propTypes = {
-  view: PropTypes.string.isRequired,
-  views: PropTypes.arrayOf(PropTypes.string).isRequired,
-  label: PropTypes.node.isRequired,
-  localizer: PropTypes.object,
-  onNavigate: PropTypes.func.isRequired,
-  onView: PropTypes.func.isRequired,
 }
 
 export default Toolbar
