@@ -3,13 +3,13 @@ import { action } from '@storybook/addon-actions'
 import { DateTime } from 'luxon'
 import React from 'react'
 import { uncontrollable } from 'uncontrollable'
-import { Calendar as ControledCalendar, luxonLocalizer } from '../../es'
+import { Calendar as ControledCalendar, luxonLocalizer } from '../../src'
 
 // For Testing SASS styling
 import '../../src/sass/styles.scss'
 
 
-export { Views } from '../../es'
+export { Views } from '../../src'
 
 const now = DateTime.now();
 

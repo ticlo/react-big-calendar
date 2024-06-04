@@ -1,5 +1,5 @@
 import React from 'react'
-import { Calendar } from '../../es'
+import { Calendar } from '../../src'
 import { resourceAccessorStoryArgs } from './storyDefaults'
 import mdx from './resourceTitleAccessor.mdx'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Calendar, momentLocalizer } from '../../es'
+import { Calendar, momentLocalizer } from '../../src'
 import PopupDemo from './exampleCode/popup'
 
 export default {

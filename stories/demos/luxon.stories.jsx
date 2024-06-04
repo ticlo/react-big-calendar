@@ -1,6 +1,6 @@
 import React from 'react'
 import { DateTime } from 'luxon'
-import { Calendar, luxonLocalizer } from '../../es'
+import { Calendar, luxonLocalizer } from '../../src'
 import Luxon from './exampleCode/luxon'
 
 export default {

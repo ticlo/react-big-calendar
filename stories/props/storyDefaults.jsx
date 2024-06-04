@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { momentLocalizer, Views } from '../../es'
+import { momentLocalizer, Views } from '../../src'
 import demoEvents from '../resources/events'
 import resourceData from '../resources/resourceEvents'
 

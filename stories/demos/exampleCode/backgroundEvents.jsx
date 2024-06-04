@@ -4,7 +4,7 @@ import { Calendar, Views, DateLocalizer } from 'react-big-calendar'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 import backgroundEvents from '../../resources/backgroundEvents'
-import * as dates from '../../../es/utils/dates'
+import * as dates from '../../../src/utils/dates'
 
 let allViews = Object.keys(Views).map((k) => Views[k])
 

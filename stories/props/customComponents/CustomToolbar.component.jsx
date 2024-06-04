@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import { Navigate as navigate } from '../../../es'
+import { Navigate as navigate } from '../../../src'
 
 function ViewNamesGroup({ views: viewNames, view, messages, onView }) {
   return viewNames.map((name) => (

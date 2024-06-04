@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../es'
+import { Calendar, Views, momentLocalizer } from '../../src'
 import demoEvents from '../resources/events'
 import mdx from './eventPropGetter.mdx'
 import '../resources/propGetter.scss'

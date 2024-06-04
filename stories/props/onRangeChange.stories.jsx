@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import moment from 'moment'
-import { Calendar, momentLocalizer, Views } from '../../es'
+import { Calendar, momentLocalizer, Views } from '../../src'
 import demoEvents from '../resources/events'
 import mdx from './onRangeChange.mdx'
 

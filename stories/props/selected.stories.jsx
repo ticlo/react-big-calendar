@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import moment from 'moment'
-import { Calendar, momentLocalizer } from '../../es'
+import { Calendar, momentLocalizer } from '../../src'
 import demoEvents from '../resources/events'
 import mdx from './selected.mdx'
 

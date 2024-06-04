@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import moment from 'moment'
-import { Calendar, momentLocalizer } from '../../es'
+import { Calendar, momentLocalizer } from '../../src'
 import demoEvents from '../resources/events'
 import mdx from './components.mdx'
 import CustomToolbar from './customComponents/CustomToolbar.component'

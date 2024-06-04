@@ -9,7 +9,7 @@ import {
 } from 'react-big-calendar'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
-import * as dates from '../../../es/utils/dates'
+import * as dates from '../../../src/utils/dates'
 
 const mLocalizer = momentLocalizer(moment)
 

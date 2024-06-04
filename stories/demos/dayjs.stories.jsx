@@ -1,6 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
-import { Calendar, dayjsLocalizer } from '../../es'
+import { Calendar, dayjsLocalizer } from '../../src'
 import Dayjs from './exampleCode/dayjs'
 
 export default {

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../es'
+import { Calendar, Views, momentLocalizer } from '../../src'
 import resourceData from '../resources/resourceEvents'
 import mdx from './resources.mdx'
 

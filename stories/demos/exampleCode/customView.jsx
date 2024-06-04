@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as dates from 'date-arithmetic'
 import { Calendar, Views, Navigate, DateLocalizer } from 'react-big-calendar'
-import TimeGrid from '../../../es/TimeGrid' // use 'react-big-calendar/lib/TimeGrid'. Can't 'alias' in Storybook
+import TimeGrid from '../../../src/TimeGrid' // use 'react-big-calendar/lib/TimeGrid'. Can't 'alias' in Storybook
 import events from '../../resources/events'
 import DemoLink from '../../DemoLink.component'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import { Calendar } from '../es'
+import { Calendar } from '../src'
 
 import { Calendar as BaseCalendar, Views, events } from './helpers'
 

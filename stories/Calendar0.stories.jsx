@@ -2,7 +2,7 @@ import React from 'react'
 import { action } from '@storybook/addon-actions'
 
 import demoEvents from './resources/events'
-import { Calendar } from '../es'
+import { Calendar } from '../src'
 
 import { events, Calendar as BaseCalendar, Views } from './helpers'
 
@@ -26,7 +26,7 @@ const Template = (args) => <BaseCalendar {...args} />
 export const ComplexDayViewLayout = Template.bind({})
 ComplexDayViewLayout.storyName = 'complex day view layout'
 ComplexDayViewLayout.args = {
-  defaultView: Views.DAY,
+  defaultView: Views.WEEK,
   defaultDate: new Date(),
   events: createEvents(1),
   step: 30,
