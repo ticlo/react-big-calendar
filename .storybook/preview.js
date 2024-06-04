@@ -1,5 +1,4 @@
 export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     // TODO: refactor jsDocs in Calendar control
     //expanded: true,
@@ -21,3 +20,4 @@ export const parameters = {
   },
   viewMode: 'docs',
 }
+export const tags = ["autodocs"];
