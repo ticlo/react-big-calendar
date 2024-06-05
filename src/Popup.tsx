@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react'
+import { DateTime } from 'luxon'
 import getOffset from 'dom-helpers/offset'
 
 import useClickOutside from './hooks/useClickOutside'
@@ -110,8 +111,8 @@ interface PopupProps {
   position: object;
   show: (...args: unknown[]) => unknown;
   events: unknown[];
-  slotStart: Date;
-  slotEnd?: Date;
+  slotStart: DateTime;
+  slotEnd?: DateTime;
   onSelect?: (...args: unknown[]) => unknown;
   onDoubleClick?: (...args: unknown[]) => unknown;
   onKeyPress?: (...args: unknown[]) => unknown;

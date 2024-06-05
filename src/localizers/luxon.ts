@@ -273,10 +273,10 @@ export default function (DateTime, { firstDayOfWeek = 7 } = {}) {
   /**
    * Moved from TimeSlots.js, this method overrides the method of the same name
    * in the localizer.js, using moment to construct the js Date
-   * @param {Date} dt - date to start with
+   * @param {DateTime} dt - date to start with
    * @param {Number} minutesFromMidnight
    * @param {Number} offset
-   * @returns {Date}
+   * @returns {DateTime}
    */
   function getSlotDate(dt, minutesFromMidnight, offset) {
     return startOfDT(dt, 'day')

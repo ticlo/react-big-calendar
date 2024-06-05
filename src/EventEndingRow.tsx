@@ -1,4 +1,6 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 import clsx from 'clsx'
 import EventRowMixin from './EventRowMixin'
 import { eventLevels } from './utils/eventLevels'

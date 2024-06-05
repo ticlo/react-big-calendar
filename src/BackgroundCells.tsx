@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { DateTime } from 'luxon'
 import clsx from 'clsx'
 
 import { notify } from './utils/helpers'
@@ -6,7 +7,7 @@ import { dateCellSelection, getSlotAtX, pointInBox } from './utils/selection'
 import Selection, { getBoundsForNode, isEvent, isShowMore } from './Selection'
 
 interface BackgroundCellsProps {
-  date?: Date;
+  date?: DateTime;
   getNow: (...args: unknown[]) => unknown;
   getters: object;
   components: object;
@@ -17,7 +18,7 @@ interface BackgroundCellsProps {
   onSelectSlot: (...args: unknown[]) => unknown;
   onSelectEnd?: (...args: unknown[]) => unknown;
   onSelectStart?: (...args: unknown[]) => unknown;
-  range?: Date[];
+  range?: DateTime[];
   rtl?: boolean;
   type?: string;
   resourceId?: any;

@@ -1,4 +1,5 @@
-import PropTypes from 'prop-types'
+import PropTypes, { Validator } from 'prop-types'
+import {DateTime} from 'luxon'
 import invariant from 'invariant'
 import {
   merge,
@@ -24,6 +25,8 @@ import {
   minutes,
   isJustDate,
 } from './utils/dates'
+import { StartOfWeek, Unit } from 'date-arithmetic'
+import {DateRange, DateLocalizerSpec} from './types'
 
 const localePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 
@@ -44,25 +47,17 @@ function _format(localizer, formatter, value, format, culture) {
 /**
  * This date conversion was moved out of TimeSlots.js, to
  * allow for localizer override
- * @param {Date} dt - The date to start from
+ * @param {DateTime} dt - The date to start from
  * @param {Number} minutesFromMidnight
  * @param {Number} offset
- * @returns {Date}
+ * @returns {DateTime}
  */
-function getSlotDate(dt, minutesFromMidnight, offset) {
-  return new Date(
-    dt.getFullYear(),
-    dt.getMonth(),
-    dt.getDate(),
-    0,
-    minutesFromMidnight + offset,
-    0,
-    0
-  )
+function getSlotDate(dt:DateTime, minutesFromMidnight:number, offset:number) {
+  return DateTime.fromObject({year:dt.year, month:dt.month, day:dt.day}).plus({minute: minutesFromMidnight+offset});
 }
 
-function getDstOffset(start, end) {
-  return start.getTimezoneOffset() - end.getTimezoneOffset()
+function getDstOffset(start:DateTime, end:DateTime) {
+  return end.offset - start.offset;
 }
 
 // if the start is on a DST-changing day but *after* the moment of DST
@@ -71,8 +66,8 @@ function getTotalMin(start, end) {
   return diff(start, end, 'minutes') + getDstOffset(start, end)
 }
 
-function getMinutesFromMidnight(start) {
-  const daystart = startOf(start, 'day')
+function getMinutesFromMidnight(start:DateTime) {
+  const daystart = start.startOf('day')
   return diff(daystart, start, 'minutes') + getDstOffset(daystart, start)
 }
 
@@ -139,7 +134,49 @@ function startAndEndAreDateOnly(start, end) {
 }
 
 export class DateLocalizer {
-  constructor(spec) {
+  formats: Formats;
+  propType: Validator<any>;
+  startOfWeek: (culture: Culture) => StartOfWeek;
+
+
+  format(value: FormatInput, format: string, culture?: Culture): string;
+  messages: Messages;
+
+  merge: (date: Date, time: Date) => Date | null;
+  inRange: typeof inRange;
+  lt: typeof lt;
+  lte: typeof lte;
+  gt: typeof gt;
+  gte: typeof gte;
+  eq: typeof eq;
+  neq: typeof neq;
+  startOf: typeof startOf;
+  endOf: typeof endOf;
+  add: typeof add;
+  range: (start: Date, end: Date, unit?: Unit) => Date[];
+  diff: (dateA: Date, dateB: Date, unit?: Unit) => number;
+  ceil: (date: Date, unit?: Unit) => Date;
+  min: typeof min;
+  max: typeof max;
+  minutes: typeof minutes;
+  firstVisibleDay: (date: Date, localizer: any) => Date;
+  lastVisibleDay: (date: Date, localizer: any) => Date;
+  visibleDays: (date: Date, localizer: any) => Date[];
+
+  getSlotDate: (date: Date, minutesFromMidnight: number, offset: number) => Date;
+  getTimezoneOffset: (date: Date) => number;
+  getDstOffset: (date: Date, dateB: Date) => number;
+  getTotalMin: (dateA: Date, dateB: Date) => number;
+  getMinutesFromMidnight: (date: Date) => number;
+  continuesPrior: (dateA: Date, dateB: Date) => boolean;
+  continuesAfter: (dateA: Date, dateB: Date, dateC: Date) => boolean;
+  sortEvents: (eventA: Event, eventB: Event) => boolean;
+  inEventRange: (event: Event, range: DateRange) => boolean;
+  isSameDate: (dateA: Date, dateB: Date) => boolean;
+  startAndEndAreDateOnly: (dateA: Date, dateB: Date) => boolean;
+  segmentOffset: number;
+
+  constructor(spec: DateLocalizerSpec) {
     invariant(
       typeof spec.format === 'function',
       'date localizer `format(..)` must be a function'

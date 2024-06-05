@@ -1,6 +1,17 @@
 import sortBy from 'lodash/sortBy'
+import { type DateTime } from 'luxon'
 
 class Event {
+  start: DateTime;
+  end: DateTime;
+  startMs: number;
+  endMs: number;
+  top: number;
+  height: number;
+  data: unknown;
+  rows: any[];
+
+
   constructor(data, { accessors, slotMetrics }) {
     const { start, startDate, end, endDate, top, height } =
       slotMetrics.getRange(accessors.start(data), accessors.end(data))

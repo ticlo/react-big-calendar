@@ -1,8 +1,10 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 
 interface DateHeaderProps {
   label?: React.ReactNode;
-  date?: Date;
+  date?: DateTime;
   drilldownView?: string;
   onDrillDown?: (...args: unknown[]) => unknown;
   isOffRange?: boolean;

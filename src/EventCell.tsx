@@ -1,10 +1,12 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 import clsx from 'clsx'
 
 interface EventCellProps {
   event: object;
-  slotStart?: Date;
-  slotEnd?: Date;
+  slotStart?: DateTime;
+  slotEnd?: DateTime;
   resizable?: boolean;
   selected?: boolean;
   isAllDay?: boolean;

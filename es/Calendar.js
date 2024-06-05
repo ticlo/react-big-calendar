@@ -37,7 +37,7 @@ export default class Calendar extends React.Component {
         popup: false,
         toolbar: true,
         view: views.MONTH,
-        views: [views.MONTH, views.WEEK, views.DAY, views.AGENDA],
+        views: [views.MONTH, views.WEEK, views.DAY],
         step: 30,
         length: 30,
         allDayMaxRows: Infinity,

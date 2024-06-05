@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import { DateTime } from 'luxon'
 import clsx from 'clsx'
 import * as animationFrame from 'dom-helpers/animationFrame'
 import memoize from 'memoize-one'
@@ -22,11 +23,11 @@ interface TimeGridProps {
   resources?: unknown[];
   step?: number;
   timeslots?: number;
-  range?: Date[];
-  min: Date;
-  max: Date;
+  range?: DateTime[];
+  min: DateTime;
+  max: DateTime;
   getNow: (...args: unknown[]) => unknown;
-  scrollToTime: Date;
+  scrollToTime: DateTime;
   enableAutoScroll?: boolean;
   showMultiDayTimes?: boolean;
   rtl?: boolean;

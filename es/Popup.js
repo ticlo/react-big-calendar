@@ -1,5 +1,4 @@
 import React, { useLayoutEffect } from 'react';
-import PropTypes from 'prop-types';
 import getOffset from 'dom-helpers/offset';
 import useClickOutside from './hooks/useClickOutside';
 import EventCell from './EventCell';
@@ -47,22 +46,4 @@ function Pop({ containerRef, accessors, getters, selected, components, localizer
         events.map((event, idx) => (React.createElement(EventCell, { key: idx, type: "popup", localizer: localizer, event: event, getters: getters, onSelect: onSelect, accessors: accessors, components: components, onDoubleClick: onDoubleClick, onKeyPress: onKeyPress, continuesPrior: localizer.lt(accessors.end(event), slotStart, 'day'), continuesAfter: localizer.gte(accessors.start(event), slotEnd, 'day'), slotStart: slotStart, slotEnd: slotEnd, selected: isSelected(event, selected), draggable: true, onDragStart: () => handleDragStart(event), onDragEnd: () => show() })))));
 }
 const Popup = React.forwardRef((props, ref) => (React.createElement(Pop, { ...props, popperRef: ref })));
-Popup.propTypes = {
-    accessors: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    selected: PropTypes.object,
-    components: PropTypes.object.isRequired,
-    localizer: PropTypes.object.isRequired,
-    position: PropTypes.object.isRequired,
-    show: PropTypes.func.isRequired,
-    events: PropTypes.array.isRequired,
-    slotStart: PropTypes.instanceOf(Date).isRequired,
-    slotEnd: PropTypes.instanceOf(Date),
-    onSelect: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    handleDragStart: PropTypes.func,
-    style: PropTypes.object,
-    offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-};
 export default Popup;

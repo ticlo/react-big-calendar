@@ -1,22 +1,25 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 
 import { navigate } from './utils/constants'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
 import TimeGrid from './TimeGrid'
+import { DateLocalizer } from './types'
 
 interface WeekProps {
-  date: Date;
+  date: DateTime;
   events: unknown[];
   backgroundEvents: unknown[];
   resources?: unknown[];
   step?: number;
   timeslots?: number;
-  range?: Date[];
-  min?: Date;
-  max?: Date;
+  range?: DateTime[];
+  min?: DateTime;
+  max?: DateTime;
   getNow: (...args: unknown[]) => unknown;
-  scrollToTime?: Date;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
   showMultiDayTimes?: boolean;
   rtl?: boolean;
@@ -99,7 +102,7 @@ Week.navigate = (date, action, { localizer }) => {
   }
 }
 
-Week.range = (date, { localizer }) => {
+Week.range = (date, { localizer }:{localizer:DateLocalizer}) => {
   let firstOfWeek = localizer.startOfWeek()
   let start = localizer.startOf(date, 'week', firstOfWeek)
   let end = localizer.endOf(date, 'week', firstOfWeek)

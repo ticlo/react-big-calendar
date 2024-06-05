@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { DateTime } from 'luxon'
 import clsx from 'clsx'
 
 import chunk from 'lodash/chunk'
@@ -22,12 +23,12 @@ let eventsForWeek = (evts, start, end, accessors, localizer) =>
 
 interface MonthViewProps {
   events: unknown[];
-  date?: Date;
-  min?: Date;
-  max?: Date;
+  date?: DateTime;
+  min?: DateTime;
+  max?: DateTime;
   step?: number;
   getNow: (...args: unknown[]) => unknown;
-  scrollToTime?: Date;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
   rtl?: boolean;
   resizable?: boolean;

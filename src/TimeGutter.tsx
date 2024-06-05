@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { DateTime } from 'luxon'
 import clsx from 'clsx'
 
 import { getSlotMetrics } from './utils/TimeSlots'
@@ -21,8 +22,8 @@ function adjustForDST({ min, max, localizer }) {
 }
 
 interface TimeGutterProps {
-  min: Date;
-  max: Date;
+  min: DateTime;
+  max: DateTime;
   timeslots: number;
   step: number;
   getNow: (...args: unknown[]) => unknown;

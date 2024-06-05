@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { DateTime } from 'luxon'
 import { Overlay } from 'react-overlays'
 import Popup from './Popup'
 
@@ -71,8 +72,8 @@ interface PopOverlayProps {
   overlay?: {
     position?: object;
     events?: unknown[];
-    date?: Date;
-    end?: Date;
+    date?: DateTime;
+    end?: DateTime;
   };
   accessors: object;
   localizer: object;

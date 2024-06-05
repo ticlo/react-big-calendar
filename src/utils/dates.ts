@@ -1,5 +1,6 @@
 /* eslint no-fallthrough: off */
 import * as dates from 'date-arithmetic'
+import { DateTime } from 'luxon'
 
 export {
   milliseconds,
@@ -28,16 +29,15 @@ const MILLI = {
   day: 1000 * 60 * 60 * 24,
 }
 
-const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-
+const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 export function monthsInYear(year) {
-  let date = new Date(year, 0, 1)
+  let date = DateTime.fromObject({year, day:1})
 
-  return MONTHS.map((i) => dates.month(date, i))
+  return MONTHS.map((i) => date.set({month: i}))
 }
 
-export function firstVisibleDay(date, localizer) {
-  let firstOfMonth = dates.startOf(date, 'month')
+export function firstVisibleDay(date:DateTime, localizer) {
+  let firstOfMonth = date.startOf('month')
 
   return dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
 }
@@ -92,29 +92,27 @@ export function merge(date, time) {
   return dates.milliseconds(date, dates.milliseconds(time))
 }
 
-export function eqTime(dateA, dateB) {
+export function eqTime(dateA:DateTime, dateB:DateTime) {
   return (
-    dates.hours(dateA) === dates.hours(dateB) &&
-    dates.minutes(dateA) === dates.minutes(dateB) &&
-    dates.seconds(dateA) === dates.seconds(dateB)
+    dateA.hour === dateB.hour &&
+    dateA.minute === dateB.minute &&
+    dateA.second === dateB.second
   )
 }
 
-export function isJustDate(date) {
+export function isJustDate(date:DateTime) {
   return (
-    dates.hours(date) === 0 &&
-    dates.minutes(date) === 0 &&
-    dates.seconds(date) === 0 &&
-    dates.milliseconds(date) === 0
+    date.hour === 0 &&
+    date.minute === 0 &&
+    date.second === 0 &&
+    date.millisecond === 0
   )
 }
 
 export function duration(start, end, unit, firstOfWeek) {
   if (unit === 'day') unit = 'date'
   return Math.abs(
-    // eslint-disable-next-line import/namespace
     dates[unit](start, undefined, firstOfWeek) -
-      // eslint-disable-next-line import/namespace
       dates[unit](end, undefined, firstOfWeek)
   )
 }

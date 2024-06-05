@@ -1,4 +1,6 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 
 import Week from './Week'
 import TimeGrid from './TimeGrid'
@@ -13,11 +15,11 @@ function workWeekRange(date, options) {
 }
 
 interface WorkWeekProps {
-  date: Date;
+  date: DateTime;
   localizer?: any;
-  min?: Date;
-  max?: Date;
-  scrollToTime?: Date;
+  min?: DateTime;
+  max?: DateTime;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
 }
 

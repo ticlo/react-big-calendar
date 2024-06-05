@@ -1,12 +1,7 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 import clsx from 'clsx'
-import {
-  accessor,
-  dateFormat,
-  dateRangeFormat,
-  DayLayoutAlgorithmPropType,
-  views as componentViews,
-} from './utils/propTypes'
 
 import { notify } from './utils/helpers'
 import { navigate, views } from './utils/constants'
@@ -95,7 +90,7 @@ interface CalendarProps {
    *
    * @controllable onNavigate
    */
-  date?: Date;
+  date?: DateTime;
   /**
    * The current view of the calendar.
    *
@@ -127,8 +122,8 @@ interface CalendarProps {
    * ```js
    * Event {
    *   title: string,
-   *   start: Date,
-   *   end: Date,
+   *   start: DateTime,
+   *   end: DateTime,
    *   allDay?: boolean
    *   resource?: any,
    * }
@@ -151,8 +146,8 @@ interface CalendarProps {
    *
    * ```js
    * BackgroundEvent {
-   *   start: Date,
-   *   end: Date,
+   *   start: DateTime,
+   *   end: DateTime,
    * }
    * ```
    */
@@ -282,7 +277,7 @@ interface CalendarProps {
   /**
    *
    * ```js
-   * (dates: Date[] | { start: Date; end: Date }, view: 'month'|'week'|'work_week'|'day'|'agenda'|undefined) => void
+   * (dates: DateTime[] | { start: DateTime; end: DateTime }, view: 'month'|'week'|'work_week'|'day'|'agenda'|undefined) => void
    * ```
    *
    * Callback fired when the visible date range changes. Returns an Array of dates
@@ -298,8 +293,8 @@ interface CalendarProps {
    * ```js
    * (
    *   slotInfo: {
-   *     start: Date,
-   *     end: Date,
+   *     start: DateTime,
+   *     end: DateTime,
    *     resourceId:  (number|string),
    *     slots: Array<Date>,
    *     action: "select" | "click" | "doubleClick",
@@ -354,7 +349,7 @@ interface CalendarProps {
    * Returning `false` from the handler will prevent a selection.
    *
    * ```js
-   * (range: { start: Date, end: Date, resourceId: (number|string) }) => ?boolean
+   * (range: { start: DateTime, end: DateTime, resourceId: (number|string) }) => ?boolean
    * ```
    */
   onSelecting?: (...args: unknown[]) => unknown;
@@ -362,7 +357,7 @@ interface CalendarProps {
    * Callback fired when a +{count} more is clicked
    *
    * ```js
-   * (events: Object, date: Date) => any
+   * (events: Object, date: DateTime) => any
    * ```
    */
   onShowMore?: (...args: unknown[]) => unknown;
@@ -399,8 +394,8 @@ interface CalendarProps {
    *
    * ```js
    * interface View {
-   *   static title(date: Date, { formats: DateFormat[], culture: string?, ...props }): string
-   *   static navigate(date: Date, action: 'PREV' | 'NEXT' | 'DATE'): Date
+   *   static title(date: DateTime, { formats: DateFormat[], culture: string?, ...props }): string
+   *   static navigate(date: DateTime, action: 'PREV' | 'NEXT' | 'DATE'): DateTime
    * }
    * ```
    *
@@ -510,8 +505,8 @@ interface CalendarProps {
    * ```js
    * (
    * 	event: Object,
-   * 	start: Date,
-   * 	end: Date,
+   * 	start: DateTime,
+   * 	end: DateTime,
    * 	isSelected: boolean
    * ) => { className?: string, style?: Object }
    * ```
@@ -523,7 +518,7 @@ interface CalendarProps {
    * position may break the calendar in unexpected ways.
    *
    * ```js
-   * (date: Date, resourceId: (number|string)) => { className?: string, style?: Object }
+   * (date: DateTime, resourceId: (number|string)) => { className?: string, style?: Object }
    * ```
    */
   slotPropGetter?: (...args: unknown[]) => unknown;
@@ -531,7 +526,7 @@ interface CalendarProps {
    * Optionally provide a function that returns an object of props to be applied
    * to the time-slot group node. Useful to dynamically change the sizing of time nodes.
    * ```js
-   * (group: Date[]) => { style?: Object }
+   * (group: DateTime[]) => { style?: Object }
    * ```
    */
   slotGroupPropGetter?: (...args: unknown[]) => unknown;
@@ -541,7 +536,7 @@ interface CalendarProps {
    * position may break the calendar in unexpected ways.
    *
    * ```js
-   * (date: Date) => { className?: string, style?: Object }
+   * (date: DateTime) => { className?: string, style?: Object }
    * ```
    */
   dayPropGetter?: (...args: unknown[]) => unknown;
@@ -564,15 +559,15 @@ interface CalendarProps {
   /**
    * Constrains the minimum _time_ of the Day and Week views.
    */
-  min?: Date;
+  min?: DateTime;
   /**
    * Constrains the maximum _time_ of the Day and Week views.
    */
-  max?: Date;
+  max?: DateTime;
   /**
    * Determines how far down the scroll pane is initially scrolled down.
    */
-  scrollToTime?: Date;
+  scrollToTime?: DateTime;
   /**
    * Determines whether the scroll pane is automatically scrolled down or not.
    */
@@ -605,7 +600,7 @@ interface CalendarProps {
    * ```
    *
    * All localizers accept a function of
-   * the form `(date: Date, culture: ?string, localizer: Localizer) -> string`
+   * the form `(date: DateTime, culture: ?string, localizer: Localizer) -> string`
    */
   formats?: {
     /**
@@ -817,7 +812,7 @@ export default class Calendar extends React.Component<CalendarProps> {
     resourceTitleAccessor: 'title',
 
     longPressThreshold: 250,
-    getNow: () => new Date(),
+    getNow: () => DateTime.now(),
     dayLayoutAlgorithm: 'overlap',
   }
 

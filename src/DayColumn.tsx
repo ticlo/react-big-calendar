@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { DateTime } from 'luxon'
 import clsx from 'clsx'
 
 import Selection, { getBoundsForNode, isEvent } from './Selection'
@@ -12,14 +13,15 @@ import TimeGridEvent from './TimeGridEvent'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
 import DayColumnWrapper from './DayColumnWrapper'
+import { DateLocalizer } from './localizer'
 
 interface DayColumnProps {
   events: unknown[];
   backgroundEvents: unknown[];
   step: number;
-  date: Date;
-  min: Date;
-  max: Date;
+  date: DateTime;
+  min: DateTime;
+  max: DateTime;
   getNow: (...args: unknown[]) => unknown;
   isNow?: boolean;
   rtl?: boolean;
@@ -27,7 +29,7 @@ interface DayColumnProps {
   accessors: object;
   components: object;
   getters: object;
-  localizer: object;
+  localizer: DateLocalizer;
   showMultiDayTimes?: boolean;
   culture?: string;
   timeslots?: number;
@@ -401,13 +403,13 @@ class DayColumn extends React.Component<DayColumnProps> {
     this._selector = null
   }
 
-  _selectSlot = ({ startDate, endDate, action, bounds, box }) => {
+  _selectSlot = ({ startDate, endDate, action, bounds, box }:{startDate:DateTime, endDate:DateTime}) => {
     let current = startDate,
       slots = []
 
     while (this.props.localizer.lte(current, endDate)) {
       slots.push(current)
-      current = new Date(+current + this.props.step * 60 * 1000) // using Date ensures not to create an endless loop the day DST begins
+      current = current.plus({millisecond:this.props.step * 60 * 1000 }) ;
     }
 
     notify(this.props.onSelectSlot, {

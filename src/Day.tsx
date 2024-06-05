@@ -1,4 +1,6 @@
 import React from 'react'
+import { DateTime } from 'luxon'
+
 
 import { navigate } from './utils/constants'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
@@ -6,17 +8,17 @@ import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 import TimeGrid from './TimeGrid'
 
 interface DayProps {
-  date: Date;
+  date: DateTime;
   events: unknown[];
   backgroundEvents: unknown[];
   resources?: unknown[];
   step?: number;
   timeslots?: number;
-  range?: Date[];
-  min?: Date;
-  max?: Date;
+  range?: DateTime[];
+  min?: DateTime;
+  max?: DateTime;
   getNow: (...args: unknown[]) => unknown;
-  scrollToTime?: Date;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
   showMultiDayTimes?: boolean;
   rtl?: boolean;
@@ -61,9 +63,9 @@ class Day extends React.Component<DayProps> {
     let {
       date,
       localizer,
-      min = localizer.startOf(new Date(), 'day'),
-      max = localizer.endOf(new Date(), 'day'),
-      scrollToTime = localizer.startOf(new Date(), 'day'),
+      min = DateTime.now().startOf('day'),
+      max = DateTime.now().endOf('day'),
+      scrollToTime = DateTime.now().startOf('day'),
       enableAutoScroll = true,
       ...props
     } = this.props

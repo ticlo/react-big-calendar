@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { DateTime } from 'luxon'
 import clsx from 'clsx'
 import getHeight from 'dom-helpers/height'
 import qsa from 'dom-helpers/querySelectorAll'
@@ -11,7 +12,7 @@ import ScrollableWeekWrapper from './ScrollableWeekWrapper'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
 
 interface DateContentRowProps {
-  date?: Date;
+  date?: DateTime;
   events: unknown[];
   range: unknown[];
   rtl?: boolean;

@@ -4482,6 +4482,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "@types/luxon@npm:3.4.2"
+  checksum: d835467de3daf7e17ba78b50bb5a14efd94272439ca067990d71332a54b311544459c69623eddd243b511b28d70194c9591a9ee8cf9c038962c965f991affd7e
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^4.0.0":
   version: 4.0.4
   resolution: "@types/mdast@npm:4.0.4"
@@ -15405,6 +15412,7 @@ __metadata:
     "@storybook/react-vite": "npm:^8.1.5"
     "@storybook/react-webpack5": "npm:8.1.5"
     "@storybook/theming": "npm:^8.1.5"
+    "@types/luxon": "npm:^3.4.2"
     autoprefixer: "npm:^10.4.13"
     babel-plugin-transform-react-remove-prop-types: "npm:^0.4.24"
     babel-plugin-transform-rename-import: "npm:^2.3.0"

@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import * as animationFrame from 'dom-helpers/animationFrame';
 import memoize from 'memoize-one';
@@ -13,7 +12,6 @@ import { views } from './utils/constants';
 import { inRange, sortEvents } from './utils/eventLevels';
 import { notify } from './utils/helpers';
 import Resources from './utils/Resources';
-import { DayLayoutAlgorithmPropType } from './utils/propTypes';
 export default class TimeGrid extends Component {
     constructor(props) {
         super(props);
@@ -204,53 +202,6 @@ export default class TimeGrid extends Component {
     };
     memoizedResources = memoize((resources, accessors) => Resources(resources, accessors));
 }
-TimeGrid.propTypes = {
-    events: PropTypes.array.isRequired,
-    backgroundEvents: PropTypes.array.isRequired,
-    resources: PropTypes.array,
-    step: PropTypes.number,
-    timeslots: PropTypes.number,
-    range: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    min: PropTypes.instanceOf(Date).isRequired,
-    max: PropTypes.instanceOf(Date).isRequired,
-    getNow: PropTypes.func.isRequired,
-    scrollToTime: PropTypes.instanceOf(Date).isRequired,
-    enableAutoScroll: PropTypes.bool,
-    showMultiDayTimes: PropTypes.bool,
-    rtl: PropTypes.bool,
-    resizable: PropTypes.bool,
-    width: PropTypes.number,
-    accessors: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    localizer: PropTypes.object.isRequired,
-    allDayMaxRows: PropTypes.number,
-    selected: PropTypes.object,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    longPressThreshold: PropTypes.number,
-    onNavigate: PropTypes.func,
-    onSelectSlot: PropTypes.func,
-    onSelectEnd: PropTypes.func,
-    onSelectStart: PropTypes.func,
-    onSelectEvent: PropTypes.func,
-    onShowMore: PropTypes.func,
-    onDoubleClickEvent: PropTypes.func,
-    onKeyPressEvent: PropTypes.func,
-    onDrillDown: PropTypes.func,
-    getDrilldownView: PropTypes.func.isRequired,
-    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
-    showAllEvents: PropTypes.bool,
-    doShowMoreDrillDown: PropTypes.bool,
-    popup: PropTypes.bool,
-    handleDragStart: PropTypes.func,
-    popupOffset: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.shape({
-            x: PropTypes.number,
-            y: PropTypes.number,
-        }),
-    ]),
-};
 TimeGrid.defaultProps = {
     step: 30,
     timeslots: 2,

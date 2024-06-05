@@ -1,5 +1,4 @@
 import React, { createRef } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Selection, { getBoundsForNode, isEvent } from './Selection';
 import * as TimeSlotUtils from './utils/TimeSlots';
@@ -8,7 +7,6 @@ import { notify } from './utils/helpers';
 import * as DayEventLayout from './utils/DayEventLayout';
 import TimeSlotGroup from './TimeSlotGroup';
 import TimeGridEvent from './TimeGridEvent';
-import { DayLayoutAlgorithmPropType } from './utils/propTypes';
 import DayColumnWrapper from './DayColumnWrapper';
 class DayColumn extends React.Component {
     state = { selecting: false, timeIndicatorPosition: null };
@@ -247,38 +245,6 @@ class DayColumn extends React.Component {
         notify(this.props.onKeyPressEvent, args);
     };
 }
-DayColumn.propTypes = {
-    events: PropTypes.array.isRequired,
-    backgroundEvents: PropTypes.array.isRequired,
-    step: PropTypes.number.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
-    min: PropTypes.instanceOf(Date).isRequired,
-    max: PropTypes.instanceOf(Date).isRequired,
-    getNow: PropTypes.func.isRequired,
-    isNow: PropTypes.bool,
-    rtl: PropTypes.bool,
-    resizable: PropTypes.bool,
-    accessors: PropTypes.object.isRequired,
-    components: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    localizer: PropTypes.object.isRequired,
-    showMultiDayTimes: PropTypes.bool,
-    culture: PropTypes.string,
-    timeslots: PropTypes.number,
-    selected: PropTypes.object,
-    selectable: PropTypes.oneOf([true, false, 'ignoreEvents']),
-    eventOffset: PropTypes.number,
-    longPressThreshold: PropTypes.number,
-    onSelecting: PropTypes.func,
-    onSelectSlot: PropTypes.func.isRequired,
-    onSelectEvent: PropTypes.func.isRequired,
-    onDoubleClickEvent: PropTypes.func.isRequired,
-    onKeyPressEvent: PropTypes.func,
-    className: PropTypes.string,
-    dragThroughEvents: PropTypes.bool,
-    resource: PropTypes.any,
-    dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
-};
 DayColumn.defaultProps = {
     dragThroughEvents: true,
     timeslots: 2,
