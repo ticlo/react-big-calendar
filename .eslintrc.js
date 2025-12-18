@@ -6,8 +6,8 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  extends: [ 'prettier', 'plugin:storybook/recommended'],
-  plugins: ['react-hooks'],
+  extends: ['prettier', 'plugin:storybook/recommended'],
+  plugins: ['react-hooks', 'import'],
   env: {
     node: true,
     browser: true,

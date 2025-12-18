@@ -1,2 +1,9 @@
-import NoopWrapper from './NoopWrapper';
-export default NoopWrapper;
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _NoopWrapper = _interopRequireDefault(require("./NoopWrapper"));
+var _default = exports.default = _NoopWrapper.default;

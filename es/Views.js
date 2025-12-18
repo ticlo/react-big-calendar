@@ -1,12 +1,16 @@
-import { views } from './utils/constants';
-import Month from './Month';
-import Day from './Day';
-import Week from './Week';
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
+var _constants = require("./utils/constants");
+var _Month = _interopRequireDefault(require("./Month"));
+var _Day = _interopRequireDefault(require("./Day"));
+var _Week = _interopRequireDefault(require("./Week"));
 // import WorkWeek from './WorkWeek'
-const VIEWS = {
-    [views.MONTH]: Month,
-    [views.WEEK]: Week,
-    //  [views.WORK_WEEK]: WorkWeek,
-    [views.DAY]: Day,
-};
-export default VIEWS;
+
+var VIEWS = (0, _defineProperty2.default)((0, _defineProperty2.default)((0, _defineProperty2.default)({}, _constants.views.MONTH, _Month.default), _constants.views.WEEK, _Week.default), _constants.views.DAY, _Day.default);
+var _default = exports.default = VIEWS;

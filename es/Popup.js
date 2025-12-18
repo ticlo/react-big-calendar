@@ -1,68 +1,128 @@
-import React, { useLayoutEffect } from 'react';
-import PropTypes from 'prop-types';
-import getOffset from 'dom-helpers/offset';
-import useClickOutside from './hooks/useClickOutside';
-import EventCell from './EventCell';
-import { isSelected } from './utils/selection';
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard").default;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _react = _interopRequireWildcard(require("react"));
+var _offset = _interopRequireDefault(require("dom-helpers/offset"));
+var _useClickOutside = _interopRequireDefault(require("./hooks/useClickOutside"));
+var _EventCell = _interopRequireDefault(require("./EventCell"));
+var _selection = require("./utils/selection");
 /**
  * Changes to react-overlays cause issue with auto positioning,
  * so we need to manually calculate the position of the popper,
  * and constrain it to the Month container.
  */
-function getPosition({ target, offset, container, box }) {
-    const { top, left, width, height } = getOffset(target);
-    const { top: cTop, left: cLeft, width: cWidth, height: cHeight, } = getOffset(container);
-    const { width: bWidth, height: bHeight } = getOffset(box);
-    const viewBottom = cTop + cHeight;
-    const viewRight = cLeft + cWidth;
-    const bottom = top + bHeight;
-    const right = left + bWidth;
-    const { x, y } = offset;
-    const topOffset = bottom > viewBottom ? top - bHeight - y : top + y + height;
-    const leftOffset = right > viewRight ? left + x - bWidth + width : left + x;
-    return {
-        topOffset,
-        leftOffset,
-    };
+function getPosition(_ref) {
+  var target = _ref.target,
+    offset = _ref.offset,
+    container = _ref.container,
+    box = _ref.box;
+  var _getOffset = (0, _offset.default)(target),
+    top = _getOffset.top,
+    left = _getOffset.left,
+    width = _getOffset.width,
+    height = _getOffset.height;
+  var _getOffset2 = (0, _offset.default)(container),
+    cTop = _getOffset2.top,
+    cLeft = _getOffset2.left,
+    cWidth = _getOffset2.width,
+    cHeight = _getOffset2.height;
+  var _getOffset3 = (0, _offset.default)(box),
+    bWidth = _getOffset3.width,
+    bHeight = _getOffset3.height;
+  var viewBottom = cTop + cHeight;
+  var viewRight = cLeft + cWidth;
+  var bottom = top + bHeight;
+  var right = left + bWidth;
+  var x = offset.x,
+    y = offset.y;
+  var topOffset = bottom > viewBottom ? top - bHeight - y : top + y + height;
+  var leftOffset = right > viewRight ? left + x - bWidth + width : left + x;
+  return {
+    topOffset: topOffset,
+    leftOffset: leftOffset
+  };
 }
-function Pop({ containerRef, accessors, getters, selected, components, localizer, position, show, events, slotStart, slotEnd, onSelect, onDoubleClick, onKeyPress, handleDragStart, popperRef, target, offset, }) {
-    useClickOutside({ ref: popperRef, callback: show });
-    useLayoutEffect(() => {
-        const { topOffset, leftOffset } = getPosition({
-            target,
-            offset,
-            container: containerRef.current,
-            box: popperRef.current,
-        });
-        popperRef.current.style.top = `${topOffset}px`;
-        popperRef.current.style.left = `${leftOffset}px`;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [offset.x, offset.y, target]);
-    const { width } = position;
-    const style = {
-        minWidth: width + width / 2,
-    };
-    return (React.createElement("div", { style: style, className: "rbc-overlay", ref: popperRef },
-        React.createElement("div", { className: "rbc-overlay-header" }, localizer.format(slotStart, 'dayHeaderFormat')),
-        events.map((event, idx) => (React.createElement(EventCell, { key: idx, type: "popup", localizer: localizer, event: event, getters: getters, onSelect: onSelect, accessors: accessors, components: components, onDoubleClick: onDoubleClick, onKeyPress: onKeyPress, continuesPrior: localizer.lt(accessors.end(event), slotStart, 'day'), continuesAfter: localizer.gte(accessors.start(event), slotEnd, 'day'), slotStart: slotStart, slotEnd: slotEnd, selected: isSelected(event, selected), draggable: true, onDragStart: () => handleDragStart(event), onDragEnd: () => show() })))));
+function Pop(_ref2) {
+  var containerRef = _ref2.containerRef,
+    accessors = _ref2.accessors,
+    getters = _ref2.getters,
+    selected = _ref2.selected,
+    components = _ref2.components,
+    localizer = _ref2.localizer,
+    position = _ref2.position,
+    show = _ref2.show,
+    events = _ref2.events,
+    slotStart = _ref2.slotStart,
+    slotEnd = _ref2.slotEnd,
+    onSelect = _ref2.onSelect,
+    onDoubleClick = _ref2.onDoubleClick,
+    onKeyPress = _ref2.onKeyPress,
+    handleDragStart = _ref2.handleDragStart,
+    popperRef = _ref2.popperRef,
+    target = _ref2.target,
+    offset = _ref2.offset;
+  (0, _useClickOutside.default)({
+    ref: popperRef,
+    callback: show
+  });
+  (0, _react.useLayoutEffect)(function () {
+    var _getPosition = getPosition({
+        target: target,
+        offset: offset,
+        container: containerRef.current,
+        box: popperRef.current
+      }),
+      topOffset = _getPosition.topOffset,
+      leftOffset = _getPosition.leftOffset;
+    popperRef.current.style.top = "".concat(topOffset, "px");
+    popperRef.current.style.left = "".concat(leftOffset, "px");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset.x, offset.y, target]);
+  var width = position.width;
+  var style = {
+    minWidth: width + width / 2
+  };
+  return /*#__PURE__*/_react.default.createElement("div", {
+    style: style,
+    className: "rbc-overlay",
+    ref: popperRef
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "rbc-overlay-header"
+  }, localizer.format(slotStart, 'dayHeaderFormat')), events.map(function (event, idx) {
+    return /*#__PURE__*/_react.default.createElement(_EventCell.default, {
+      key: idx,
+      type: "popup",
+      localizer: localizer,
+      event: event,
+      getters: getters,
+      onSelect: onSelect,
+      accessors: accessors,
+      components: components,
+      onDoubleClick: onDoubleClick,
+      onKeyPress: onKeyPress,
+      continuesPrior: localizer.lt(accessors.end(event), slotStart, 'day'),
+      continuesAfter: localizer.gte(accessors.start(event), slotEnd, 'day'),
+      slotStart: slotStart,
+      slotEnd: slotEnd,
+      selected: (0, _selection.isSelected)(event, selected),
+      draggable: true,
+      onDragStart: function onDragStart() {
+        return handleDragStart(event);
+      },
+      onDragEnd: function onDragEnd() {
+        return show();
+      }
+    });
+  }));
 }
-const Popup = React.forwardRef((props, ref) => (React.createElement(Pop, { ...props, popperRef: ref })));
-Popup.propTypes = {
-    accessors: PropTypes.object.isRequired,
-    getters: PropTypes.object.isRequired,
-    selected: PropTypes.object,
-    components: PropTypes.object.isRequired,
-    localizer: PropTypes.object.isRequired,
-    position: PropTypes.object.isRequired,
-    show: PropTypes.func.isRequired,
-    events: PropTypes.array.isRequired,
-    slotStart: PropTypes.instanceOf(Date).isRequired,
-    slotEnd: PropTypes.instanceOf(Date),
-    onSelect: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    handleDragStart: PropTypes.func,
-    style: PropTypes.object,
-    offset: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
-};
-export default Popup;
+var Popup = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
+  return /*#__PURE__*/_react.default.createElement(Pop, Object.assign({}, props, {
+    popperRef: ref
+  }));
+});
+var _default = exports.default = Popup;

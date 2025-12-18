@@ -24,10 +24,10 @@
     "full calendar"
   ],
   "scripts": {
-    "build-es": "cross-env NODE_ENV=production babel src --out-dir es",
+    "build-es": "cross-env NODE_ENV=production babel src --out-dir es --extensions \".ts,.tsx,.js,.jsx\"",
     "build-storybook": "storybook build",
-    "lint": "NODE_ENV=development eslint src test",
-    "prettier": "prettier '**/*js' '!lib/**' --write ",
+    "lint": "NODE_ENV=development eslint src --ext .ts,.tsx,.js,.jsx",
+    "prettier": "prettier \"src/**/*.{js,jsx,ts,tsx}\" --write ",
     "storybook": "storybook dev -p 9002"
   },
   "peerDependencies": {
@@ -111,5 +111,5 @@
     "prop-types": "^15.8.1",
     "react-overlays": "^5.2.1"
   },
-  "packageManager": "yarn@4.0.1"
+  "packageManager": "pnpm@9.0.0"
 }

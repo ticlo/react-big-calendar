@@ -1,13 +1,19 @@
-export let navigate = {
-    PREVIOUS: 'PREV',
-    NEXT: 'NEXT',
-    TODAY: 'TODAY',
-    DATE: 'DATE',
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.views = exports.navigate = void 0;
+var navigate = exports.navigate = {
+  PREVIOUS: 'PREV',
+  NEXT: 'NEXT',
+  TODAY: 'TODAY',
+  DATE: 'DATE'
 };
-export let views = {
-    MONTH: 'month',
-    WEEK: 'week',
-    WORK_WEEK: 'work_week',
-    DAY: 'day',
-    AGENDA: 'agenda',
+var views = exports.views = {
+  MONTH: 'month',
+  WEEK: 'week',
+  WORK_WEEK: 'work_week',
+  DAY: 'day',
+  AGENDA: 'agenda'
 };

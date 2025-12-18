@@ -1,9 +1,19 @@
-import PropTypes from 'prop-types';
-import { views as Views } from './constants';
-let viewNames = Object.keys(Views).map((k) => Views[k]);
-export let accessor = PropTypes.oneOfType([PropTypes.string, PropTypes.func]);
-export let dateFormat = PropTypes.any;
-export let dateRangeFormat = PropTypes.func;
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.views = exports.dateRangeFormat = exports.dateFormat = exports.accessor = exports.DayLayoutAlgorithmPropType = void 0;
+var _propTypes = _interopRequireDefault(require("prop-types"));
+var _constants = require("./constants");
+var viewNames = Object.keys(_constants.views).map(function (k) {
+  return _constants.views[k];
+});
+var accessor = exports.accessor = _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.func]);
+var dateFormat = exports.dateFormat = _propTypes.default.any;
+var dateRangeFormat = exports.dateRangeFormat = _propTypes.default.func;
+
 /**
  * accepts either an array of builtin view names:
  *
@@ -21,19 +31,16 @@ export let dateRangeFormat = PropTypes.func;
  * }}
  * ```
  */
-export let views = PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.oneOf(viewNames)),
-    PropTypes.objectOf((prop, key, ...args) => {
-        let isBuiltinView = viewNames.indexOf(key) !== -1 && typeof prop[key] === 'boolean';
-        if (isBuiltinView) {
-            return null;
-        }
-        else {
-            return PropTypes.elementType(prop, key, ...args);
-        }
-    }),
-]);
-export const DayLayoutAlgorithmPropType = PropTypes.oneOfType([
-    PropTypes.oneOf(['overlap', 'no-overlap']),
-    PropTypes.func,
-]);
+
+var views = exports.views = _propTypes.default.oneOfType([_propTypes.default.arrayOf(_propTypes.default.oneOf(viewNames)), _propTypes.default.objectOf(function (prop, key) {
+  var isBuiltinView = viewNames.indexOf(key) !== -1 && typeof prop[key] === 'boolean';
+  if (isBuiltinView) {
+    return null;
+  } else {
+    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      args[_key - 2] = arguments[_key];
+    }
+    return _propTypes.default.elementType.apply(_propTypes.default, [prop, key].concat(args));
+  }
+})]);
+var DayLayoutAlgorithmPropType = exports.DayLayoutAlgorithmPropType = _propTypes.default.oneOfType([_propTypes.default.oneOf(['overlap', 'no-overlap']), _propTypes.default.func]);
