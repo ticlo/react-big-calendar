@@ -189,7 +189,7 @@ var TimeGridHeader = /*#__PURE__*/function (_React$Component) {
           onSelect: _this3.props.onSelectEvent,
           onShowMore: _this3.props.onShowMore,
           onDoubleClick: _this3.props.onDoubleClickEvent,
-          onKeyDown: _this3.props.onKeyPressEvent,
+          onKeyPress: _this3.props.onKeyPressEvent,
           onSelectSlot: _this3.props.onSelectSlot,
           longPressThreshold: _this3.props.longPressThreshold,
           resizable: resizable

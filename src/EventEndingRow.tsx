@@ -9,9 +9,18 @@ let eventsInSlot = (segments, slot) =>
   segments.filter((seg) => isSegmentInSlot(seg, slot)).map((seg) => seg.event)
 
 interface EventEndingRowProps {
-  segments?: unknown[];
+  segments?: any[];
   slots?: number;
-  onShowMore?: (...args: unknown[]) => unknown;
+  onShowMore?: (...args: any[]) => any;
+  slotMetrics: any;
+  localizer: any;
+  accessors: any;
+  getters: any;
+  components: any;
+  selected?: any;
+  onSelect?: (...args: any[]) => any;
+  onDoubleClick?: (...args: any[]) => any;
+  onKeyPress?: (...args: any[]) => any;
 }
 
 class EventEndingRow extends React.Component<EventEndingRowProps> {
@@ -46,7 +55,7 @@ class EventEndingRow extends React.Component<EventEndingRowProps> {
           row.push(EventRowMixin.renderSpan(slots, gap, key + '_gap'))
         }
 
-        row.push(EventRowMixin.renderSpan(slots, span, key, content))
+        row.push(EventRowMixin.renderSpan(slots, span, key, content as any))
 
         lastEnd = current = right + 1
       } else {
@@ -59,7 +68,7 @@ class EventEndingRow extends React.Component<EventEndingRowProps> {
             slots,
             1,
             key,
-            this.renderShowMore(segments, current)
+            (this as any).renderShowMore(segments, current)
           )
         )
         lastEnd = current = current + 1
@@ -105,7 +114,7 @@ class EventEndingRow extends React.Component<EventEndingRowProps> {
   }
 }
 
-EventEndingRow.defaultProps = {
+;(EventEndingRow as any).defaultProps = {
   ...EventRowMixin.defaultProps,
 }
 

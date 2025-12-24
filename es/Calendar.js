@@ -50,13 +50,10 @@ function isValidView(view, _ref) {
   return names.indexOf(view) !== -1;
 }
 var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
-  function Calendar() {
+  function Calendar(_props) {
     var _this;
     (0, _classCallCheck2.default)(this, Calendar);
-    for (var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++) {
-      _args[_key] = arguments[_key];
-    }
-    _this = (0, _callSuper2.default)(this, Calendar, [].concat(_args));
+    _this = (0, _callSuper2.default)(this, Calendar, [_props]);
     _this.getViews = function () {
       var views = _this.props.views;
       if (Array.isArray(views)) {
@@ -135,23 +132,14 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
       var views = _this.getViews();
       _this.handleRangeChange(_this.props.date || _this.props.getNow(), views[view], view);
     };
-    _this.handleSelectEvent = function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-      (0, _helpers.notify)(_this.props.onSelectEvent, args);
+    _this.handleSelectEvent = function (event, e) {
+      (0, _helpers.notify)(_this.props.onSelectEvent, [event, e]);
     };
-    _this.handleDoubleClickEvent = function () {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-      (0, _helpers.notify)(_this.props.onDoubleClickEvent, args);
+    _this.handleDoubleClickEvent = function (event, e) {
+      (0, _helpers.notify)(_this.props.onDoubleClickEvent, [event, e]);
     };
-    _this.handleKeyPressEvent = function () {
-      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
-      }
-      (0, _helpers.notify)(_this.props.onKeyPressEvent, args);
+    _this.handleKeyPressEvent = function (event, e) {
+      (0, _helpers.notify)(_this.props.onKeyPressEvent, [event, e]);
     };
     _this.handleSelectSlot = function (slotInfo) {
       (0, _helpers.notify)(_this.props.onSelectSlot, slotInfo);
@@ -159,7 +147,7 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
     _this.handleDrillDown = function (date, view) {
       var onDrillDown = _this.props.onDrillDown;
       if (onDrillDown) {
-        onDrillDown(date, view, _this.drilldownView);
+        onDrillDown(date, view, _this.props.drilldownView);
         return;
       }
       if (view) _this.handleViewChange(view);
@@ -193,14 +181,18 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
         _2 = _this$props4.messages,
         _3 = _this$props4.culture,
         props = (0, _objectWithoutProperties2.default)(_this$props4, _excluded2);
-      current = current || getNow();
+      var _ref2 = this.state.context,
+        accessors = _ref2.accessors,
+        components = _ref2.components,
+        getters = _ref2.getters,
+        localizer = _ref2.localizer,
+        viewNames = _ref2.viewNames;
+      var getNowWithZone = function getNowWithZone() {
+        var now = getNow();
+        return localizer.timezone ? localizer.add(now, 0, 'minutes') : now;
+      };
+      current = current || getNowWithZone();
       var View = this.getView();
-      var _this$state$context = this.state.context,
-        accessors = _this$state$context.accessors,
-        components = _this$state$context.components,
-        getters = _this$state$context.getters,
-        localizer = _this$state$context.localizer,
-        viewNames = _this$state$context.viewNames;
       var CalToolbar = components.toolbar || _Toolbar.default;
       var label = View.title(current, {
         localizer: localizer,
@@ -221,7 +213,7 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
         events: events,
         backgroundEvents: backgroundEvents,
         date: current,
-        getNow: getNow,
+        getNow: getNowWithZone,
         length: length,
         localizer: localizer,
         getters: getters,
@@ -248,35 +240,44 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "getContext",
-    value: function getContext(_ref2) {
-      var startAccessor = _ref2.startAccessor,
-        endAccessor = _ref2.endAccessor,
-        allDayAccessor = _ref2.allDayAccessor,
-        tooltipAccessor = _ref2.tooltipAccessor,
-        titleAccessor = _ref2.titleAccessor,
-        resourceAccessor = _ref2.resourceAccessor,
-        resourceIdAccessor = _ref2.resourceIdAccessor,
-        resourceTitleAccessor = _ref2.resourceTitleAccessor,
-        eventPropGetter = _ref2.eventPropGetter,
-        backgroundEventPropGetter = _ref2.backgroundEventPropGetter,
-        slotPropGetter = _ref2.slotPropGetter,
-        slotGroupPropGetter = _ref2.slotGroupPropGetter,
-        dayPropGetter = _ref2.dayPropGetter,
-        view = _ref2.view,
-        views = _ref2.views,
-        localizer = _ref2.localizer,
-        culture = _ref2.culture,
-        _ref2$messages = _ref2.messages,
-        messages = _ref2$messages === void 0 ? {} : _ref2$messages,
-        _ref2$components = _ref2.components,
-        components = _ref2$components === void 0 ? {} : _ref2$components,
-        _ref2$formats = _ref2.formats,
-        formats = _ref2$formats === void 0 ? {} : _ref2$formats;
+    value: function getContext(_ref3) {
+      var _ref3$startAccessor = _ref3.startAccessor,
+        startAccessor = _ref3$startAccessor === void 0 ? 'start' : _ref3$startAccessor,
+        _ref3$endAccessor = _ref3.endAccessor,
+        endAccessor = _ref3$endAccessor === void 0 ? 'end' : _ref3$endAccessor,
+        _ref3$allDayAccessor = _ref3.allDayAccessor,
+        allDayAccessor = _ref3$allDayAccessor === void 0 ? 'allDay' : _ref3$allDayAccessor,
+        _ref3$tooltipAccessor = _ref3.tooltipAccessor,
+        tooltipAccessor = _ref3$tooltipAccessor === void 0 ? 'title' : _ref3$tooltipAccessor,
+        _ref3$titleAccessor = _ref3.titleAccessor,
+        titleAccessor = _ref3$titleAccessor === void 0 ? 'title' : _ref3$titleAccessor,
+        _ref3$resourceAccesso = _ref3.resourceAccessor,
+        resourceAccessor = _ref3$resourceAccesso === void 0 ? 'resourceId' : _ref3$resourceAccesso,
+        _ref3$resourceIdAcces = _ref3.resourceIdAccessor,
+        resourceIdAccessor = _ref3$resourceIdAcces === void 0 ? 'id' : _ref3$resourceIdAcces,
+        _ref3$resourceTitleAc = _ref3.resourceTitleAccessor,
+        resourceTitleAccessor = _ref3$resourceTitleAc === void 0 ? 'title' : _ref3$resourceTitleAc,
+        eventPropGetter = _ref3.eventPropGetter,
+        backgroundEventPropGetter = _ref3.backgroundEventPropGetter,
+        slotPropGetter = _ref3.slotPropGetter,
+        slotGroupPropGetter = _ref3.slotGroupPropGetter,
+        dayPropGetter = _ref3.dayPropGetter,
+        view = _ref3.view,
+        views = _ref3.views,
+        localizer = _ref3.localizer,
+        culture = _ref3.culture,
+        _ref3$messages = _ref3.messages,
+        messages = _ref3$messages === void 0 ? {} : _ref3$messages,
+        _ref3$components = _ref3.components,
+        components = _ref3$components === void 0 ? {} : _ref3$components,
+        _ref3$formats = _ref3.formats,
+        formats = _ref3$formats === void 0 ? {} : _ref3$formats,
+        timezone = _ref3.timezone;
       var names = viewNames(views);
       var msgs = (0, _messages.default)(messages);
       return {
         viewNames: names,
-        localizer: (0, _localizer.mergeWithDefaults)(localizer, culture, formats, msgs),
+        localizer: (0, _localizer.mergeWithDefaults)(localizer, culture, formats, msgs, timezone),
         getters: {
           eventProp: function eventProp() {
             return eventPropGetter && eventPropGetter.apply(void 0, arguments) || {};

@@ -1,38 +1,26 @@
-import React, { Fragment, useState, useEffect, useMemo } from 'react'
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
-import moment from 'moment'
-import 'moment-timezone'
+import React, { Fragment, useState, useMemo } from 'react'
+import { Calendar, luxonLocalizer, Views } from '../../../src'
+import { DateTime } from 'luxon'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 import TimezoneSelect from '../TimezoneSelect'
 
-const defaultTZ = moment.tz.guess()
-const defaultDateStr = '2015-4-13'
-
-function getDate(str, momentObj) {
-  return momentObj(str, 'YYYY-MM-DD').toDate()
-}
+const defaultTZ = DateTime.local().zoneName
+const defaultDateStr = '2015-04-13'
 
 export default function Timezones() {
   const [timezone, setTimezone] = useState(defaultTZ)
 
   const { defaultDate, getNow, localizer, myEvents, scrollToTime } =
     useMemo(() => {
-      moment.tz.setDefault(timezone)
       return {
-        defaultDate: getDate(defaultDateStr, moment),
-        getNow: () => moment().toDate(),
-        localizer: momentLocalizer(moment),
+        defaultDate: DateTime.fromISO(defaultDateStr).toJSDate(),
+        getNow: () => DateTime.now().setZone(timezone).toJSDate(),
+        localizer: luxonLocalizer(DateTime, { timezone }),
         myEvents: [...events],
-        scrollToTime: moment().toDate(),
+        scrollToTime: DateTime.now().setZone(timezone).toJSDate(),
       }
     }, [timezone])
-
-  useEffect(() => {
-    return () => {
-      moment.tz.setDefault() // reset to browser TZ on unmount
-    }
-  }, [])
 
   return (
     <Fragment>

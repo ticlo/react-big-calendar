@@ -1,9 +1,9 @@
 import React from 'react'
-import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../src'
-import mdx from './showMultiDayTimes.mdx'
+import { DateTime } from 'luxon'
+import { Calendar, Views, luxonLocalizer } from '../../src'
+// import mdx from '...' 
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -17,7 +17,7 @@ export default {
   },
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }
@@ -56,6 +56,6 @@ ShowMultiDayTimes.args = {
     },
   ],
   localizer: mLocalizer,
-  max: moment().endOf('day').add(-1, 'hours').toDate(),
+  max: DateTime.now().endOf('day').minus({ hours: 1 }).toJSDate(),
   showMultiDayTimes: true,
 }

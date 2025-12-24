@@ -1,7 +1,7 @@
 import React from 'react'
 import { Calendar } from '../../src'
 import { accessorStoryArgs } from './storyDefaults'
-import mdx from './allDayAccessor.mdx'
+// import mdx from '...' 
 
 export default {
   title: 'props',
@@ -13,7 +13,7 @@ export default {
   },
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }

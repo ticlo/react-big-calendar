@@ -1,6 +1,6 @@
 import React from 'react'
-import moment from 'moment'
-import { Calendar, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, luxonLocalizer } from '../../src'
 import Rendering from './exampleCode/rendering'
 
 export default {
@@ -13,7 +13,7 @@ export default {
   },
 }
 
-const localizer = momentLocalizer(moment)
+const localizer = luxonLocalizer(DateTime)
 
 export function Example8() {
   return <Rendering localizer={localizer} />

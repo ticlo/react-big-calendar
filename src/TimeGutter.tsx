@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { DateLocalizer } from './localizer'
 import clsx from 'clsx'
 
 import { getSlotMetrics } from './utils/TimeSlots'
@@ -23,14 +24,16 @@ function adjustForDST({ min, max, localizer }) {
 interface TimeGutterProps {
   min: Date;
   max: Date;
+  date?: Date;
   timeslots: number;
   step: number;
   getNow: (...args: unknown[]) => unknown;
-  components: object;
-  getters?: object;
-  localizer: object;
+  components: any;
+  getters?: any;
+  localizer: DateLocalizer;
   resource?: string;
   gutterRef?: any;
+  className?: string;
 }
 
 const TimeGutter = ({
@@ -49,7 +52,7 @@ const TimeGutter = ({
   const { start, end } = useMemo(
     () => adjustForDST({ min, max, localizer }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [min?.toISOString(), max?.toISOString(), localizer]
+    [+min, +max, localizer]
   )
   const [slotMetrics, setSlotMetrics] = useState(
     getSlotMetrics({
@@ -77,7 +80,7 @@ const TimeGutter = ({
      * We don't want this to fire when slotMetrics is updated as it would recursively bomb
      */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [start?.toISOString(), end?.toISOString(), timeslots, step])
+  }, [+start, +end, timeslots, step])
 
   const renderSlot = useCallback(
     (value, idx) => {
@@ -113,6 +116,6 @@ const TimeGutter = ({
   )
 }
 
-export default React.forwardRef((props, ref) => (
+export default React.forwardRef<HTMLDivElement, any>((props, ref) => (
   <TimeGutter gutterRef={ref} {...props} />
 ))

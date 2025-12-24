@@ -19,10 +19,10 @@ function getSlotMetrics(_ref2) {
     timeslots = _ref2.timeslots,
     localizer = _ref2.localizer;
   var key = getKey({
-    start: start,
-    end: end,
+    min: start,
+    max: end,
     step: step,
-    timeslots: timeslots,
+    slots: timeslots,
     localizer: localizer
   });
 

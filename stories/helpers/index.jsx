@@ -20,12 +20,10 @@ const BaseCalendar = uncontrollable(ControledCalendar, {
   selected: 'onSelectEvent',
 })
 
-// uncomment for timezone testing in Storybook
-//moment.tz.setDefault('America/Los_Angeles')
-
 const localizer = luxonLocalizer(DateTime)
 
-export const date = (...args) => moment(...args).toDate()
+export const date = (year, month, day, hour = 0, minute = 0, second = 0) =>
+  DateTime.fromObject({ year, month, day, hour, minute, second }).toJSDate()
 
 export const Calendar = (props) => (
   <div style={{ height: 650 }}>
@@ -50,21 +48,21 @@ export const DragableCalendar = (props) => {
 export const events = [
   {
     title: 'test',
-    start: now.plus({hour:19}).toJSDate(),
-    end:now.plus({hour:20}).toJSDate(),
+    start: now.plus({ hour: 19 }).toJSDate(),
+    end: now.plus({ hour: 20 }).toJSDate(),
     allDay: false,
   },
   {
     title: 'test larger',
-    start: now.startOf('day').plus({hour:5}).toJSDate(),
-    end:now.startOf('day').plus({hour:10}).toJSDate(),
+    start: now.startOf('day').plus({ hour: 5 }).toJSDate(),
+    end: now.startOf('day').plus({ hour: 10 }).toJSDate(),
     allDay: false,
   },
 
   {
     title: 'test larger',
-    start: now.startOf('day').plus({hour:15}).toJSDate(),
-    end:now.startOf('day').plus({hour:23}).toJSDate(),
+    start: now.startOf('day').plus({ hour: 15 }).toJSDate(),
+    end: now.startOf('day').plus({ hour: 23 }).toJSDate(),
     allDay: false,
   },
   {
@@ -76,13 +74,13 @@ export const events = [
   {
     title: 'test 2 days',
     start: now.startOf('day').toJSDate(),
-    end: now.startOf('day').plus({day:2}).toJSDate(),
+    end: now.startOf('day').plus({ day: 2 }).toJSDate(),
     allDay: true,
   },
   {
     title: 'test multi-day',
     start: now.startOf('day').toJSDate(),
-    end: now.startOf('day').plus({day:3}).toJSDate(),
+    end: now.startOf('day').plus({ day: 3 }).toJSDate(),
     allDay: false,
   },
 ]
@@ -90,8 +88,8 @@ export const events = [
 export const backgroundEvents = [
   {
     title: 'test background event',
-    start: now.startOf('day').plus({hour:2}).toJSDate(),
-    end:now.startOf('day').plus({hour:12}).toJSDate(),
+    start: now.startOf('day').plus({ hour: 2 }).toJSDate(),
+    end: now.startOf('day').plus({ hour: 12 }).toJSDate(),
     allDay: false,
   },
 ]
@@ -99,22 +97,22 @@ export const backgroundEvents = [
 export const resourceEvents = [
   {
     title: 'event 1',
-    start: now.startOf('day').plus({hour:1}).toJSDate(),
-    end:now.startOf('day').plus({hour:2}).toJSDate(),
+    start: now.startOf('day').plus({ hour: 1 }).toJSDate(),
+    end: now.startOf('day').plus({ hour: 2 }).toJSDate(),
     allDay: false,
     resourceId: 1,
   },
   {
     title: 'event 2',
-    start: now.startOf('day').plus({hour:3}).toJSDate(),
-    end:now.startOf('day').plus({hour:4}).toJSDate(),
+    start: now.startOf('day').plus({ hour: 3 }).toJSDate(),
+    end: now.startOf('day').plus({ hour: 4 }).toJSDate(),
     allDay: false,
     resourceId: [1, 2],
   },
   {
     title: 'event 3',
-    start: now.startOf('day').plus({hour:1}).toJSDate(),
-    end:now.startOf('day').plus({hour:3}).toJSDate(),
+    start: now.startOf('day').plus({ hour: 1 }).toJSDate(),
+    end: now.startOf('day').plus({ hour: 3 }).toJSDate(),
     allDay: false,
     resourceId: 3,
   },

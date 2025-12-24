@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Calendar, DateLocalizer } from 'react-big-calendar'
+import { Calendar, DateLocalizer } from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 

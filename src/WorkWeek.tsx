@@ -1,20 +1,13 @@
 import React from 'react'
+import { DateLocalizer } from './localizer'
 
 import Week from './Week'
 import TimeGrid from './TimeGrid'
 
-function workWeekRange(date, options) {
-  let r = Week.range(date, options).filter(
-    (d) => [6, 0].indexOf(d.getDay()) === -1
-  )
-  r.start = r[0];
-  r.end = r.at(-1).setHours(23, 59, 59, 999);
-  return r;
-}
 
 interface WorkWeekProps {
   date: Date;
-  localizer?: any;
+  localizer: DateLocalizer;
   min?: Date;
   max?: Date;
   scrollToTime?: Date;
@@ -22,6 +15,27 @@ interface WorkWeekProps {
 }
 
 class WorkWeek extends React.Component<WorkWeekProps> {
+  static defaultProps = TimeGrid.defaultProps
+
+  static range = (date: any, options: { localizer: DateLocalizer }) => {
+    const { localizer } = options
+    let r: any = Week.range(date, options).filter((d: any) => {
+      const weekday = localizer.add(d, 0, 'minutes').weekday
+      return [6, 7].indexOf(weekday) === -1
+    })
+    r.start = r[0]
+    r.end = localizer.endOf(r[r.length - 1], 'day')
+    return r
+  }
+
+  static navigate = Week.navigate
+
+  static title = (date: any, { localizer }: { localizer: DateLocalizer }) => {
+    let [start, ...rest] = WorkWeek.range(date, { localizer })
+
+    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat')
+  }
+
   render() {
     /**
      * This allows us to default min, max, and scrollToTime
@@ -31,16 +45,16 @@ class WorkWeek extends React.Component<WorkWeekProps> {
     let {
       date,
       localizer,
-      min = localizer.startOf(new Date(), 'day'),
-      max = localizer.endOf(new Date(), 'day'),
-      scrollToTime = localizer.startOf(new Date(), 'day'),
+      min = localizer.startOf(undefined, 'day'),
+      max = localizer.endOf(undefined, 'day'),
+      scrollToTime = localizer.startOf(undefined, 'day'),
       enableAutoScroll = true,
       ...props
     } = this.props
-    let range = workWeekRange(date, this.props)
+    let range = WorkWeek.range(date, this.props)
     return (
       <TimeGrid
-        {...props}
+        {...(props as any)}
         range={range}
         eventOffset={15}
         localizer={localizer}
@@ -53,16 +67,5 @@ class WorkWeek extends React.Component<WorkWeekProps> {
   }
 }
 
-WorkWeek.defaultProps = TimeGrid.defaultProps
-
-WorkWeek.range = workWeekRange
-
-WorkWeek.navigate = Week.navigate
-
-WorkWeek.title = (date, { localizer }) => {
-  let [start, ...rest] = workWeekRange(date, { localizer })
-
-  return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat')
-}
 
 export default WorkWeek

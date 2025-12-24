@@ -1,6 +1,6 @@
 import overlap from './overlap'
 
-function getMaxIdxDFS(node, maxIdx, visited) {
+function getMaxIdxDFS(node: any, maxIdx: number, visited: any[]) {
   for (let i = 0; i < node.friends.length; ++i) {
     if (visited.indexOf(node.friends[i]) > -1) continue
     maxIdx = maxIdx > node.friends[i].idx ? maxIdx : node.friends[i].idx
@@ -17,8 +17,8 @@ export default function ({
   minimumStartDifference,
   slotMetrics,
   accessors,
-}) {
-  const styledEvents = overlap({
+}: any) {
+  const styledEvents: any[] = overlap({
     events,
     minimumStartDifference,
     slotMetrics,

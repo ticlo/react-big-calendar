@@ -1,14 +1,16 @@
 import React from 'react'
 import clsx from 'clsx'
 import { navigate } from './utils/constants'
+import { DateLocalizer } from './localizer'
 
 interface ToolbarProps {
   view: string;
   views: string[];
   label: React.ReactNode;
-  localizer?: object;
-  onNavigate: (...args: unknown[]) => unknown;
-  onView: (...args: unknown[]) => unknown;
+  localizer: DateLocalizer;
+  onNavigate: (action: string, newDate?: any) => void;
+  onView: (view: string) => void;
+  date: any;
 }
 
 class Toolbar extends React.Component<ToolbarProps> {

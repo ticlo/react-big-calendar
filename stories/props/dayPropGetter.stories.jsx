@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
-import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, Views, luxonLocalizer } from '../../src'
 import demoEvents from '../resources/events'
-import mdx from './dayPropGetter.mdx'
+// import mdx from '...' 
 import '../resources/propGetter.scss'
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
   component: Calendar,
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }
@@ -20,10 +20,10 @@ export default {
 export function DayPropGetter() {
   const dayPropGetter = useCallback(
     (date) => ({
-      ...(moment(date).day() === 2 && {
+      ...(DateTime.fromJSDate(date).weekday === 2 && {
         className: 'tuesday',
       }),
-      ...(moment(date).day() === 4 && {
+      ...(DateTime.fromJSDate(date).weekday === 4 && {
         style: {
           backgroundColor: 'darkgreen',
           color: 'white',

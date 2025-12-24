@@ -2,19 +2,15 @@ import React from 'react'
 import {
   Calendar,
   Views,
-  momentLocalizer,
   globalizeLocalizer,
   luxonLocalizer,
-} from 'react-big-calendar'
+} from '../src'
 
-import moment from 'moment'
-import 'moment-timezone/builds/moment-timezone-with-data-1970-2030'
-import globalize from 'globalize'
 import { DateTime } from 'luxon'
+import globalize from 'globalize'
 
 const localizers = {
   globalize: globalizeLocalizer(globalize),
-  moment: momentLocalizer(moment),
   luxon: luxonLocalizer(DateTime, { firstDayOfWeek: 7 }),
 }
 
@@ -32,7 +28,7 @@ export default {
   ],
 }
 
-const Template = ({ localizer: loc = 'moment', ...args }) => {
+const Template = ({ localizer: loc = 'luxon', ...args }) => {
   const localizer = localizers[loc]
   return <DraggableCalendar localizer={localizer} {...args} />
 }
@@ -40,7 +36,7 @@ const Template = ({ localizer: loc = 'moment', ...args }) => {
 export const DaylightSavingsStarts = Template.bind({})
 DaylightSavingsStarts.argTypes = {
   localizer: {
-    options: ['globalize', 'moment', 'luxon'],
+    options: ['globalize', 'luxon'],
     control: {
       type: 'select',
     },
@@ -48,9 +44,9 @@ DaylightSavingsStarts.argTypes = {
 }
 DaylightSavingsStarts.args = {
   defaultView: Views.DAY,
-  localizer: 'moment',
-  min: moment('12:00am', 'h:mma').toDate(),
-  max: moment('11:59pm', 'h:mma').toDate(),
+  localizer: 'luxon',
+  min: DateTime.fromObject({ hour: 0, minute: 0 }).toJSDate(),
+  max: DateTime.fromObject({ hour: 23, minute: 59 }).toJSDate(),
   events: [
     {
       title: 'on DST',
@@ -77,7 +73,7 @@ DaylightSavingsStarts.args = {
 export const DaylightSavingsStartsAfter2Am = Template.bind({})
 DaylightSavingsStartsAfter2Am.argTypes = {
   localizer: {
-    options: ['globalize', 'moment', 'luxon'],
+    options: ['globalize', 'luxon'],
     control: {
       type: 'select',
     },
@@ -85,9 +81,9 @@ DaylightSavingsStartsAfter2Am.argTypes = {
 }
 DaylightSavingsStartsAfter2Am.args = {
   defaultView: Views.DAY,
-  localizer: 'moment',
-  min: moment('3:00am', 'h:mma').toDate(),
-  max: moment('11:59pm', 'h:mma').toDate(),
+  localizer: 'luxon',
+  min: DateTime.fromObject({ hour: 3, minute: 0 }).toJSDate(),
+  max: DateTime.fromObject({ hour: 23, minute: 59 }).toJSDate(),
   events: [
     {
       title: 'on DST',
@@ -114,7 +110,7 @@ DaylightSavingsStartsAfter2Am.args = {
 export const DaylightSavingsEnds = Template.bind({})
 DaylightSavingsEnds.argTypes = {
   localizer: {
-    options: ['globalize', 'moment', 'luxon'],
+    options: ['globalize', 'luxon'],
     control: {
       type: 'select',
     },
@@ -122,9 +118,9 @@ DaylightSavingsEnds.argTypes = {
 }
 DaylightSavingsEnds.args = {
   defaultView: Views.DAY,
-  localizer: 'moment',
-  min: moment('12:00am', 'h:mma').toDate(),
-  max: moment('11:59pm', 'h:mma').toDate(),
+  localizer: 'luxon',
+  min: DateTime.fromObject({ hour: 0, minute: 0 }).toJSDate(),
+  max: DateTime.fromObject({ hour: 23, minute: 59 }).toJSDate(),
   events: [
     {
       title: 'on DST',
@@ -151,7 +147,7 @@ DaylightSavingsEnds.args = {
 export const DaylightSavingsEndsAfter2Am = Template.bind({})
 DaylightSavingsEndsAfter2Am.argTypes = {
   localizer: {
-    options: ['globalize', 'moment', 'luxon'],
+    options: ['globalize', 'luxon'],
     control: {
       type: 'select',
     },
@@ -159,9 +155,9 @@ DaylightSavingsEndsAfter2Am.argTypes = {
 }
 DaylightSavingsEndsAfter2Am.args = {
   defaultView: Views.DAY,
-  localizer: 'moment',
-  min: moment('3:00am', 'h:mma').toDate(),
-  max: moment('11:59pm', 'h:mma').toDate(),
+  localizer: 'luxon',
+  min: DateTime.fromObject({ hour: 3, minute: 0 }).toJSDate(),
+  max: DateTime.fromObject({ hour: 23, minute: 59 }).toJSDate(),
   events: [
     {
       title: 'After DST',

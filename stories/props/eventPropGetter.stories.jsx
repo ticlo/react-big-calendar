@@ -1,18 +1,18 @@
 import React, { useCallback } from 'react'
-import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, Views, luxonLocalizer } from '../../src'
 import demoEvents from '../resources/events'
-import mdx from './eventPropGetter.mdx'
+// import mdx from '...' 
 import '../resources/propGetter.scss'
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
   component: Calendar,
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }
@@ -25,7 +25,7 @@ export function EventPropGetter() {
           backgroundColor: '#000',
         },
       }),
-      ...(moment(start).hour() < 12 && {
+      ...(DateTime.fromJSDate(start).hour < 12 && {
         className: 'powderBlue',
       }),
       ...(event.title.includes('Meeting') && {

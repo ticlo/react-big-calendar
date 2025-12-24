@@ -1,14 +1,14 @@
 import React, { Fragment, useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Calendar, DateLocalizer } from 'react-big-calendar'
+import { Calendar, DateLocalizer } from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 import Layout from 'react-tackle-box/Layout'
 
-require('globalize/lib/cultures/globalize.culture.en-GB')
-require('globalize/lib/cultures/globalize.culture.es')
-require('globalize/lib/cultures/globalize.culture.fr')
-require('globalize/lib/cultures/globalize.culture.ar-AE')
+import 'globalize/lib/cultures/globalize.culture.en-GB'
+import 'globalize/lib/cultures/globalize.culture.es'
+import 'globalize/lib/cultures/globalize.culture.fr'
+import 'globalize/lib/cultures/globalize.culture.ar-AE'
 
 const cultures = ['en', 'en-GB', 'es', 'fr', 'ar-AE']
 const lang = {

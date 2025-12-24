@@ -8,6 +8,6 @@ const DayColumnWrapper = ({ children, className, style, innerRef }) => {
   )
 }
 
-export default React.forwardRef((props, ref) => (
+export default React.forwardRef<HTMLDivElement, any>((props, ref) => (
   <DayColumnWrapper {...props} innerRef={ref} />
 ))

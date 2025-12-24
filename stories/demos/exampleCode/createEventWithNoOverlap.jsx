@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useMemo, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Calendar, Views, DateLocalizer } from 'react-big-calendar'
+import { Calendar, Views, DateLocalizer } from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 

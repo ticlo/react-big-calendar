@@ -10,7 +10,7 @@ export function getSlotMetrics({
   timeslots,
   localizer,
 }) {
-  const key = getKey({ start, end, step, timeslots, localizer })
+  const key = getKey({ min: start, max: end, step, slots: timeslots, localizer })
 
   // DST differences are handled inside the localizer
   const totalMin = 1 + localizer.getTotalMin(start, end)
@@ -72,10 +72,10 @@ export function getSlotMetrics({
       // because after each update, a new slots array will be created.
       let next =
         slots[
-          Math.min(
-            slots.findIndex((s) => s === slot || localizer.eq(s, slot)) + 1,
-            slots.length - 1
-          )
+        Math.min(
+          slots.findIndex((s) => s === slot || localizer.eq(s, slot)) + 1,
+          slots.length - 1
+        )
         ]
       // in the case of the last slot we won't a long enough range so manually get it
       if (localizer.eq(next, slot)) next = localizer.add(slot, step, 'minutes')

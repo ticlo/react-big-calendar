@@ -30,9 +30,13 @@
       "@types"
     ],
     "paths": {
-      "resize-observer-polyfill": ["./@types/resize-observer-polyfill"]
+      "resize-observer-polyfill": [
+        "./@types/resize-observer-polyfill"
+      ]
     },
-    "outDir": "es"
+    "outDir": "es",
+    "declaration": true,
+    "emitDeclarationOnly": true
   },
   "compileOnSave": true,
   "include": [

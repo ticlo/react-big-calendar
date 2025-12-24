@@ -13,6 +13,17 @@ var Event = /*#__PURE__*/function () {
     var accessors = _ref.accessors,
       slotMetrics = _ref.slotMetrics;
     (0, _classCallCheck2.default)(this, Event);
+    this.start = void 0;
+    this.end = void 0;
+    this.startMs = void 0;
+    this.endMs = void 0;
+    this.top = void 0;
+    this.height = void 0;
+    this.data = void 0;
+    this.rows = void 0;
+    this.container = void 0;
+    this.row = void 0;
+    this.leaves = void 0;
     var _slotMetrics$getRange = slotMetrics.getRange(accessors.start(data), accessors.end(data)),
       start = _slotMetrics$getRange.start,
       startDate = _slotMetrics$getRange.startDate,

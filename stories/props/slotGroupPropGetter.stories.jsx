@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
-import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, Views, luxonLocalizer } from '../../src'
 import demoEvents from '../resources/events'
-import mdx from './slotGroupPropGetter.mdx'
+// import mdx from '...' 
 import '../resources/propGetter.scss'
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
   component: Calendar,
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }

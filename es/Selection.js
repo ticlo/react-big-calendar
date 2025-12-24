@@ -67,6 +67,28 @@ var Selection = /*#__PURE__*/function () {
       _ref3$validContainers = _ref3.validContainers,
       validContainers = _ref3$validContainers === void 0 ? [] : _ref3$validContainers;
     (0, _classCallCheck2.default)(this, Selection);
+    this.container = void 0;
+    this.globalMouse = void 0;
+    this.longPressThreshold = void 0;
+    this.validContainers = void 0;
+    this.selecting = void 0;
+    this.isDetached = void 0;
+    this._initialEvent = void 0;
+    this._listeners = void 0;
+    this._removeTouchMoveWindowListener = void 0;
+    this._removeKeyDownListener = void 0;
+    this._removeKeyUpListener = void 0;
+    this._removeDropFromOutsideListener = void 0;
+    this._removeDragOverFromOutsideListener = void 0;
+    this._onInitialEventListener = void 0;
+    this._initialEventData = void 0;
+    this._selectRect = void 0;
+    this._lastClickData = void 0;
+    this._removeInitialEventListener = void 0;
+    this._removeEndListener = void 0;
+    this._onEscListener = void 0;
+    this._removeMoveListener = void 0;
+    this.ctrl = void 0;
     this._initialEvent = null;
     this.selecting = false;
     this.isDetached = false;
@@ -361,7 +383,7 @@ var Selection = /*#__PURE__*/function () {
         pageY = _getEventCoordinates4.pageY,
         clientX = _getEventCoordinates4.clientX,
         clientY = _getEventCoordinates4.clientY;
-      var now = new Date().getTime();
+      var now = Date.now();
       if (this._lastClickData && now - this._lastClickData.timestamp < clickInterval) {
         // Double click event
         this._lastClickData = null;

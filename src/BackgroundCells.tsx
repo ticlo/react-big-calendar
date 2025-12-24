@@ -7,24 +7,34 @@ import Selection, { getBoundsForNode, isEvent, isShowMore } from './Selection'
 
 interface BackgroundCellsProps {
   date?: Date;
-  getNow: (...args: unknown[]) => unknown;
-  getters: object;
-  components: object;
-  container?: (...args: unknown[]) => unknown;
-  dayPropGetter?: (...args: unknown[]) => unknown;
+  getNow: (...args: any[]) => any;
+  getters: any;
+  components: any;
+  container?: (...args: any[]) => any;
+  dayPropGetter?: (...args: any[]) => any;
   selectable?: true | false | "ignoreEvents";
   longPressThreshold?: number;
-  onSelectSlot: (...args: unknown[]) => unknown;
-  onSelectEnd?: (...args: unknown[]) => unknown;
-  onSelectStart?: (...args: unknown[]) => unknown;
-  range?: Date[];
+  onSelectSlot: (args: { start: any; end: any; action: any; bounds: any; box: any; resourceId: any }) => any;
+  onSelectEnd?: (...args: any[]) => any;
+  onSelectStart?: (...args: any[]) => any;
+  range?: any[];
   rtl?: boolean;
   type?: string;
   resourceId?: any;
   localizer?: any;
 }
 
-class BackgroundCells extends React.Component<BackgroundCellsProps> {
+interface BackgroundCellsState {
+  selecting: boolean;
+  startIdx?: number;
+  endIdx?: number;
+}
+
+class BackgroundCells extends React.Component<BackgroundCellsProps, BackgroundCellsState> {
+  private containerRef: React.RefObject<HTMLDivElement>
+  private _selector: any
+  private _initial: any
+
   constructor(props, context) {
     super(props, context)
 
@@ -107,6 +117,7 @@ class BackgroundCells extends React.Component<BackgroundCellsProps> {
             endIdx: currentCell,
             action: actionType,
             box: point,
+            bounds: null,
           })
         }
       }
@@ -156,7 +167,14 @@ class BackgroundCells extends React.Component<BackgroundCellsProps> {
     )
 
     selector.on('select', (bounds) => {
-      this._selectSlot({ ...this.state, action: 'select', bounds })
+      const { startIdx, endIdx } = this.state
+      this._selectSlot({
+        startIdx: startIdx!,
+        endIdx: endIdx!,
+        action: 'select',
+        bounds,
+        box: null,
+      })
       this._initial = {}
       this.setState({ selecting: false })
       notify(this.props.onSelectEnd, [this.state])

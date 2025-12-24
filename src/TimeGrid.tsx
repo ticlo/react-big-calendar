@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import { DateLocalizer } from './localizer'
 import clsx from 'clsx'
 import * as animationFrame from 'dom-helpers/animationFrame'
 import memoize from 'memoize-one'
@@ -17,25 +18,26 @@ import Resources from './utils/Resources'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
 
 interface TimeGridProps {
-  events: unknown[];
-  backgroundEvents: unknown[];
-  resources?: unknown[];
+  events: any[];
+  backgroundEvents: any[];
+  resources?: any[];
   step?: number;
   timeslots?: number;
-  range?: Date[];
-  min: Date;
-  max: Date;
-  getNow: (...args: unknown[]) => unknown;
-  scrollToTime: Date;
+  range?: any[];
+  min: any;
+  max: any;
+  getNow: (...args: any[]) => any;
+  scrollToTime: any;
   enableAutoScroll?: boolean;
   showMultiDayTimes?: boolean;
   rtl?: boolean;
   resizable?: boolean;
   width?: number;
-  accessors: object;
-  components: object;
-  getters: object;
-  localizer: object;
+  accessors: any;
+  components: any;
+  getters: any;
+  localizer: DateLocalizer;
+  eventOffset?: number;
   allDayMaxRows?: number;
   selected?: object;
   selectable?: true | false | "ignoreEvents";
@@ -61,7 +63,24 @@ interface TimeGridProps {
   };
 }
 
-export default class TimeGrid extends Component<TimeGridProps> {
+export default class TimeGrid extends Component<TimeGridProps, any> {
+  static defaultProps = {
+    step: 30,
+    timeslots: 2,
+  }
+
+  private containerRef: React.RefObject<HTMLDivElement>
+  private contentRef: React.RefObject<HTMLDivElement>
+  private gutterRef: React.RefObject<any>
+  private scrollRef: React.RefObject<any>
+  private _scrollRatio: number | null
+  private _updatingOverflow: boolean
+  private rafHandle: any
+  private measureGutterAnimationFrameRequest: any
+  private slots: number
+  private _selectTimer: any
+  private _pendingSelection: any[]
+
   constructor(props) {
     super(props)
 
@@ -115,20 +134,20 @@ export default class TimeGrid extends Component<TimeGridProps> {
     this.applyScroll()
   }
 
-  handleKeyPressEvent = (...args) => {
+  handleKeyPressEvent = (event: any, e: React.SyntheticEvent) => {
     this.clearSelection()
-    notify(this.props.onKeyPressEvent, args)
+    notify(this.props.onKeyPressEvent, [event, e])
   }
 
-  handleSelectEvent = (...args) => {
+  handleSelectEvent = (event: any, e: React.SyntheticEvent) => {
     //cancel any pending selections so only the event click goes through.
     this.clearSelection()
-    notify(this.props.onSelectEvent, args)
+    notify(this.props.onSelectEvent, [event, e])
   }
 
-  handleDoubleClickEvent = (...args) => {
+  handleDoubleClickEvent = (event: any, e: React.SyntheticEvent) => {
     this.clearSelection()
-    notify(this.props.onDoubleClickEvent, args)
+    notify(this.props.onDoubleClickEvent, [event, e])
   }
 
   handleShowMore = (events, date, cell, slot, target) => {
@@ -162,9 +181,8 @@ export default class TimeGrid extends Component<TimeGridProps> {
   handleSelectAllDaySlot = (slots, slotInfo) => {
     const { onSelectSlot } = this.props
 
-    const start = new Date(slots[0])
-    const end = new Date(slots[slots.length - 1])
-    end.setDate(slots[slots.length - 1].getDate() + 1)
+    const start = slots[0]
+    const end = this.props.localizer.add(slots[slots.length - 1], 1, 'day')
 
     notify(onSelectSlot, {
       slots,
@@ -207,7 +225,7 @@ export default class TimeGrid extends Component<TimeGridProps> {
 
         return (
           <DayColumn
-            {...this.props}
+            {...(this.props as any)}
             localizer={localizer}
             min={localizer.merge(date, min)}
             max={localizer.merge(date, max)}
@@ -327,6 +345,7 @@ export default class TimeGrid extends Component<TimeGridProps> {
           onScroll={this.handleScroll}
         >
           <TimeGutter
+            {...(this.props as any)}
             date={start}
             ref={this.gutterRef}
             localizer={localizer}
@@ -455,9 +474,4 @@ export default class TimeGrid extends Component<TimeGridProps> {
   memoizedResources = memoize((resources, accessors) =>
     Resources(resources, accessors)
   )
-}
-
-TimeGrid.defaultProps = {
-  step: 30,
-  timeslots: 2,
 }

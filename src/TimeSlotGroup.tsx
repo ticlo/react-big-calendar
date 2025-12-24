@@ -4,11 +4,11 @@ import React, { Component } from 'react'
 import BackgroundWrapper from './BackgroundWrapper'
 
 interface TimeSlotGroupProps {
-  renderSlot?: (...args: unknown[]) => unknown;
-  group: unknown[];
+  renderSlot?: (...args: any[]) => any;
+  group: any[];
   resource?: any;
-  components?: object;
-  getters?: object;
+  components?: any;
+  getters?: any;
 }
 
 export default class TimeSlotGroup extends Component<TimeSlotGroupProps> {

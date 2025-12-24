@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useMemo } from 'react'
-import { Calendar, luxonLocalizer, Views } from 'react-big-calendar'
+import { Calendar, luxonLocalizer, Views } from '../../../src'
 import { DateTime, Settings } from 'luxon'
 import DemoLink from '../../DemoLink.component'
 

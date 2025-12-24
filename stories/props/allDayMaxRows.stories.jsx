@@ -1,10 +1,10 @@
 import React from 'react'
-import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, Views, luxonLocalizer } from '../../src'
 import allDayEvents from '../resources/allDayEvents'
-import mdx from './allDayMaxRows.mdx'
+// import mdx from '...' 
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -16,7 +16,7 @@ export default {
   },
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }

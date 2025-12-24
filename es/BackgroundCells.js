@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
 var _callSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/callSuper"));
@@ -21,6 +20,9 @@ var BackgroundCells = /*#__PURE__*/function (_React$Component) {
     var _this;
     (0, _classCallCheck2.default)(this, BackgroundCells);
     _this = (0, _callSuper2.default)(this, BackgroundCells, [props, context]);
+    _this.containerRef = void 0;
+    _this._selector = void 0;
+    _this._initial = void 0;
     _this.state = {
       selecting: false
     };
@@ -97,7 +99,8 @@ var BackgroundCells = /*#__PURE__*/function (_React$Component) {
               startIdx: currentCell,
               endIdx: currentCell,
               action: actionType,
-              box: point
+              box: point,
+              bounds: null
             });
           }
         }
@@ -142,10 +145,16 @@ var BackgroundCells = /*#__PURE__*/function (_React$Component) {
         return selectorClicksHandler(point, 'doubleClick');
       });
       selector.on('select', function (bounds) {
-        _this2._selectSlot((0, _objectSpread2.default)((0, _objectSpread2.default)({}, _this2.state), {}, {
+        var _this2$state = _this2.state,
+          startIdx = _this2$state.startIdx,
+          endIdx = _this2$state.endIdx;
+        _this2._selectSlot({
+          startIdx: startIdx,
+          endIdx: endIdx,
           action: 'select',
-          bounds: bounds
-        }));
+          bounds: bounds,
+          box: null
+        });
         _this2._initial = {};
         _this2.setState({
           selecting: false

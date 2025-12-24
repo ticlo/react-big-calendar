@@ -1,6 +1,8 @@
 import clsx from 'clsx'
 import scrollbarSize from 'dom-helpers/scrollbarSize'
 import React from 'react'
+import { DateLocalizer } from './localizer'
+import { Accessors, Components, Getters } from './types'
 
 import DateContentRow from './DateContentRow'
 import Header from './Header'
@@ -8,29 +10,30 @@ import ResourceHeader from './ResourceHeader'
 import { notify } from './utils/helpers'
 
 interface TimeGridHeaderProps {
-  range: unknown[];
-  events: unknown[];
-  resources?: object;
-  getNow: (...args: unknown[]) => unknown;
+  range: any[];
+  events: any[];
+  backgroundEvents?: any[];
+  resources?: any;
+  getNow: (...args: any[]) => any;
   isOverflowing?: boolean;
   rtl?: boolean;
   resizable?: boolean;
   width?: number;
-  localizer: object;
-  accessors: object;
-  components: object;
-  getters: object;
-  selected?: object;
-  selectable?: true | false | "ignoreEvents";
+  localizer: DateLocalizer;
+  accessors: Accessors;
+  components: Components;
+  getters: Getters;
+  selected?: any;
+  selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   allDayMaxRows?: number;
-  onSelectSlot?: (...args: unknown[]) => unknown;
-  onSelectEvent?: (...args: unknown[]) => unknown;
-  onDoubleClickEvent?: (...args: unknown[]) => unknown;
-  onKeyPressEvent?: (...args: unknown[]) => unknown;
-  onDrillDown?: (...args: unknown[]) => unknown;
-  onShowMore?: (...args: unknown[]) => unknown;
-  getDrilldownView: (...args: unknown[]) => unknown;
+  onSelectSlot?: (...args: any[]) => any;
+  onSelectEvent?: (...args: any[]) => any;
+  onDoubleClickEvent?: (...args: any[]) => any;
+  onKeyPressEvent?: (...args: any[]) => any;
+  onDrillDown?: (...args: any[]) => any;
+  onShowMore?: (...args: any[]) => any;
+  getDrilldownView: (...args: any[]) => any;
   scrollRef?: any;
 }
 
@@ -216,7 +219,7 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
               onSelect={this.props.onSelectEvent}
               onShowMore={this.props.onShowMore}
               onDoubleClick={this.props.onDoubleClickEvent}
-              onKeyDown={this.props.onKeyPressEvent}
+              onKeyPress={this.props.onKeyPressEvent}
               onSelectSlot={this.props.onSelectSlot}
               longPressThreshold={this.props.longPressThreshold}
               resizable={resizable}

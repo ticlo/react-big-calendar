@@ -25,13 +25,25 @@ var _DayColumnWrapper = _interopRequireDefault(require("./DayColumnWrapper"));
 var _excluded = ["dayProp"],
   _excluded2 = ["eventContainerWrapper"];
 var DayColumn = /*#__PURE__*/function (_React$Component) {
-  function DayColumn() {
+  function DayColumn(props) {
     var _this;
     (0, _classCallCheck2.default)(this, DayColumn);
-    for (var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++) {
-      _args[_key] = arguments[_key];
-    }
-    _this = (0, _callSuper2.default)(this, DayColumn, [].concat(_args));
+    _this = (0, _callSuper2.default)(this, DayColumn, [props]);
+    _this.slotMetrics = void 0;
+    _this.containerRef = void 0;
+    _this._selectTimer = void 0;
+    _this._pendingSelection = void 0;
+    _this._resizeListener = void 0;
+    _this._scrollRatio = void 0;
+    _this._updatingOverflow = void 0;
+    _this._selectableDelete = void 0;
+    _this._selectRect = void 0;
+    _this._isTouch = void 0;
+    _this._initialEventData = void 0;
+    _this._lastClickData = void 0;
+    _this._selector = void 0;
+    _this._initialSlot = void 0;
+    _this._timeIndicatorTimeout = void 0;
     _this.state = {
       selecting: false,
       timeIndicatorPosition: null
@@ -120,7 +132,10 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
       });
       var maybeSelect = function maybeSelect(box) {
         var onSelecting = _this.props.onSelecting;
-        var current = _this.state || {};
+        var current = _this.state || {
+          selecting: false,
+          timeIndicatorPosition: null
+        };
         var state = selectionState(box);
         var start = state.startDate,
           end = state.endDate;
@@ -131,7 +146,7 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
             resourceId: _this.props.resource
           }) === false) return;
         }
-        if (_this.state.start !== state.start || _this.state.end !== state.end || _this.state.selecting !== state.selecting) {
+        if (_this.state.startDate !== state.startDate || _this.state.endDate !== state.endDate || _this.state.selecting !== state.selecting) {
           _this.setState(state);
         }
       };
@@ -162,7 +177,8 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
             startDate: startDate,
             endDate: endDate,
             action: actionType,
-            box: box
+            box: box,
+            bounds: null
           });
         }
         _this.setState({
@@ -183,10 +199,16 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
       });
       selector.on('select', function (bounds) {
         if (_this.state.selecting) {
-          _this._selectSlot((0, _objectSpread2.default)((0, _objectSpread2.default)({}, _this.state), {}, {
+          var _this$state = _this.state,
+            startDate = _this$state.startDate,
+            endDate = _this$state.endDate;
+          _this._selectSlot({
+            startDate: startDate,
+            endDate: endDate,
             action: 'select',
-            bounds: bounds
-          }));
+            bounds: bounds,
+            box: null
+          });
           _this.setState({
             selecting: false
           });
@@ -215,7 +237,7 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
         slots = [];
       while (_this.props.localizer.lte(current, endDate)) {
         slots.push(current);
-        current = new Date(+current + _this.props.step * 60 * 1000); // using Date ensures not to create an endless loop the day DST begins
+        current = _this.props.localizer.add(current, _this.props.step, 'minutes');
       }
       (0, _helpers.notify)(_this.props.onSelectSlot, {
         slots: slots,
@@ -228,20 +250,20 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
       });
     };
     _this._select = function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
       (0, _helpers.notify)(_this.props.onSelectEvent, args);
     };
     _this._doubleClick = function () {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
       }
       (0, _helpers.notify)(_this.props.onDoubleClickEvent, args);
     };
     _this._keyPress = function () {
-      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
+      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
       }
       (0, _helpers.notify)(_this.props.onKeyPressEvent, args);
     };
@@ -349,12 +371,12 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
         components = (0, _objectWithoutProperties2.default)(_this$props5$componen, _excluded2);
       this.slotMetrics = this.slotMetrics.update(this.props);
       var slotMetrics = this.slotMetrics;
-      var _this$state = this.state,
-        selecting = _this$state.selecting,
-        top = _this$state.top,
-        height = _this$state.height,
-        startDate = _this$state.startDate,
-        endDate = _this$state.endDate;
+      var _this$state2 = this.state,
+        selecting = _this$state2.selecting,
+        top = _this$state2.top,
+        height = _this$state2.height,
+        startDate = _this$state2.startDate,
+        endDate = _this$state2.endDate;
       var selectDates = {
         start: startDate,
         end: endDate
@@ -392,7 +414,8 @@ var DayColumn = /*#__PURE__*/function (_React$Component) {
         events: this.props.backgroundEvents,
         isBackgroundEvent: true
       }), this.renderEvents({
-        events: this.props.events
+        events: this.props.events,
+        isBackgroundEvent: false
       }))), selecting && /*#__PURE__*/_react.default.createElement("div", {
         className: "rbc-slot-selection",
         style: {

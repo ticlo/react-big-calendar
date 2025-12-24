@@ -121,9 +121,11 @@ interface PopupProps {
     x?: number;
     y?: number;
   };
+  containerRef?: any;
+  target?: any;
 }
 
-const Popup = React.forwardRef<HTMLElement, PopupProps>((props, ref) => (
+const Popup = React.forwardRef<any, any>((props, ref) => (
   <Pop {...props} popperRef={ref} />
 ))
 export default Popup

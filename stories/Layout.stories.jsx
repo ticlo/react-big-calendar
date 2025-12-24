@@ -1,7 +1,7 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import moment from 'moment'
+import { DateTime } from 'luxon'
 
 import { events, Calendar, Views, DragAndDropCalendar } from './helpers'
 import createEvents from './helpers/createEvents'
@@ -64,14 +64,14 @@ EventAtStartOfWeek.args = {
   events: [
     {
       title: 'has time',
-      start: moment(new Date(2016, 11, 4))
-        .add(1, 'days')
-        .subtract(5, 'hours')
-        .toDate(),
-      end: moment(new Date(2016, 11, 4))
-        .add(1, 'days')
-        .subtract(4, 'hours')
-        .toDate(),
+      start: DateTime.fromObject({ year: 2016, month: 12, day: 4 })
+        .plus({ days: 1 })
+        .minus({ hours: 5 })
+        .toJSDate(),
+      end: DateTime.fromObject({ year: 2016, month: 12, day: 4 })
+        .plus({ days: 1 })
+        .minus({ hours: 4 })
+        .toJSDate(),
     },
   ],
 }
@@ -82,14 +82,14 @@ EventAtEndOfWeek.args = {
   events: [
     {
       title: 'has time',
-      start: moment(new Date(2016, 11, 3))
-        .add(1, 'days')
-        .subtract(5, 'hours')
-        .toDate(),
-      end: moment(new Date(2016, 11, 3))
-        .add(1, 'days')
-        .subtract(4, 'hours')
-        .toDate(),
+      start: DateTime.fromObject({ year: 2016, month: 12, day: 3 })
+        .plus({ days: 1 })
+        .minus({ hours: 5 })
+        .toJSDate(),
+      end: DateTime.fromObject({ year: 2016, month: 12, day: 3 })
+        .plus({ days: 1 })
+        .minus({ hours: 4 })
+        .toJSDate(),
     },
   ],
 }
@@ -97,8 +97,8 @@ EventAtEndOfWeek.args = {
 export const EventsOnAConstrainedDayColumn = Template.bind({})
 EventsOnAConstrainedDayColumn.args = {
   defaultView: Views.DAY,
-  min: moment('8 am', 'h a').toDate(),
-  max: moment('5 pm', 'h a').toDate(),
+  min: DateTime.fromObject({ hour: 8 }).toJSDate(),
+  max: DateTime.fromObject({ hour: 17 }).toJSDate(),
   events,
 }
 

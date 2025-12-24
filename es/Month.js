@@ -33,13 +33,17 @@ var eventsForWeek = function eventsForWeek(evts, start, end, accessors, localize
   });
 };
 var MonthView = /*#__PURE__*/function (_React$Component) {
-  function MonthView() {
+  function MonthView(_props) {
     var _this;
     (0, _classCallCheck2.default)(this, MonthView);
-    for (var _len = arguments.length, _args = new Array(_len), _key = 0; _key < _len; _key++) {
-      _args[_key] = arguments[_key];
-    }
-    _this = (0, _callSuper2.default)(this, MonthView, [].concat(_args));
+    _this = (0, _callSuper2.default)(this, MonthView, [_props]);
+    _this.containerRef = void 0;
+    _this.slotRowRef = void 0;
+    _this._bgRows = void 0;
+    _this._pendingSelection = void 0;
+    _this._selectTimer = void 0;
+    _this._resizeListener = void 0;
+    _this._weekCount = void 0;
     _this.getContainer = function () {
       return _this.containerRef.current;
     };
@@ -132,22 +136,22 @@ var MonthView = /*#__PURE__*/function (_React$Component) {
     };
     _this.handleSelectEvent = function () {
       _this.clearSelection();
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
       (0, _helpers.notify)(_this.props.onSelectEvent, args);
     };
     _this.handleDoubleClickEvent = function () {
       _this.clearSelection();
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
       }
       (0, _helpers.notify)(_this.props.onDoubleClickEvent, args);
     };
     _this.handleKeyPressEvent = function () {
       _this.clearSelection();
-      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-        args[_key4] = arguments[_key4];
+      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
       }
       (0, _helpers.notify)(_this.props.onKeyPressEvent, args);
     };
@@ -197,7 +201,7 @@ var MonthView = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
       var running;
-      if (this.state.needLimitMeasure) this.measureRowLimit(this.props);
+      if (this.state.needLimitMeasure) this.measureRowLimit();
       window.addEventListener('resize', this._resizeListener = function () {
         if (!running) {
           animationFrame.request(function () {
@@ -212,7 +216,7 @@ var MonthView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (this.state.needLimitMeasure) this.measureRowLimit(this.props);
+      if (this.state.needLimitMeasure) this.measureRowLimit();
     }
   }, {
     key: "componentWillUnmount",
@@ -226,7 +230,8 @@ var MonthView = /*#__PURE__*/function (_React$Component) {
         date = _this$props4.date,
         localizer = _this$props4.localizer,
         className = _this$props4.className,
-        month = localizer.visibleDays(date, localizer),
+        culture = _this$props4.culture,
+        month = localizer.visibleDays(date, culture),
         weeks = (0, _chunk.default)(month, 7);
       this._weekCount = weeks.length;
       return /*#__PURE__*/_react.default.createElement("div", {
@@ -344,9 +349,8 @@ var MonthView = /*#__PURE__*/function (_React$Component) {
       slots.sort(function (a, b) {
         return +a - +b;
       });
-      var start = new Date(slots[0]);
-      var end = new Date(slots[slots.length - 1]);
-      end.setDate(slots[slots.length - 1].getDate() + 1);
+      var start = slots[0];
+      var end = this.props.localizer.add(slots[slots.length - 1], 1, 'day');
       (0, _helpers.notify)(this.props.onSelectSlot, {
         slots: slots,
         start: start,
@@ -374,6 +378,9 @@ var MonthView = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }(_react.default.Component);
+MonthView.range = void 0;
+MonthView.navigate = void 0;
+MonthView.title = void 0;
 MonthView.range = function (date, _ref3) {
   var localizer = _ref3.localizer;
   var start = localizer.firstVisibleDay(date, localizer);

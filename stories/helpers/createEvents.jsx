@@ -1,212 +1,218 @@
+import { DateTime } from 'luxon'
+
 export default function createEvents(idx = 0, date = new Date()) {
-  const y = date.getFullYear()
-  const m = date.getMonth()
-  const d = date.getDate()
+  const dt = DateTime.fromJSDate(date)
+  const y = dt.year
+  const m = dt.month
+  const d = dt.day
+
+  const dateGen = (hour, minute = 0) =>
+    DateTime.fromObject({ year: y, month: m, day: d, hour, minute }).toJSDate()
 
   const sets = [
     [
       {
         title: 'Event 1',
-        start: new Date(y, m, d, 10, 30, 0, 0),
-        end: new Date(y, m, d, 13, 30, 0, 0),
+        start: dateGen(10, 30),
+        end: dateGen(13, 30),
       },
       {
         title: 'Event 2',
-        start: new Date(y, m, d, 10, 30, 0, 0),
-        end: new Date(y, m, d, 13, 30, 0, 0),
+        start: dateGen(10, 30),
+        end: dateGen(13, 30),
       },
       {
         title: 'Event 3',
-        start: new Date(y, m, d, 10, 30, 0, 0),
-        end: new Date(y, m, d, 12, 30, 0, 0),
+        start: dateGen(10, 30),
+        end: dateGen(12, 30),
       },
       {
         title: 'Event 4',
-        start: new Date(y, m, d, 8, 30, 0, 0),
-        end: new Date(y, m, d, 18, 0, 0, 0),
+        start: dateGen(8, 30),
+        end: dateGen(18, 0),
       },
       {
         title: 'Event 5',
-        start: new Date(y, m, d, 15, 30, 0, 0),
-        end: new Date(y, m, d, 16, 0, 0, 0),
+        start: dateGen(15, 30),
+        end: dateGen(16, 0),
       },
       {
         title: 'Event 6',
-        start: new Date(y, m, d, 11, 0, 0, 0),
-        end: new Date(y, m, d, 12, 0, 0, 0),
+        start: dateGen(11, 0),
+        end: dateGen(12, 0),
       },
       {
         title: 'Event 7',
-        start: new Date(y, m, d, 1, 0, 0, 0),
-        end: new Date(y, m, d, 2, 0, 0, 0),
+        start: dateGen(1, 0),
+        end: dateGen(2, 0),
       },
     ],
     [
       {
         title: 'Event 1',
-        start: new Date(y, m, d, 9, 30, 0, 0),
-        end: new Date(y, m, d, 15, 30, 0, 0),
+        start: dateGen(9, 30),
+        end: dateGen(15, 30),
       },
       {
         title: 'Event 2',
-        start: new Date(y, m, d, 11, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(11, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 3',
-        start: new Date(y, m, d, 9, 30, 0, 0),
-        end: new Date(y, m, d, 11, 30, 0, 0),
+        start: dateGen(9, 30),
+        end: dateGen(11, 30),
       },
       {
         title: 'Event 4',
-        start: new Date(y, m, d, 9, 30, 0, 0),
-        end: new Date(y, m, d, 10, 30, 0, 0),
+        start: dateGen(9, 30),
+        end: dateGen(10, 30),
       },
       {
         title: 'Event 5',
-        start: new Date(y, m, d, 10, 0, 0, 0),
-        end: new Date(y, m, d, 11, 0, 0, 0),
+        start: dateGen(10, 0),
+        end: dateGen(11, 0),
       },
       {
         title: 'Event 6',
-        start: new Date(y, m, d, 10, 0, 0, 0),
-        end: new Date(y, m, d, 11, 0, 0, 0),
+        start: dateGen(10, 0),
+        end: dateGen(11, 0),
       },
       {
         title: 'Event 7',
-        start: new Date(y, m, d, 9, 30, 0, 0),
-        end: new Date(y, m, d, 10, 30, 0, 0),
+        start: dateGen(9, 30),
+        end: dateGen(10, 30),
       },
       {
         title: 'Event 8',
-        start: new Date(y, m, d, 9, 30, 0, 0),
-        end: new Date(y, m, d, 10, 30, 0, 0),
+        start: dateGen(9, 30),
+        end: dateGen(10, 30),
       },
       {
         title: 'Event 9',
-        start: new Date(y, m, d, 9, 30, 0, 0),
-        end: new Date(y, m, d, 10, 30, 0, 0),
+        start: dateGen(9, 30),
+        end: dateGen(10, 30),
       },
       {
         title: 'Event 10',
-        start: new Date(y, m, d, 10, 30, 0, 0),
-        end: new Date(y, m, d, 12, 30, 0, 0),
+        start: dateGen(10, 30),
+        end: dateGen(12, 30),
       },
       {
         title: 'Event 11',
-        start: new Date(y, m, d, 12, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(12, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 12',
-        start: new Date(y, m, d, 12, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(12, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 13',
-        start: new Date(y, m, d, 12, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(12, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 14',
-        start: new Date(y, m, d, 12, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(12, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 15',
-        start: new Date(y, m, d, 6, 30, 0, 0),
-        end: new Date(y, m, d, 8, 0, 0, 0),
+        start: dateGen(6, 30),
+        end: dateGen(8, 0),
       },
       {
         title: 'Event 16',
-        start: new Date(y, m, d, 16, 0, 0, 0),
-        end: new Date(y, m, d, 17, 30, 0, 0),
+        start: dateGen(16, 0),
+        end: dateGen(17, 30),
       },
     ],
     [
       {
         title: 'Event 1',
-        start: new Date(y, m, d, 2, 30, 0, 0),
-        end: new Date(y, m, d, 4, 30, 0, 0),
+        start: dateGen(2, 30),
+        end: dateGen(4, 30),
       },
       {
         title: 'Event 2',
-        start: new Date(y, m, d, 2, 30, 0, 0),
-        end: new Date(y, m, d, 3, 30, 0, 0),
+        start: dateGen(2, 30),
+        end: dateGen(3, 30),
       },
       {
         title: 'Event 3',
-        start: new Date(y, m, d, 3, 0, 0, 0),
-        end: new Date(y, m, d, 4, 0, 0, 0),
+        start: dateGen(3, 0),
+        end: dateGen(4, 0),
       },
     ],
     [
       {
         title: 'Event 1',
-        start: new Date(y, m, d, 6, 30, 0, 0),
-        end: new Date(y, m, d, 7, 0, 0, 0),
+        start: dateGen(6, 30),
+        end: dateGen(7, 0),
       },
       {
         title: 'Event 2',
-        start: new Date(y, m, d, 8, 0, 0, 0),
-        end: new Date(y, m, d, 17, 0, 0, 0),
+        start: dateGen(8, 0),
+        end: dateGen(17, 0),
       },
       {
         title: 'Event 3',
-        start: new Date(y, m, d, 8, 0, 0, 0),
-        end: new Date(y, m, d, 11, 0, 0, 0),
+        start: dateGen(8, 0),
+        end: dateGen(11, 0),
       },
       {
         title: 'Event 4',
-        start: new Date(y, m, d, 8, 0, 0, 0),
-        end: new Date(y, m, d, 12, 0, 0, 0),
+        start: dateGen(8, 0),
+        end: dateGen(12, 0),
       },
       {
         title: 'Event 5',
-        start: new Date(y, m, d, 10, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(10, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 6',
-        start: new Date(y, m, d, 10, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(10, 0),
+        end: dateGen(13, 0),
       },
       {
         title: 'Event 7',
-        start: new Date(y, m, d, 10, 0, 0, 0),
-        end: new Date(y, m, d, 13, 0, 0, 0),
+        start: dateGen(10, 0),
+        end: dateGen(13, 0),
       },
     ],
     [
       {
         title: 'Event 1',
-        start: new Date(y, m, d, 19, 0, 0, 0),
-        end: new Date(y, m, d, 20, 55, 0, 0),
+        start: dateGen(19, 0),
+        end: dateGen(20, 55),
       },
       {
         title: 'Event 2',
-        start: new Date(y, m, d, 19, 15, 0, 0),
-        end: new Date(y, m, d, 20, 15, 0, 0),
+        start: dateGen(19, 15),
+        end: dateGen(20, 15),
       },
       {
         title: 'Event 3',
-        start: new Date(y, m, d, 19, 45, 0, 0),
-        end: new Date(y, m, d, 22, 30, 0, 0),
+        start: dateGen(19, 45),
+        end: dateGen(22, 30),
       },
       {
         title: 'Event 4',
-        start: new Date(y, m, d, 20, 45, 0, 0),
-        end: new Date(y, m, d, 22, 5, 0, 0),
+        start: dateGen(20, 45),
+        end: dateGen(22, 5),
       },
       {
         title: 'Event 5',
-        start: new Date(y, m, d, 10, 0, 0, 0),
-        end: new Date(y, m, d, 11, 0, 0, 0),
+        start: dateGen(10, 0),
+        end: dateGen(11, 0),
       },
       {
         title: 'Event 6',
-        start: new Date(y, m, d, 10, 30, 0, 0),
-        end: new Date(y, m, d, 11, 30, 0, 0),
+        start: dateGen(10, 30),
+        end: dateGen(11, 30),
       },
     ],
   ]

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { DateLocalizer } from './localizer'
 import { Overlay } from 'react-overlays'
 import Popup from './Popup'
 
@@ -17,7 +18,7 @@ function CalOverlay({
   handleDragStart,
   onHide,
   overlayDisplay,
-}) {
+}: any) {
   const popperRef = useRef(null)
   if (!overlay.position) return null
 
@@ -64,6 +65,7 @@ function CalOverlay({
 }
 
 interface PopOverlayProps {
+  show?: boolean;
   popupOffset?: number | {
     x?: number;
     y?: number;
@@ -73,11 +75,12 @@ interface PopOverlayProps {
     events?: unknown[];
     date?: Date;
     end?: Date;
+    target?: any;
   };
-  accessors: object;
-  localizer: object;
-  components: object;
-  getters: object;
+  accessors: any;
+  localizer: DateLocalizer;
+  components: any;
+  getters: any;
   selected?: object;
   handleSelectEvent?: (...args: unknown[]) => unknown;
   handleDoubleClickEvent?: (...args: unknown[]) => unknown;

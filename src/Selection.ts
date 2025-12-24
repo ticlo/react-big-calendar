@@ -2,7 +2,7 @@ import contains from 'dom-helpers/contains'
 import closest from 'dom-helpers/closest'
 import listen from 'dom-helpers/listen'
 
-function addEventListener(type, handler, target = document) {
+function addEventListener(type, handler, target: any = document) {
   return listen(target, type, handler, { passive: false })
 }
 
@@ -45,8 +45,30 @@ function getEventCoordinates(e) {
 
 const clickTolerance = 5
 const clickInterval = 250
-
 class Selection {
+  container: any
+  globalMouse: boolean
+  longPressThreshold: number
+  validContainers: any[]
+  selecting: boolean
+  isDetached: boolean
+  _initialEvent: any
+  _listeners: any
+  _removeTouchMoveWindowListener: any
+  _removeKeyDownListener: any
+  _removeKeyUpListener: any
+  _removeDropFromOutsideListener: any
+  _removeDragOverFromOutsideListener: any
+  _onInitialEventListener: any
+  _initialEventData: any
+  _selectRect: any
+  _lastClickData: any
+  _removeInitialEventListener: any
+  _removeEndListener: any
+  _onEscListener: any
+  _removeMoveListener: any
+  ctrl: boolean
+
   constructor(
     node,
     { global = false, longPressThreshold = 250, validContainers = [] } = {}
@@ -73,7 +95,7 @@ class Selection {
     // https://github.com/metafizzy/flickity/issues/457#issuecomment-254501356
     this._removeTouchMoveWindowListener = addEventListener(
       'touchmove',
-      () => {},
+      () => { },
       window
     )
     this._removeKeyDownListener = addEventListener('keydown', this._keyListener)
@@ -373,7 +395,7 @@ class Selection {
 
   _handleClickEvent(e) {
     const { pageX, pageY, clientX, clientY } = getEventCoordinates(e)
-    const now = new Date().getTime()
+    const now = Date.now()
 
     if (
       this._lastClickData &&
@@ -459,7 +481,7 @@ class Selection {
  * Resolve the disance prop from either an Int or an Object
  * @return {Object}
  */
-function normalizeDistance(distance = 0) {
+function normalizeDistance(distance: any = 0): any {
   if (typeof distance !== 'object')
     distance = {
       top: distance,

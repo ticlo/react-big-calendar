@@ -3,7 +3,18 @@ import React from 'react'
 import EventRowMixin from './EventRowMixin'
 
 interface EventRowProps {
-  segments?: unknown[];
+  segments?: any[];
+  slotMetrics: any;
+  className?: string;
+  localizer: any;
+  accessors: any;
+  getters: any;
+  components: any;
+  selected?: any;
+  onSelect?: (...args: any[]) => any;
+  onDoubleClick?: (...args: any[]) => any;
+  onKeyPress?: (...args: any[]) => any;
+  resourceId?: any;
 }
 
 class EventRow extends React.Component<EventRowProps> {
@@ -26,7 +37,7 @@ class EventRow extends React.Component<EventRowProps> {
 
           if (gap) row.push(EventRowMixin.renderSpan(slots, gap, `${key}_gap`))
 
-          row.push(EventRowMixin.renderSpan(slots, span, key, content))
+          row.push(EventRowMixin.renderSpan(slots, span, key, content as any))
 
           lastEnd = right + 1
 
@@ -37,7 +48,7 @@ class EventRow extends React.Component<EventRowProps> {
   }
 }
 
-EventRow.defaultProps = {
+;(EventRow as any).defaultProps = {
   ...EventRowMixin.defaultProps,
 }
 

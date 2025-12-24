@@ -31,6 +31,17 @@ var TimeGrid = exports.default = /*#__PURE__*/function (_Component) {
     var _this;
     (0, _classCallCheck2.default)(this, TimeGrid);
     _this = (0, _callSuper2.default)(this, TimeGrid, [props]);
+    _this.containerRef = void 0;
+    _this.contentRef = void 0;
+    _this.gutterRef = void 0;
+    _this.scrollRef = void 0;
+    _this._scrollRatio = void 0;
+    _this._updatingOverflow = void 0;
+    _this.rafHandle = void 0;
+    _this.measureGutterAnimationFrameRequest = void 0;
+    _this.slots = void 0;
+    _this._selectTimer = void 0;
+    _this._pendingSelection = void 0;
     _this.handleScroll = function (e) {
       if (_this.scrollRef.current) {
         _this.scrollRef.current.scrollLeft = e.target.scrollLeft;
@@ -40,27 +51,18 @@ var TimeGrid = exports.default = /*#__PURE__*/function (_Component) {
       animationFrame.cancel(_this.rafHandle);
       _this.rafHandle = animationFrame.request(_this.checkOverflow);
     };
-    _this.handleKeyPressEvent = function () {
+    _this.handleKeyPressEvent = function (event, e) {
       _this.clearSelection();
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-      (0, _helpers.notify)(_this.props.onKeyPressEvent, args);
+      (0, _helpers.notify)(_this.props.onKeyPressEvent, [event, e]);
     };
-    _this.handleSelectEvent = function () {
+    _this.handleSelectEvent = function (event, e) {
       //cancel any pending selections so only the event click goes through.
       _this.clearSelection();
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-      (0, _helpers.notify)(_this.props.onSelectEvent, args);
+      (0, _helpers.notify)(_this.props.onSelectEvent, [event, e]);
     };
-    _this.handleDoubleClickEvent = function () {
+    _this.handleDoubleClickEvent = function (event, e) {
       _this.clearSelection();
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-      (0, _helpers.notify)(_this.props.onDoubleClickEvent, args);
+      (0, _helpers.notify)(_this.props.onDoubleClickEvent, [event, e]);
     };
     _this.handleShowMore = function (events, date, cell, slot, target) {
       var _this$props = _this.props,
@@ -89,9 +91,8 @@ var TimeGrid = exports.default = /*#__PURE__*/function (_Component) {
     };
     _this.handleSelectAllDaySlot = function (slots, slotInfo) {
       var onSelectSlot = _this.props.onSelectSlot;
-      var start = new Date(slots[0]);
-      var end = new Date(slots[slots.length - 1]);
-      end.setDate(slots[slots.length - 1].getDate() + 1);
+      var start = slots[0];
+      var end = _this.props.localizer.add(slots[slots.length - 1], 1, 'day');
       (0, _helpers.notify)(onSelectSlot, {
         slots: slots,
         start: start,
@@ -285,7 +286,7 @@ var TimeGrid = exports.default = /*#__PURE__*/function (_Component) {
         ref: this.contentRef,
         className: "rbc-time-content",
         onScroll: this.handleScroll
-      }, /*#__PURE__*/_react.default.createElement(_TimeGutter.default, {
+      }, /*#__PURE__*/_react.default.createElement(_TimeGutter.default, Object.assign({}, this.props, {
         date: start,
         ref: this.gutterRef,
         localizer: localizer,
@@ -297,7 +298,7 @@ var TimeGrid = exports.default = /*#__PURE__*/function (_Component) {
         components: components,
         className: "rbc-time-gutter",
         getters: getters
-      }), this.renderEvents(range, rangeEvents, rangeBackgroundEvents, getNow())));
+      })), this.renderEvents(range, rangeEvents, rangeBackgroundEvents, getNow())));
     }
   }, {
     key: "renderOverlay",

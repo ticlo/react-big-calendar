@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
-import moment from 'moment'
-import { Calendar, Views, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, Views, luxonLocalizer } from '../../src'
 import demoEvents from '../resources/events'
-import mdx from './slotPropGetter.mdx'
+// import mdx from '...' 
 import '../resources/propGetter.scss'
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
   component: Calendar,
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }
@@ -21,13 +21,13 @@ export function SlotPropGetter() {
   const slotPropGetter = useCallback(
     (date) => ({
       className: 'slotDefault',
-      ...(moment(date).hour() < 8 && {
+      ...(DateTime.fromJSDate(date).hour < 8 && {
         style: {
           backgroundColor: 'powderblue',
           color: 'black',
         },
       }),
-      ...(moment(date).hour() > 12 && {
+      ...(DateTime.fromJSDate(date).hour > 12 && {
         style: {
           backgroundColor: 'darkgreen',
           color: 'white',

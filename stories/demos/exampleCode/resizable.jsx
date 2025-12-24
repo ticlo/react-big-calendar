@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import events from '../../resources/events'
-import { Calendar, Views, DateLocalizer } from 'react-big-calendar'
+import { Calendar, Views, DateLocalizer } from '../../../src'
 import Card from '../../resources/Card'
 import DemoLink from '../../DemoLink.component'
 // Storybook cannot alias this, so you would use 'react-big-calendar/lib/addons/dragAndDrop'

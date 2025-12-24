@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { DateLocalizer } from './localizer'
 import clsx from 'clsx'
 import getHeight from 'dom-helpers/height'
 import qsa from 'dom-helpers/querySelectorAll'
@@ -11,40 +12,51 @@ import ScrollableWeekWrapper from './ScrollableWeekWrapper'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
 
 interface DateContentRowProps {
-  date?: Date;
-  events: unknown[];
-  range: unknown[];
+  date?: any;
+  events: any[];
+  range: any[];
   rtl?: boolean;
   resizable?: boolean;
   resourceId?: any;
   renderForMeasure?: boolean;
-  renderHeader?: (...args: unknown[]) => unknown;
-  container?: (...args: unknown[]) => unknown;
-  selected?: object;
-  selectable?: true | false | "ignoreEvents";
+  renderHeader?: (...args: any[]) => any;
+  container?: (...args: any[]) => any;
+  selected?: any;
+  selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
-  onShowMore?: (...args: unknown[]) => unknown;
+  onShowMore?: (...args: any[]) => any;
   showAllEvents?: boolean;
-  onSelectSlot?: (...args: unknown[]) => unknown;
-  onSelect?: (...args: unknown[]) => unknown;
-  onSelectEnd?: (...args: unknown[]) => unknown;
-  onSelectStart?: (...args: unknown[]) => unknown;
-  onDoubleClick?: (...args: unknown[]) => unknown;
-  onKeyPress?: (...args: unknown[]) => unknown;
-  dayPropGetter?: (...args: unknown[]) => unknown;
-  getNow: (...args: unknown[]) => unknown;
+  onSelectSlot?: (...args: any[]) => any;
+  onSelect?: (...args: any[]) => any;
+  onSelectEnd?: (...args: any[]) => any;
+  onSelectStart?: (...args: any[]) => any;
+  onDoubleClick?: (...args: any[]) => any;
+  onKeyPress?: (...args: any[]) => any;
+  dayPropGetter?: (...args: any[]) => any;
+  getNow: (...args: any[]) => any;
   isAllDay?: boolean;
-  accessors: object;
-  components: object;
-  getters: object;
-  localizer: object;
-  minRows: number;
-  maxRows: number;
+  accessors: any;
+  components: any;
+  getters: any;
+  localizer: DateLocalizer;
+  minRows?: number;
+  maxRows?: number;
+  className?: string;
 }
 
 class DateContentRow extends React.Component<DateContentRowProps> {
-  constructor(...args) {
-    super(...args)
+  static defaultProps = {
+    minRows: 0,
+    maxRows: Infinity,
+  }
+
+  containerRef: React.RefObject<HTMLDivElement>
+  headingRowRef: React.RefObject<HTMLDivElement>
+  eventRowRef: React.RefObject<HTMLDivElement>
+  slotMetrics: any
+
+  constructor(props: DateContentRowProps) {
+    super(props)
 
     this.containerRef = createRef()
     this.headingRowRef = createRef()
@@ -229,11 +241,6 @@ class DateContentRow extends React.Component<DateContentRowProps> {
       </div>
     )
   }
-}
-
-DateContentRow.defaultProps = {
-  minRows: 0,
-  maxRows: Infinity,
 }
 
 export default DateContentRow

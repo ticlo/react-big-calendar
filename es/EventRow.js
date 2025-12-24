@@ -46,5 +46,6 @@ var EventRow = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }(_react.default.Component);
+;
 EventRow.defaultProps = (0, _objectSpread2.default)({}, _EventRowMixin.default.defaultProps);
 var _default = exports.default = EventRow;

@@ -53,7 +53,7 @@ function continuesAfter(start, end, last) {
   return singleDayDuration ? (0, _dates.gte)(end, last, 'minutes') : (0, _dates.gt)(end, last, 'minutes');
 }
 function daySpan(start, end) {
-  return (0, _dates.duration)(start, end, 'day');
+  return (0, _dates.duration)(start, end, 'day', 7); // Default to Sunday
 }
 
 // These two are used by eventLevels
@@ -73,7 +73,7 @@ function sortEvents(_ref) {
   // sort by start Day first
   durB - durA ||
   // events spanning multiple days go first
-  !!bAllDay - !!aAllDay ||
+  Number(!!bAllDay) - Number(!!aAllDay) ||
   // then allDay single day events
   +aStart - +bStart ||
   // then sort by start time
@@ -105,17 +105,52 @@ function startAndEndAreDateOnly(start, end) {
   return (0, _dates.isJustDate)(start) && (0, _dates.isJustDate)(end);
 }
 var DateLocalizer = exports.DateLocalizer = /*#__PURE__*/(0, _createClass2.default)(function DateLocalizer(spec) {
-  var _this = this;
   (0, _classCallCheck2.default)(this, DateLocalizer);
+  this.propType = void 0;
+  this.formats = void 0;
+  this.format = void 0;
+  this.startOfWeek = void 0;
+  this.merge = void 0;
+  this.inRange = void 0;
+  this.lt = void 0;
+  this.lte = void 0;
+  this.gt = void 0;
+  this.gte = void 0;
+  this.eq = void 0;
+  this.neq = void 0;
+  this.startOf = void 0;
+  this.endOf = void 0;
+  this.add = void 0;
+  this.range = void 0;
+  this.diff = void 0;
+  this.ceil = void 0;
+  this.min = void 0;
+  this.max = void 0;
+  this.minutes = void 0;
+  this.daySpan = void 0;
+  this.firstVisibleDay = void 0;
+  this.lastVisibleDay = void 0;
+  this.visibleDays = void 0;
+  this.getSlotDate = void 0;
+  this.getTimezoneOffset = void 0;
+  this.getDstOffset = void 0;
+  this.getTotalMin = void 0;
+  this.getMinutesFromMidnight = void 0;
+  this.continuesPrior = void 0;
+  this.continuesAfter = void 0;
+  this.sortEvents = void 0;
+  this.inEventRange = void 0;
+  this.isSameDate = void 0;
+  this.startAndEndAreDateOnly = void 0;
+  this.segmentOffset = void 0;
+  this.timezone = void 0;
+  this.messages = void 0;
   (0, _invariant.default)(typeof spec.format === 'function', 'date localizer `format(..)` must be a function');
   (0, _invariant.default)(typeof spec.firstOfWeek === 'function', 'date localizer `firstOfWeek(..)` must be a function');
   this.propType = spec.propType || localePropType;
   this.formats = spec.formats;
-  this.format = function () {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    return _format.apply(void 0, [_this, spec.format].concat(args));
+  this.format = function (value, format, culture) {
+    return _format(this, spec.format, value, format, culture);
   };
   // These date arithmetic methods can be overriden by the localizer
   this.startOfWeek = spec.firstOfWeek;
@@ -154,16 +189,19 @@ var DateLocalizer = exports.DateLocalizer = /*#__PURE__*/(0, _createClass2.defau
   this.isSameDate = spec.isSameDate || isSameDate;
   this.startAndEndAreDateOnly = spec.startAndEndAreDateOnly || startAndEndAreDateOnly;
   this.segmentOffset = spec.browserTZOffset ? spec.browserTZOffset() : 0;
+  this.timezone = spec.timezone;
+  this.messages = spec.messages;
 });
-function mergeWithDefaults(localizer, culture, formatOverrides, messages) {
+function mergeWithDefaults(localizer, culture, formatOverrides, messages, timezone) {
   var formats = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, localizer.formats), formatOverrides);
   return (0, _objectSpread2.default)((0, _objectSpread2.default)({}, localizer), {}, {
     messages: messages,
+    timezone: timezone || localizer.timezone,
     startOfWeek: function startOfWeek() {
       return localizer.startOfWeek(culture);
     },
     format: function format(value, _format2) {
-      return localizer.format(value, formats[_format2] || _format2, culture);
+      return localizer.format.call(this, value, formats[_format2] || _format2, culture);
     }
   });
 }

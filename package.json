@@ -1,6 +1,6 @@
 {
   "name": "ticlo-big-calendar",
-  "version": "1.12.6",
+  "version": "2.0.0",
   "description": "Calendar! with events",
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "full calendar"
   ],
   "scripts": {
-    "build-es": "cross-env NODE_ENV=production babel src --out-dir es --extensions \".ts,.tsx,.js,.jsx\"",
+    "build-es": "cross-env NODE_ENV=production babel src --out-dir es --extensions \".ts,.tsx,.js,.jsx\" && tsc",
     "build-storybook": "storybook build",
     "lint": "NODE_ENV=development eslint src --ext .ts,.tsx,.js,.jsx",
     "prettier": "prettier \"src/**/*.{js,jsx,ts,tsx}\" --write ",

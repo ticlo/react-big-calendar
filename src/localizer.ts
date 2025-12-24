@@ -24,6 +24,7 @@ import {
   minutes,
   isJustDate,
 } from './utils/dates'
+import { Culture, Format, Messages } from './types'
 
 const localePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 
@@ -89,7 +90,7 @@ function continuesAfter(start, end, last) {
 }
 
 function daySpan(start, end) {
-  return duration(start, end, 'day')
+  return duration(start, end, 'day', 7) // Default to Sunday
 }
 
 // These two are used by eventLevels
@@ -106,7 +107,7 @@ function sortEvents({
   return (
     startSort || // sort by start Day first
     durB - durA || // events spanning multiple days go first
-    !!bAllDay - !!aAllDay || // then allDay single day events
+    Number(!!bAllDay) - Number(!!aAllDay) || // then allDay single day events
     +aStart - +bStart || // then sort by start time
     +aEnd - +bEnd // then sort by end time
   )
@@ -139,7 +140,47 @@ function startAndEndAreDateOnly(start, end) {
 }
 
 export class DateLocalizer {
-  constructor(spec) {
+  propType: any
+  formats: { [key: string]: Format }
+  format: (value: any, format: Format, culture?: Culture) => string
+  startOfWeek: (culture?: Culture) => number
+  merge: (date: any, time: any) => any
+  inRange: (date: any, min: any, max: any, unit?: string) => boolean
+  lt: (date: any, b: any, unit?: string) => boolean
+  lte: (date: any, b: any, unit?: string) => boolean
+  gt: (date: any, b: any, unit?: string) => boolean
+  gte: (date: any, b: any, unit?: string) => boolean
+  eq: (date: any, b: any, unit?: string) => boolean
+  neq: (date: any, b: any, unit?: string) => boolean
+  startOf: (date: any, unit?: string, firstOfWeek?: number) => any
+  endOf: (date: any, unit?: string, firstOfWeek?: number) => any
+  add: (date: any, amount: number, unit?: string) => any
+  range: (start: any, end: any, unit?: string) => any[]
+  diff: (a: any, b: any, unit?: string) => number
+  ceil: (date: any, unit: string) => any
+  min: (...args: any[]) => any
+  max: (...args: any[]) => any
+  minutes: (date: any) => number
+  daySpan: (start: any, end: any) => number
+  firstVisibleDay: (date: any, culture?: Culture) => any
+  lastVisibleDay: (date: any, culture?: Culture) => any
+  visibleDays: (date: any, culture?: Culture) => any[]
+  getSlotDate: (dt: any, minutesFromMidnight: number, offset: number) => any
+  getTimezoneOffset: (value: any) => number
+  getDstOffset: (start: any, end: any) => number
+  getTotalMin: (start: any, end: any) => number
+  getMinutesFromMidnight: (start: any) => number
+  continuesPrior: (start: any, first: any) => boolean
+  continuesAfter: (start: any, end: any, last: any) => boolean
+  sortEvents: (args: { evtA: any; evtB: any }) => number
+  inEventRange: (args: { event: any; range: any }) => boolean
+  isSameDate: (date1: any, date2: any) => boolean
+  startAndEndAreDateOnly: (start: any, end: any) => boolean
+  segmentOffset: number
+  timezone?: string
+  messages: Messages
+
+  constructor(spec: any) {
     invariant(
       typeof spec.format === 'function',
       'date localizer `format(..)` must be a function'
@@ -152,7 +193,9 @@ export class DateLocalizer {
     this.propType = spec.propType || localePropType
 
     this.formats = spec.formats
-    this.format = (...args) => _format(this, spec.format, ...args)
+    this.format = function (value: any, format: Format, culture?: Culture) {
+      return _format(this, spec.format, value, format, culture)
+    }
     // These date arithmetic methods can be overriden by the localizer
     this.startOfWeek = spec.firstOfWeek
     this.merge = spec.merge || merge
@@ -179,7 +222,7 @@ export class DateLocalizer {
 
     this.getSlotDate = spec.getSlotDate || getSlotDate
     this.getTimezoneOffset =
-      spec.getTimezoneOffset || ((value) => value.getTimezoneOffset())
+      spec.getTimezoneOffset || ((value: any) => value.getTimezoneOffset())
     this.getDstOffset = spec.getDstOffset || getDstOffset
     this.getTotalMin = spec.getTotalMin || getTotalMin
     this.getMinutesFromMidnight =
@@ -192,6 +235,8 @@ export class DateLocalizer {
     this.startAndEndAreDateOnly =
       spec.startAndEndAreDateOnly || startAndEndAreDateOnly
     this.segmentOffset = spec.browserTZOffset ? spec.browserTZOffset() : 0
+    this.timezone = spec.timezone
+    this.messages = spec.messages
   }
 }
 
@@ -199,7 +244,8 @@ export function mergeWithDefaults(
   localizer,
   culture,
   formatOverrides,
-  messages
+  messages,
+  timezone
 ) {
   const formats = {
     ...localizer.formats,
@@ -209,8 +255,15 @@ export function mergeWithDefaults(
   return {
     ...localizer,
     messages,
+    timezone: timezone || localizer.timezone,
     startOfWeek: () => localizer.startOfWeek(culture),
-    format: (value, format) =>
-      localizer.format(value, formats[format] || format, culture),
+    format(value, format) {
+      return localizer.format.call(
+        this,
+        value,
+        formats[format] || format,
+        culture
+      )
+    },
   }
 }

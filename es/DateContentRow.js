@@ -21,13 +21,14 @@ var _NoopWrapper = _interopRequireDefault(require("./NoopWrapper"));
 var _ScrollableWeekWrapper = _interopRequireDefault(require("./ScrollableWeekWrapper"));
 var DateSlotMetrics = _interopRequireWildcard(require("./utils/DateSlotMetrics"));
 var DateContentRow = /*#__PURE__*/function (_React$Component) {
-  function DateContentRow() {
+  function DateContentRow(props) {
     var _this;
     (0, _classCallCheck2.default)(this, DateContentRow);
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = (0, _callSuper2.default)(this, DateContentRow, [].concat(args));
+    _this = (0, _callSuper2.default)(this, DateContentRow, [props]);
+    _this.containerRef = void 0;
+    _this.headingRowRef = void 0;
+    _this.eventRowRef = void 0;
+    _this.slotMetrics = void 0;
     _this.handleSelectSlot = function (slot) {
       var _this$props = _this.props,
         range = _this$props.range,

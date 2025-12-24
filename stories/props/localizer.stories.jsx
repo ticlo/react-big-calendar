@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react'
-import moment from 'moment'
-import { Calendar, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, luxonLocalizer } from '../../src'
 import demoEvents from '../resources/events'
-import mdx from './localizer.mdx'
+// import mdx from '...' 
 
 export default {
   title: 'props',
   component: Calendar,
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
   decorators: [
@@ -22,7 +22,7 @@ export default {
 }
 
 export function Localizer() {
-  const localizer = useMemo(() => momentLocalizer(moment), [])
+  const localizer = useMemo(() => luxonLocalizer(DateTime), [])
 
   return (
     <div className="height600">

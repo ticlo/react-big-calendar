@@ -1,17 +1,17 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import {
   Calendar,
   Views,
   DateLocalizer,
-  momentLocalizer,
-} from 'react-big-calendar'
+  luxonLocalizer,
+} from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 import * as dates from '../../../src/utils/dates'
 
-const mLocalizer = momentLocalizer(moment)
+const l = luxonLocalizer(DateTime)
 
 const ColoredDateCellWrapper = ({ children }) =>
   React.cloneElement(React.Children.only(children), {
@@ -25,7 +25,7 @@ const ColoredDateCellWrapper = ({ children }) =>
  * example on the main 'About' page in Storybook
  */
 export default function Basic({
-  localizer = mLocalizer,
+  localizer = l,
   showDemoLink = true,
   ...props
 }) {

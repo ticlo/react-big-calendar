@@ -1,34 +1,96 @@
+import { DateTime } from 'luxon'
+
 export default {
   events: [
     {
       title: 'Rencontre',
       resourceId: 'a',
-      start: new Date(2015, 3, 2, 5, 30, 0, 0),
-      end: new Date(2015, 3, 2, 10, 30, 0, 0),
+      start: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 2,
+        hour: 5,
+        minute: 30,
+      }).toJSDate(),
+      end: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 2,
+        hour: 10,
+        minute: 30,
+      }).toJSDate(),
     },
     {
       title: 'Another Meeting',
       resourceId: 'b',
-      start: new Date(2015, 3, 1, 2, 30, 0, 0),
-      end: new Date(2015, 3, 1, 4, 30, 0, 0),
+      start: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 1,
+        hour: 2,
+        minute: 30,
+      }).toJSDate(),
+      end: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 1,
+        hour: 4,
+        minute: 30,
+      }).toJSDate(),
     },
     {
       title: 'A',
       resourceId: 'a',
-      start: new Date(2015, 3, 4, 5, 30, 0, 0),
-      end: new Date(2015, 3, 4, 10, 30, 0, 0),
+      start: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 4,
+        hour: 5,
+        minute: 30,
+      }).toJSDate(),
+      end: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 4,
+        hour: 10,
+        minute: 30,
+      }).toJSDate(),
     },
     {
       title: 'B',
       resourceId: 'b',
-      start: new Date(2015, 3, 4, 5, 30, 0, 0),
-      end: new Date(2015, 3, 4, 10, 30, 0, 0),
+      start: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 4,
+        hour: 5,
+        minute: 30,
+      }).toJSDate(),
+      end: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 4,
+        hour: 10,
+        minute: 30,
+      }).toJSDate(),
     },
     {
       title: 'C',
       resourceId: 'c',
-      start: new Date(2015, 3, 4, 5, 30, 0, 0),
-      end: new Date(2015, 3, 4, 10, 30, 0, 0),
+      start: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 4,
+        hour: 5,
+        minute: 30,
+      }).toJSDate(),
+      end: DateTime.fromObject({
+        year: 2015,
+        month: 4,
+        day: 4,
+        hour: 10,
+        minute: 30,
+      }).toJSDate(),
     },
   ],
 

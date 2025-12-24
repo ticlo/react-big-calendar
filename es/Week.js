@@ -15,6 +15,7 @@ var _react = _interopRequireDefault(require("react"));
 var _constants = require("./utils/constants");
 var _TimeGrid = _interopRequireDefault(require("./TimeGrid"));
 var _excluded = ["date", "localizer", "min", "max", "scrollToTime", "enableAutoScroll"];
+var _Week;
 var Week = /*#__PURE__*/function (_React$Component) {
   function Week() {
     (0, _classCallCheck2.default)(this, Week);
@@ -33,11 +34,11 @@ var Week = /*#__PURE__*/function (_React$Component) {
         date = _this$props.date,
         localizer = _this$props.localizer,
         _this$props$min = _this$props.min,
-        min = _this$props$min === void 0 ? localizer.startOf(new Date(), 'day') : _this$props$min,
+        min = _this$props$min === void 0 ? localizer.startOf(undefined, 'day') : _this$props$min,
         _this$props$max = _this$props.max,
-        max = _this$props$max === void 0 ? localizer.endOf(new Date(), 'day') : _this$props$max,
+        max = _this$props$max === void 0 ? localizer.endOf(undefined, 'day') : _this$props$max,
         _this$props$scrollToT = _this$props.scrollToTime,
-        scrollToTime = _this$props$scrollToT === void 0 ? localizer.startOf(new Date(), 'day') : _this$props$scrollToT,
+        scrollToTime = _this$props$scrollToT === void 0 ? localizer.startOf(undefined, 'day') : _this$props$scrollToT,
         _this$props$enableAut = _this$props.enableAutoScroll,
         enableAutoScroll = _this$props$enableAut === void 0 ? true : _this$props$enableAut,
         props = (0, _objectWithoutProperties2.default)(_this$props, _excluded);
@@ -54,6 +55,7 @@ var Week = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }(_react.default.Component);
+_Week = Week;
 Week.defaultProps = _TimeGrid.default.defaultProps;
 Week.navigate = function (date, action, _ref) {
   var localizer = _ref.localizer;
@@ -78,7 +80,7 @@ Week.range = function (date, _ref2) {
 };
 Week.title = function (date, _ref3) {
   var localizer = _ref3.localizer;
-  var _Week$range = Week.range(date, {
+  var _Week$range = _Week.range(date, {
       localizer: localizer
     }),
     _Week$range2 = (0, _toArray2.default)(_Week$range),

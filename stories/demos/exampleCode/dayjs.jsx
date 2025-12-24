@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import dayjs from 'dayjs'
-import { Calendar, Views, dayjsLocalizer } from 'react-big-calendar'
+import { Calendar, Views, dayjsLocalizer } from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 

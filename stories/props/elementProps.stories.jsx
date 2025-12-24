@@ -1,11 +1,11 @@
 import React from 'react'
-import moment from 'moment'
-import { Calendar, momentLocalizer } from '../../src'
+import { DateTime } from 'luxon'
+import { Calendar, luxonLocalizer } from '../../src'
 import demoEvents from '../resources/events'
-import mdx from './elementProps.mdx'
+// import mdx from '...' 
 import '../resources/propGetter.scss'
 
-const mLocalizer = momentLocalizer(moment)
+const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -16,7 +16,7 @@ export default {
   },
   parameters: {
     docs: {
-      page: mdx,
+      page: null // mdx removed ,
     },
   },
 }

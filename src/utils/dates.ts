@@ -114,8 +114,8 @@ export function duration(start, end, unit, firstOfWeek) {
   return Math.abs(
     // eslint-disable-next-line import/namespace
     dates[unit](start, undefined, firstOfWeek) -
-      // eslint-disable-next-line import/namespace
-      dates[unit](end, undefined, firstOfWeek)
+    // eslint-disable-next-line import/namespace
+    dates[unit](end, undefined, firstOfWeek)
   )
 }
 
@@ -128,7 +128,7 @@ export function diff(dateA, dateB, unit) {
   return Math.round(
     Math.abs(
       +dates.startOf(dateA, unit) / MILLI[unit] -
-        +dates.startOf(dateB, unit) / MILLI[unit]
+      +dates.startOf(dateB, unit) / MILLI[unit]
     )
   )
 }
@@ -157,7 +157,7 @@ export function week(date) {
   var d = new Date(date)
   d.setHours(0, 0, 0)
   d.setDate(d.getDate() + 4 - (d.getDay() || 7))
-  return Math.ceil(((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7 + 1) / 7)
+  return Math.ceil(((+d - +new Date(d.getFullYear(), 0, 1)) / 8.64e7 + 1) / 7)
 }
 
 export function today() {

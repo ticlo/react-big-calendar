@@ -1,11 +1,11 @@
-import moment from 'moment'
-import { momentLocalizer, Views } from '../../src'
+import { DateTime } from 'luxon'
+import { luxonLocalizer, Views } from '../../src'
 import demoEvents from '../resources/events'
 import resourceData from '../resources/resourceEvents'
 
 const { events: resourceEvents, list: resources } = resourceData
 
-const mLocalizer = momentLocalizer(moment)
+const lLocalizer = luxonLocalizer(DateTime)
 
 /** Specific to event key accessors */
 const adjusted = demoEvents.map((event) => {
@@ -21,10 +21,10 @@ const adjusted = demoEvents.map((event) => {
 
 export const accessorStoryArgs = {
   allDayAccessor: 'allDayEvent',
-  defaultDate: new Date(2015, 3, 13),
+  defaultDate: DateTime.fromObject({ year: 2015, month: 4, day: 13 }).toJSDate(),
   endAccessor: 'endDate',
   events: adjusted,
-  localizer: mLocalizer,
+  localizer: lLocalizer,
   titleAccessor: 'label',
   tooltipAccessor: 'label',
   startAccessor: 'startDate',
@@ -38,10 +38,10 @@ const adjustedResources = resources.map(({ id: Id, title: Title }) => ({
 }))
 
 export const resourceAccessorStoryArgs = {
-  defaultDate: new Date(2015, 3, 4),
+  defaultDate: DateTime.fromObject({ year: 2015, month: 4, day: 4 }).toJSDate(),
   defaultView: Views.DAY,
   events: resourceEvents,
-  localizer: mLocalizer,
+  localizer: lLocalizer,
   resourceIdAccessor: 'Id',
   resources: adjustedResources,
   resourceTitleAccessor: 'Title',

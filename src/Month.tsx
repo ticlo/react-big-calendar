@@ -1,4 +1,5 @@
 import React, { createRef } from 'react'
+import { DateLocalizer } from './localizer'
 import clsx from 'clsx'
 
 import chunk from 'lodash/chunk'
@@ -21,45 +22,64 @@ let eventsForWeek = (evts, start, end, accessors, localizer) =>
   evts.filter((e) => inRange(e, start, end, accessors, localizer))
 
 interface MonthViewProps {
-  events: unknown[];
-  date?: Date;
+  events: any[];
+  date: any;
+  culture?: any;
   min?: Date;
   max?: Date;
   step?: number;
-  getNow: (...args: unknown[]) => unknown;
+  getNow: (...args: any[]) => any;
   scrollToTime?: Date;
   enableAutoScroll?: boolean;
   rtl?: boolean;
   resizable?: boolean;
   width?: number;
-  accessors: object;
-  components: object;
-  getters: object;
-  localizer: object;
-  selected?: object;
-  selectable?: true | false | "ignoreEvents";
+  accessors: any;
+  components: any;
+  getters: any;
+  localizer: DateLocalizer;
+  selected?: any;
+  selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
-  onNavigate?: (...args: unknown[]) => unknown;
-  onSelectSlot?: (...args: unknown[]) => unknown;
-  onSelectEvent?: (...args: unknown[]) => unknown;
-  onDoubleClickEvent?: (...args: unknown[]) => unknown;
-  onKeyPressEvent?: (...args: unknown[]) => unknown;
-  onShowMore?: (...args: unknown[]) => unknown;
+  onNavigate?: (...args: any[]) => any;
+  onSelectSlot?: (...args: any[]) => any;
+  onSelectEvent?: (...args: any[]) => any;
+  onDoubleClickEvent?: (...args: any[]) => any;
+  onKeyPressEvent?: (...args: any[]) => any;
+  onShowMore?: (...args: any[]) => any;
   showAllEvents?: boolean;
   doShowMoreDrillDown?: boolean;
-  onDrillDown?: (...args: unknown[]) => unknown;
-  getDrilldownView: (...args: unknown[]) => unknown;
+  onDrillDown?: (...args: any[]) => any;
+  getDrilldownView: (...args: any[]) => any;
   popup?: boolean;
-  handleDragStart?: (...args: unknown[]) => unknown;
+  handleDragStart?: (...args: any[]) => any;
   popupOffset?: number | {
     x?: number;
     y?: number;
   };
+  className?: string;
 }
 
-class MonthView extends React.Component<MonthViewProps> {
-  constructor(...args) {
-    super(...args)
+interface MonthViewState {
+  rowLimit: number;
+  needLimitMeasure: boolean;
+  date: any;
+  overlay?: any;
+}
+
+class MonthView extends React.Component<MonthViewProps, MonthViewState> {
+  static range: any
+  static navigate: any
+  static title: any
+  private containerRef: React.RefObject<HTMLDivElement>
+  private slotRowRef: React.RefObject<any>
+  private _bgRows: any[]
+  private _pendingSelection: any[]
+  private _selectTimer: any
+  private _resizeListener: any
+  private _weekCount: number
+  constructor(props: MonthViewProps) {
+    super(props)
 
     this.state = {
       rowLimit: 5,
@@ -83,7 +103,7 @@ class MonthView extends React.Component<MonthViewProps> {
   componentDidMount() {
     let running
 
-    if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
+    if (this.state.needLimitMeasure) (this as any).measureRowLimit()
 
     window.addEventListener(
       'resize',
@@ -100,7 +120,7 @@ class MonthView extends React.Component<MonthViewProps> {
   }
 
   componentDidUpdate() {
-    if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
+    if (this.state.needLimitMeasure) (this as any).measureRowLimit()
   }
 
   componentWillUnmount() {
@@ -112,8 +132,8 @@ class MonthView extends React.Component<MonthViewProps> {
   }
 
   render() {
-    let { date, localizer, className } = this.props,
-      month = localizer.visibleDays(date, localizer),
+    let { date, localizer, className, culture } = this.props,
+      month = localizer.visibleDays(date, culture),
       weeks = chunk(month, 7)
 
     this._weekCount = weeks.length
@@ -378,9 +398,8 @@ class MonthView extends React.Component<MonthViewProps> {
 
     slots.sort((a, b) => +a - +b)
 
-    const start = new Date(slots[0])
-    const end = new Date(slots[slots.length - 1])
-    end.setDate(slots[slots.length - 1].getDate() + 1)
+    const start = slots[0]
+    const end = this.props.localizer.add(slots[slots.length - 1], 1, 'day')
 
     notify(this.props.onSelectSlot, {
       slots,

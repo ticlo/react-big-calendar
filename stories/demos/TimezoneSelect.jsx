@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Layout from 'react-tackle-box/Layout'
-import moment from 'moment'
-import 'moment-timezone'
+import { DateTime } from 'luxon'
 
-const allZones = moment.tz.names()
-allZones.unshift('clear')
+const allZones = (Intl).supportedValuesOf?.('timeZone') || []
 
 export default function TimezoneSelect({
   title,
-  defaultTZ = moment.tz.guess(),
+  defaultTZ = DateTime.local().zoneName,
   timezone,
   setTimezone,
 }) {
@@ -27,8 +25,9 @@ export default function TimezoneSelect({
           value={timezone}
           onChange={onChange}
         >
+          <option value="">clear</option>
           {allZones.map((c, idx) => (
-            <option key={idx} value={c !== 'clear' ? c : ''}>
+            <option key={idx} value={c}>
               {c}
             </option>
           ))}

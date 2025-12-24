@@ -1,4 +1,5 @@
 import React from 'react'
+import { DateLocalizer } from './localizer'
 
 import { navigate } from './utils/constants'
 import { DayLayoutAlgorithmPropType } from './utils/propTypes'
@@ -22,10 +23,10 @@ interface DayProps {
   rtl?: boolean;
   resizable?: boolean;
   width?: number;
-  accessors: object;
-  components: object;
-  getters: object;
-  localizer: object;
+  accessors: any;
+  components: any;
+  getters: any;
+  localizer: DateLocalizer;
   allDayMaxRows?: number;
   selected?: object;
   selectable?: true | false | "ignoreEvents";
@@ -50,8 +51,34 @@ interface DayProps {
     y?: number;
   };
 }
-
 class Day extends React.Component<DayProps> {
+  static range = (date: any, { localizer }: { localizer: DateLocalizer }) => {
+    let r: any = [localizer.startOf(date, 'day')]
+    r.start = r[0]
+    r.end = localizer.endOf(date, 'day')
+    return r
+  }
+
+  static navigate = (
+    date: any,
+    action: string,
+    { localizer }: { localizer: DateLocalizer }
+  ) => {
+    switch (action) {
+      case navigate.PREVIOUS:
+        return localizer.add(date, -1, 'day')
+
+      case navigate.NEXT:
+        return localizer.add(date, 1, 'day')
+
+      default:
+        return date
+    }
+  }
+
+  static title = (date: any, { localizer }: { localizer: DateLocalizer }) =>
+    localizer.format(date, 'dayHeaderFormat')
+
   render() {
     /**
      * This allows us to default min, max, and scrollToTime
@@ -61,9 +88,9 @@ class Day extends React.Component<DayProps> {
     let {
       date,
       localizer,
-      min = localizer.startOf(new Date(), 'day'),
-      max = localizer.endOf(new Date(), 'day'),
-      scrollToTime = localizer.startOf(new Date(), 'day'),
+      min = localizer.startOf(undefined, 'day'),
+      max = localizer.endOf(undefined, 'day'),
+      scrollToTime = localizer.startOf(undefined, 'day'),
       enableAutoScroll = true,
       ...props
     } = this.props
@@ -71,7 +98,7 @@ class Day extends React.Component<DayProps> {
 
     return (
       <TimeGrid
-        {...props}
+        {...(props as any)}
         range={range}
         eventOffset={10}
         localizer={localizer}
@@ -84,26 +111,5 @@ class Day extends React.Component<DayProps> {
   }
 }
 
-Day.range = (date, { localizer }) => {
-  let r = [localizer.startOf(date, 'day')]
-  r.start = r[0];
-  r.end = localizer.endOf(date, 'day')
-  return r;
-}
-
-Day.navigate = (date, action, { localizer }) => {
-  switch (action) {
-    case navigate.PREVIOUS:
-      return localizer.add(date, -1, 'day')
-
-    case navigate.NEXT:
-      return localizer.add(date, 1, 'day')
-
-    default:
-      return date
-  }
-}
-
-Day.title = (date, { localizer }) => localizer.format(date, 'dayHeaderFormat')
 
 export default Day

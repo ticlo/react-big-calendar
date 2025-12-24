@@ -52,7 +52,7 @@ var TimeGutter = function TimeGutter(_ref2) {
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [min === null || min === void 0 ? void 0 : min.toISOString(), max === null || max === void 0 ? void 0 : max.toISOString(), localizer]),
+    [+min, +max, localizer]),
     start = _useMemo.start,
     end = _useMemo.end;
   var _useState = (0, _react.useState)((0, _TimeSlots.getSlotMetrics)({
@@ -79,7 +79,7 @@ var TimeGutter = function TimeGutter(_ref2) {
      * We don't want this to fire when slotMetrics is updated as it would recursively bomb
      */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [start === null || start === void 0 ? void 0 : start.toISOString(), end === null || end === void 0 ? void 0 : end.toISOString(), timeslots, step]);
+  }, [+start, +end, timeslots, step]);
   var renderSlot = (0, _react.useCallback)(function (value, idx) {
     if (idx) return null; // don't return the first (0) idx
 
