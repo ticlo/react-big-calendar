@@ -25,4 +25,4 @@ export declare const formats: {
         end: any;
     }, culture: any, local: any) => string;
 };
-export default function (DateTime: any, { firstDayOfWeek, timezone: defaultTimezone }?: any): DateLocalizer;
+export default function (DateTime: any, { firstDayOfWeek, timezone: defaultTimezone, culture, messages, formats: formatOverrides, }?: any): DateLocalizer;

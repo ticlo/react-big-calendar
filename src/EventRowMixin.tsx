@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import EventCell from './EventCell'
-import { isSelected } from './utils/selection'
+import PropTypes from 'prop-types';
+import React from 'react';
+import EventCell from './EventCell';
+import { isSelected } from './utils/selection';
 
 /* eslint-disable react/prop-types */
 export default {
@@ -39,10 +39,10 @@ export default {
       slotMetrics,
       components,
       resizable,
-    } = props
+    } = props;
 
-    let continuesPrior = slotMetrics.continuesPrior(event)
-    let continuesAfter = slotMetrics.continuesAfter(event)
+    let continuesPrior = slotMetrics.continuesPrior(event);
+    let continuesAfter = slotMetrics.continuesAfter(event);
 
     return (
       <EventCell
@@ -61,11 +61,11 @@ export default {
         selected={isSelected(event, selected)}
         resizable={resizable}
       />
-    )
+    );
   },
 
   renderSpan(slots, len, key, content = ' ') {
-    let per = (Math.abs(len) / slots) * 100 + '%'
+    let per = (Math.abs(len) / slots) * 100 + '%';
 
     return (
       <div
@@ -76,6 +76,6 @@ export default {
       >
         {content}
       </div>
-    )
+    );
   },
-}
+};

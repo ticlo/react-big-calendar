@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarEvent, Components, Messages, Getters, Accessors, ViewNames, DayLayoutAlgorithm, Culture } from './types';
+import { CalendarEvent, Components, Getters, Accessors, ViewNames, DayLayoutAlgorithm } from './types';
 import { DateLocalizer } from './localizer';
 interface CalendarProps<TEvent extends CalendarEvent = CalendarEvent, TResource extends object = object> {
     localizer: DateLocalizer;
@@ -79,12 +79,8 @@ interface CalendarProps<TEvent extends CalendarEvent = CalendarEvent, TResource 
     max?: any;
     scrollToTime?: any;
     enableAutoScroll?: boolean;
-    culture?: Culture;
-    formats?: any;
     components?: Components;
-    messages?: Messages;
     dayLayoutAlgorithm?: DayLayoutAlgorithm;
-    timezone?: string;
     className?: string;
     style?: React.CSSProperties;
 }
@@ -148,7 +144,7 @@ export default class Calendar<TEvent extends CalendarEvent = CalendarEvent, TRes
             };
         };
     };
-    static getContext({ startAccessor, endAccessor, allDayAccessor, tooltipAccessor, titleAccessor, resourceAccessor, resourceIdAccessor, resourceTitleAccessor, eventPropGetter, backgroundEventPropGetter, slotPropGetter, slotGroupPropGetter, dayPropGetter, view, views, localizer, culture, messages, components, formats, timezone, }: any): {
+    static getContext({ startAccessor, endAccessor, allDayAccessor, tooltipAccessor, titleAccessor, resourceAccessor, resourceIdAccessor, resourceTitleAccessor, eventPropGetter, backgroundEventPropGetter, slotPropGetter, slotGroupPropGetter, dayPropGetter, view, views, localizer, components, }: any): {
         viewNames: any[];
         localizer: any;
         getters: {

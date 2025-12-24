@@ -1,13 +1,13 @@
-import clsx from 'clsx'
-import scrollbarSize from 'dom-helpers/scrollbarSize'
-import React from 'react'
-import { DateLocalizer } from './localizer'
-import { Accessors, Components, Getters } from './types'
+import clsx from 'clsx';
+import scrollbarSize from 'dom-helpers/scrollbarSize';
+import React from 'react';
+import { DateLocalizer } from './localizer';
+import { Accessors, Components, Getters } from './types';
 
-import DateContentRow from './DateContentRow'
-import Header from './Header'
-import ResourceHeader from './ResourceHeader'
-import { notify } from './utils/helpers'
+import DateContentRow from './DateContentRow';
+import Header from './Header';
+import ResourceHeader from './ResourceHeader';
+import { notify } from './utils/helpers';
 
 interface TimeGridHeaderProps {
   range: any[];
@@ -39,9 +39,9 @@ interface TimeGridHeaderProps {
 
 class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
   handleHeaderClick = (date, view, e) => {
-    e.preventDefault()
-    notify(this.props.onDrillDown, [date, view])
-  }
+    e.preventDefault();
+    notify(this.props.onDrillDown, [date, view]);
+  };
 
   renderHeaderCells(range) {
     let {
@@ -50,19 +50,19 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
       getNow,
       getters: { dayProp },
       components: { header: HeaderComponent = Header },
-    } = this.props
+    } = this.props;
 
-    const today = getNow()
+    const today = getNow();
 
     return range.map((date, i) => {
-      let drilldownView = getDrilldownView(date)
-      let label = localizer.format(date, 'dayFormat')
+      let drilldownView = getDrilldownView(date);
+      let label = localizer.format(date, 'dayFormat');
 
-      const { className, style } = dayProp(date)
+      const { className, style } = dayProp(date);
 
       let header = (
         <HeaderComponent date={date} label={label} localizer={localizer} />
-      )
+      );
 
       return (
         <div
@@ -86,8 +86,8 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
             <span>{header}</span>
           )}
         </div>
-      )
-    })
+      );
+    });
   }
   renderRow = (resource) => {
     let {
@@ -101,12 +101,12 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
       accessors,
       components,
       resizable,
-    } = this.props
+    } = this.props;
 
-    const resourceId = accessors.resourceId(resource)
+    const resourceId = accessors.resourceId(resource);
     let eventsToDisplay = resource
       ? events.filter((event) => accessors.resource(event) === resourceId)
-      : events
+      : events;
 
     return (
       <DateContentRow
@@ -134,8 +134,8 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
         longPressThreshold={this.props.longPressThreshold}
         resizable={resizable}
       />
-    )
-  }
+    );
+  };
 
   render() {
     let {
@@ -157,14 +157,14 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
         resourceHeader: ResourceHeaderComponent = ResourceHeader,
       },
       resizable,
-    } = this.props
+    } = this.props;
 
-    let style = {}
+    let style = {};
     if (isOverflowing) {
-      style[rtl ? 'marginLeft' : 'marginRight'] = `${scrollbarSize() - 1}px`
+      style[rtl ? 'marginLeft' : 'marginRight'] = `${scrollbarSize() - 1}px`;
     }
 
-    const groupedEvents = resources.groupEvents(events)
+    const groupedEvents = resources.groupEvents(events);
 
     return (
       <div
@@ -227,8 +227,8 @@ class TimeGridHeader extends React.Component<TimeGridHeaderProps> {
           </div>
         ))}
       </div>
-    )
+    );
   }
 }
 
-export default TimeGridHeader
+export default TimeGridHeader;

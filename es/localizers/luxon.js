@@ -71,7 +71,13 @@ function _default(DateTime) {
     _ref6$firstDayOfWeek = _ref6.firstDayOfWeek,
     firstDayOfWeek = _ref6$firstDayOfWeek === void 0 ? 7 : _ref6$firstDayOfWeek,
     _ref6$timezone = _ref6.timezone,
-    defaultTimezone = _ref6$timezone === void 0 ? undefined : _ref6$timezone;
+    defaultTimezone = _ref6$timezone === void 0 ? undefined : _ref6$timezone,
+    _ref6$culture = _ref6.culture,
+    culture = _ref6$culture === void 0 ? undefined : _ref6$culture,
+    _ref6$messages = _ref6.messages,
+    messages = _ref6$messages === void 0 ? undefined : _ref6$messages,
+    _ref6$formats = _ref6.formats,
+    formatOverrides = _ref6$formats === void 0 ? undefined : _ref6$formats;
   var fromJSDate = function fromJSDate(date, localizer) {
     if (date && DateTime.isDateTime(date)) {
       if (localizer && localizer.timezone && date.zoneName !== localizer.timezone) {

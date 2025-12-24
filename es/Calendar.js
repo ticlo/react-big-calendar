@@ -16,8 +16,6 @@ var _react = _interopRequireDefault(require("react"));
 var _clsx = _interopRequireDefault(require("clsx"));
 var _helpers = require("./utils/helpers");
 var _constants = require("./utils/constants");
-var _localizer = require("./localizer");
-var _messages = _interopRequireDefault(require("./utils/messages"));
 var _move = _interopRequireDefault(require("./utils/move"));
 var _Views = _interopRequireDefault(require("./Views"));
 var _Toolbar = _interopRequireDefault(require("./Toolbar"));
@@ -28,7 +26,7 @@ var _transform = _interopRequireDefault(require("lodash/transform"));
 var _mapValues = _interopRequireDefault(require("lodash/mapValues"));
 var _accessors = require("./utils/accessors");
 var _excluded = ["view", "date", "getNow", "onNavigate"],
-  _excluded2 = ["view", "toolbar", "events", "backgroundEvents", "style", "className", "elementProps", "date", "getNow", "length", "showMultiDayTimes", "onShowMore", "doShowMoreDrillDown", "components", "formats", "messages", "culture"];
+  _excluded2 = ["view", "toolbar", "events", "backgroundEvents", "style", "className", "elementProps", "date", "getNow", "length", "showMultiDayTimes", "onShowMore", "doShowMoreDrillDown", "components"];
 function viewNames(_views) {
   if (Array.isArray(_views)) {
     return _views;
@@ -177,9 +175,6 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
         onShowMore = _this$props4.onShowMore,
         doShowMoreDrillDown = _this$props4.doShowMoreDrillDown,
         _0 = _this$props4.components,
-        _1 = _this$props4.formats,
-        _2 = _this$props4.messages,
-        _3 = _this$props4.culture,
         props = (0, _objectWithoutProperties2.default)(_this$props4, _excluded2);
       var _ref2 = this.state.context,
         accessors = _ref2.accessors,
@@ -265,19 +260,12 @@ var Calendar = exports.default = /*#__PURE__*/function (_React$Component) {
         view = _ref3.view,
         views = _ref3.views,
         localizer = _ref3.localizer,
-        culture = _ref3.culture,
-        _ref3$messages = _ref3.messages,
-        messages = _ref3$messages === void 0 ? {} : _ref3$messages,
         _ref3$components = _ref3.components,
-        components = _ref3$components === void 0 ? {} : _ref3$components,
-        _ref3$formats = _ref3.formats,
-        formats = _ref3$formats === void 0 ? {} : _ref3$formats,
-        timezone = _ref3.timezone;
+        components = _ref3$components === void 0 ? {} : _ref3$components;
       var names = viewNames(views);
-      var msgs = (0, _messages.default)(messages);
       return {
         viewNames: names,
-        localizer: (0, _localizer.mergeWithDefaults)(localizer, culture, formats, msgs, timezone),
+        localizer: localizer,
         getters: {
           eventProp: function eventProp() {
             return eventPropGetter && eventPropGetter.apply(void 0, arguments) || {};

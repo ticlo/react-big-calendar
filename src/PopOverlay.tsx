@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
-import { DateLocalizer } from './localizer'
-import { Overlay } from 'react-overlays'
-import Popup from './Popup'
+import React, { useRef } from 'react';
+import { DateLocalizer } from './localizer';
+import { Overlay } from 'react-overlays';
+import Popup from './Popup';
 
 function CalOverlay({
   containerRef,
@@ -19,15 +19,15 @@ function CalOverlay({
   onHide,
   overlayDisplay,
 }: any) {
-  const popperRef = useRef(null)
-  if (!overlay.position) return null
+  const popperRef = useRef(null);
+  if (!overlay.position) return null;
 
-  let offset = popupOffset
+  let offset = popupOffset;
   if (!isNaN(popupOffset)) {
-    offset = { x: popupOffset, y: popupOffset }
+    offset = { x: popupOffset, y: popupOffset };
   }
 
-  const { position, events, date, end } = overlay
+  const { position, events, date, end } = overlay;
   return (
     <Overlay
       rootClose
@@ -61,15 +61,17 @@ function CalOverlay({
         />
       )}
     </Overlay>
-  )
+  );
 }
 
 interface PopOverlayProps {
   show?: boolean;
-  popupOffset?: number | {
-    x?: number;
-    y?: number;
-  };
+  popupOffset?:
+    | number
+    | {
+        x?: number;
+        y?: number;
+      };
   overlay?: {
     position?: object;
     events?: unknown[];
@@ -90,8 +92,8 @@ interface PopOverlayProps {
   overlayDisplay?: (...args: unknown[]) => unknown;
 }
 
-const PopOverlay = React.forwardRef<HTMLElement, PopOverlayProps>((props, ref) => (
-  <CalOverlay {...props} containerRef={ref} />
-))
+const PopOverlay = React.forwardRef<HTMLElement, PopOverlayProps>(
+  (props, ref) => <CalOverlay {...props} containerRef={ref} />
+);
 
-export default PopOverlay
+export default PopOverlay;

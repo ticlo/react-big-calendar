@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DateLocalizer = void 0;
-exports.mergeWithDefaults = mergeWithDefaults;
-var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
@@ -105,6 +103,7 @@ function startAndEndAreDateOnly(start, end) {
   return (0, _dates.isJustDate)(start) && (0, _dates.isJustDate)(end);
 }
 var DateLocalizer = exports.DateLocalizer = /*#__PURE__*/(0, _createClass2.default)(function DateLocalizer(spec) {
+  var _this = this;
   (0, _classCallCheck2.default)(this, DateLocalizer);
   this.propType = void 0;
   this.formats = void 0;
@@ -144,16 +143,20 @@ var DateLocalizer = exports.DateLocalizer = /*#__PURE__*/(0, _createClass2.defau
   this.startAndEndAreDateOnly = void 0;
   this.segmentOffset = void 0;
   this.timezone = void 0;
+  this.culture = void 0;
   this.messages = void 0;
   (0, _invariant.default)(typeof spec.format === 'function', 'date localizer `format(..)` must be a function');
   (0, _invariant.default)(typeof spec.firstOfWeek === 'function', 'date localizer `firstOfWeek(..)` must be a function');
   this.propType = spec.propType || localePropType;
   this.formats = spec.formats;
   this.format = function (value, format, culture) {
-    return _format(this, spec.format, value, format, culture);
+    return _format(this, spec.format, value, this.formats[format] || format, culture || this.culture);
   };
   // These date arithmetic methods can be overriden by the localizer
-  this.startOfWeek = spec.firstOfWeek;
+  this.startOfWeek = function () {
+    var culture = _this.culture;
+    return spec.firstOfWeek(culture);
+  };
   this.merge = spec.merge || _dates.merge;
   this.inRange = spec.inRange || _dates.inRange;
   this.lt = spec.lt || _dates.lt;
@@ -190,18 +193,6 @@ var DateLocalizer = exports.DateLocalizer = /*#__PURE__*/(0, _createClass2.defau
   this.startAndEndAreDateOnly = spec.startAndEndAreDateOnly || startAndEndAreDateOnly;
   this.segmentOffset = spec.browserTZOffset ? spec.browserTZOffset() : 0;
   this.timezone = spec.timezone;
+  this.culture = spec.culture;
   this.messages = spec.messages;
 });
-function mergeWithDefaults(localizer, culture, formatOverrides, messages, timezone) {
-  var formats = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, localizer.formats), formatOverrides);
-  return (0, _objectSpread2.default)((0, _objectSpread2.default)({}, localizer), {}, {
-    messages: messages,
-    timezone: timezone || localizer.timezone,
-    startOfWeek: function startOfWeek() {
-      return localizer.startOfWeek(culture);
-    },
-    format: function format(value, _format2) {
-      return localizer.format.call(this, value, formats[_format2] || _format2, culture);
-    }
-  });
-}

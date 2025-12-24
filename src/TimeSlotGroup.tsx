@@ -1,7 +1,7 @@
-import clsx from 'clsx'
-import React, { Component } from 'react'
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
-import BackgroundWrapper from './BackgroundWrapper'
+import BackgroundWrapper from './BackgroundWrapper';
 
 interface TimeSlotGroupProps {
   renderSlot?: (...args: any[]) => any;
@@ -19,13 +19,13 @@ export default class TimeSlotGroup extends Component<TimeSlotGroupProps> {
       group,
       getters,
       components: { timeSlotWrapper: Wrapper = BackgroundWrapper } = {},
-    } = this.props
+    } = this.props;
 
-    const groupProps = getters ? getters.slotGroupProp(group) : {}
+    const groupProps = getters ? getters.slotGroupProp(group) : {};
     return (
       <div className="rbc-timeslot-group" {...groupProps}>
         {group.map((value, idx) => {
-          const slotProps = getters ? getters.slotProp(value, resource) : {}
+          const slotProps = getters ? getters.slotProp(value, resource) : {};
           return (
             <Wrapper key={idx} value={value} resource={resource}>
               <div
@@ -35,9 +35,9 @@ export default class TimeSlotGroup extends Component<TimeSlotGroupProps> {
                 {renderSlot && renderSlot(value, idx)}
               </div>
             </Wrapper>
-          )
+          );
         })}
       </div>
-    )
+    );
   }
 }

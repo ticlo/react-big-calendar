@@ -1,9 +1,8 @@
-import React from 'react'
-import { DateLocalizer } from './localizer'
+import React from 'react';
+import { DateLocalizer } from './localizer';
 
-import Week from './Week'
-import TimeGrid from './TimeGrid'
-
+import Week from './Week';
+import TimeGrid from './TimeGrid';
 
 interface WorkWeekProps {
   date: Date;
@@ -15,26 +14,26 @@ interface WorkWeekProps {
 }
 
 class WorkWeek extends React.Component<WorkWeekProps> {
-  static defaultProps = TimeGrid.defaultProps
+  static defaultProps = TimeGrid.defaultProps;
 
   static range = (date: any, options: { localizer: DateLocalizer }) => {
-    const { localizer } = options
+    const { localizer } = options;
     let r: any = Week.range(date, options).filter((d: any) => {
-      const weekday = localizer.add(d, 0, 'minutes').weekday
-      return [6, 7].indexOf(weekday) === -1
-    })
-    r.start = r[0]
-    r.end = localizer.endOf(r[r.length - 1], 'day')
-    return r
-  }
+      const weekday = localizer.add(d, 0, 'minutes').weekday;
+      return [6, 7].indexOf(weekday) === -1;
+    });
+    r.start = r[0];
+    r.end = localizer.endOf(r[r.length - 1], 'day');
+    return r;
+  };
 
-  static navigate = Week.navigate
+  static navigate = Week.navigate;
 
   static title = (date: any, { localizer }: { localizer: DateLocalizer }) => {
-    let [start, ...rest] = WorkWeek.range(date, { localizer })
+    let [start, ...rest] = WorkWeek.range(date, { localizer });
 
-    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat')
-  }
+    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat');
+  };
 
   render() {
     /**
@@ -50,8 +49,8 @@ class WorkWeek extends React.Component<WorkWeekProps> {
       scrollToTime = localizer.startOf(undefined, 'day'),
       enableAutoScroll = true,
       ...props
-    } = this.props
-    let range = WorkWeek.range(date, this.props)
+    } = this.props;
+    let range = WorkWeek.range(date, this.props);
     return (
       <TimeGrid
         {...(props as any)}
@@ -63,9 +62,8 @@ class WorkWeek extends React.Component<WorkWeekProps> {
         scrollToTime={scrollToTime}
         enableAutoScroll={enableAutoScroll}
       />
-    )
+    );
   }
 }
 
-
-export default WorkWeek
+export default WorkWeek;

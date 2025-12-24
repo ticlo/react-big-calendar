@@ -1,10 +1,10 @@
-import React from 'react'
-import { DateLocalizer } from './localizer'
+import React from 'react';
+import { DateLocalizer } from './localizer';
 
-import { navigate } from './utils/constants'
-import { DayLayoutAlgorithmPropType } from './utils/propTypes'
+import { navigate } from './utils/constants';
+import { DayLayoutAlgorithmPropType } from './utils/propTypes';
 
-import TimeGrid from './TimeGrid'
+import TimeGrid from './TimeGrid';
 
 interface DayProps {
   date: Date;
@@ -29,7 +29,7 @@ interface DayProps {
   localizer: DateLocalizer;
   allDayMaxRows?: number;
   selected?: object;
-  selectable?: true | false | "ignoreEvents";
+  selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onNavigate?: (...args: unknown[]) => unknown;
   onSelectSlot?: (...args: unknown[]) => unknown;
@@ -46,18 +46,20 @@ interface DayProps {
   doShowMoreDrillDown?: boolean;
   popup?: boolean;
   handleDragStart?: (...args: unknown[]) => unknown;
-  popupOffset?: number | {
-    x?: number;
-    y?: number;
-  };
+  popupOffset?:
+    | number
+    | {
+        x?: number;
+        y?: number;
+      };
 }
 class Day extends React.Component<DayProps> {
   static range = (date: any, { localizer }: { localizer: DateLocalizer }) => {
-    let r: any = [localizer.startOf(date, 'day')]
-    r.start = r[0]
-    r.end = localizer.endOf(date, 'day')
-    return r
-  }
+    let r: any = [localizer.startOf(date, 'day')];
+    r.start = r[0];
+    r.end = localizer.endOf(date, 'day');
+    return r;
+  };
 
   static navigate = (
     date: any,
@@ -66,18 +68,18 @@ class Day extends React.Component<DayProps> {
   ) => {
     switch (action) {
       case navigate.PREVIOUS:
-        return localizer.add(date, -1, 'day')
+        return localizer.add(date, -1, 'day');
 
       case navigate.NEXT:
-        return localizer.add(date, 1, 'day')
+        return localizer.add(date, 1, 'day');
 
       default:
-        return date
+        return date;
     }
-  }
+  };
 
   static title = (date: any, { localizer }: { localizer: DateLocalizer }) =>
-    localizer.format(date, 'dayHeaderFormat')
+    localizer.format(date, 'dayHeaderFormat');
 
   render() {
     /**
@@ -93,8 +95,8 @@ class Day extends React.Component<DayProps> {
       scrollToTime = localizer.startOf(undefined, 'day'),
       enableAutoScroll = true,
       ...props
-    } = this.props
-    let range = Day.range(date, { localizer: localizer })
+    } = this.props;
+    let range = Day.range(date, { localizer: localizer });
 
     return (
       <TimeGrid
@@ -107,9 +109,8 @@ class Day extends React.Component<DayProps> {
         scrollToTime={scrollToTime}
         enableAutoScroll={enableAutoScroll}
       />
-    )
+    );
   }
 }
 
-
-export default Day
+export default Day;

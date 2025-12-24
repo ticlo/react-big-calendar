@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { DateTime } from 'luxon'
 import { Calendar, Views, luxonLocalizer } from '../src'
 import { uncontrollable } from 'uncontrollable'
@@ -39,7 +39,16 @@ export default {
     ],
 }
 
-const Template = (args) => <BaseCalendar localizer={localizer} {...args} />
+const Template = ({ timezone, ...args }) => {
+    const loc = React.useMemo(() => {
+        if (timezone) {
+            return luxonLocalizer(DateTime, { timezone })
+        }
+        return localizer
+    }, [timezone])
+
+    return <BaseCalendar localizer={loc} {...args} />
+}
 
 export const UTC = Template.bind({})
 UTC.args = {

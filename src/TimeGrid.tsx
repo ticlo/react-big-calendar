@@ -1,21 +1,21 @@
-import React, { Component, createRef } from 'react'
-import { DateLocalizer } from './localizer'
-import clsx from 'clsx'
-import * as animationFrame from 'dom-helpers/animationFrame'
-import memoize from 'memoize-one'
+import React, { Component, createRef } from 'react';
+import { DateLocalizer } from './localizer';
+import clsx from 'clsx';
+import * as animationFrame from 'dom-helpers/animationFrame';
+import memoize from 'memoize-one';
 
-import DayColumn from './DayColumn'
-import TimeGutter from './TimeGutter'
-import TimeGridHeader from './TimeGridHeader'
-import PopOverlay from './PopOverlay'
+import DayColumn from './DayColumn';
+import TimeGutter from './TimeGutter';
+import TimeGridHeader from './TimeGridHeader';
+import PopOverlay from './PopOverlay';
 
-import getWidth from 'dom-helpers/width'
-import getPosition from 'dom-helpers/position'
-import { views } from './utils/constants'
-import { inRange, sortEvents } from './utils/eventLevels'
-import { notify } from './utils/helpers'
-import Resources from './utils/Resources'
-import { DayLayoutAlgorithmPropType } from './utils/propTypes'
+import getWidth from 'dom-helpers/width';
+import getPosition from 'dom-helpers/position';
+import { views } from './utils/constants';
+import { inRange, sortEvents } from './utils/eventLevels';
+import { notify } from './utils/helpers';
+import Resources from './utils/Resources';
+import { DayLayoutAlgorithmPropType } from './utils/propTypes';
 
 interface TimeGridProps {
   events: any[];
@@ -40,7 +40,7 @@ interface TimeGridProps {
   eventOffset?: number;
   allDayMaxRows?: number;
   selected?: object;
-  selectable?: true | false | "ignoreEvents";
+  selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onNavigate?: (...args: unknown[]) => unknown;
   onSelectSlot?: (...args: unknown[]) => unknown;
@@ -57,98 +57,100 @@ interface TimeGridProps {
   doShowMoreDrillDown?: boolean;
   popup?: boolean;
   handleDragStart?: (...args: unknown[]) => unknown;
-  popupOffset?: number | {
-    x?: number;
-    y?: number;
-  };
+  popupOffset?:
+    | number
+    | {
+        x?: number;
+        y?: number;
+      };
 }
 
 export default class TimeGrid extends Component<TimeGridProps, any> {
   static defaultProps = {
     step: 30,
     timeslots: 2,
-  }
+  };
 
-  private containerRef: React.RefObject<HTMLDivElement>
-  private contentRef: React.RefObject<HTMLDivElement>
-  private gutterRef: React.RefObject<any>
-  private scrollRef: React.RefObject<any>
-  private _scrollRatio: number | null
-  private _updatingOverflow: boolean
-  private rafHandle: any
-  private measureGutterAnimationFrameRequest: any
-  private slots: number
-  private _selectTimer: any
-  private _pendingSelection: any[]
+  private containerRef: React.RefObject<HTMLDivElement>;
+  private contentRef: React.RefObject<HTMLDivElement>;
+  private gutterRef: React.RefObject<any>;
+  private scrollRef: React.RefObject<any>;
+  private _scrollRatio: number | null;
+  private _updatingOverflow: boolean;
+  private rafHandle: any;
+  private measureGutterAnimationFrameRequest: any;
+  private slots: number;
+  private _selectTimer: any;
+  private _pendingSelection: any[];
 
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.state = { gutterWidth: undefined, isOverflowing: null }
+    this.state = { gutterWidth: undefined, isOverflowing: null };
 
-    this.scrollRef = React.createRef()
-    this.contentRef = React.createRef()
-    this.containerRef = React.createRef()
-    this._scrollRatio = null
-    this.gutterRef = createRef()
+    this.scrollRef = React.createRef();
+    this.contentRef = React.createRef();
+    this.containerRef = React.createRef();
+    this._scrollRatio = null;
+    this.gutterRef = createRef();
   }
 
   getSnapshotBeforeUpdate() {
-    this.checkOverflow()
-    return null
+    this.checkOverflow();
+    return null;
   }
 
   componentDidMount() {
     if (this.props.width == null) {
-      this.measureGutter()
+      this.measureGutter();
     }
 
-    this.calculateScroll()
-    this.applyScroll()
+    this.calculateScroll();
+    this.applyScroll();
 
-    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('resize', this.handleResize);
   }
 
   handleScroll = (e) => {
     if (this.scrollRef.current) {
-      this.scrollRef.current.scrollLeft = e.target.scrollLeft
+      this.scrollRef.current.scrollLeft = e.target.scrollLeft;
     }
-  }
+  };
 
   handleResize = () => {
-    animationFrame.cancel(this.rafHandle)
-    this.rafHandle = animationFrame.request(this.checkOverflow)
-  }
+    animationFrame.cancel(this.rafHandle);
+    this.rafHandle = animationFrame.request(this.checkOverflow);
+  };
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.handleResize);
 
-    animationFrame.cancel(this.rafHandle)
+    animationFrame.cancel(this.rafHandle);
 
     if (this.measureGutterAnimationFrameRequest) {
-      window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
+      window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest);
     }
   }
 
   componentDidUpdate() {
-    this.applyScroll()
+    this.applyScroll();
   }
 
   handleKeyPressEvent = (event: any, e: React.SyntheticEvent) => {
-    this.clearSelection()
-    notify(this.props.onKeyPressEvent, [event, e])
-  }
+    this.clearSelection();
+    notify(this.props.onKeyPressEvent, [event, e]);
+  };
 
   handleSelectEvent = (event: any, e: React.SyntheticEvent) => {
     //cancel any pending selections so only the event click goes through.
-    this.clearSelection()
-    notify(this.props.onSelectEvent, [event, e])
-  }
+    this.clearSelection();
+    notify(this.props.onSelectEvent, [event, e]);
+  };
 
   handleDoubleClickEvent = (event: any, e: React.SyntheticEvent) => {
-    this.clearSelection()
-    notify(this.props.onDoubleClickEvent, [event, e])
-  }
+    this.clearSelection();
+    notify(this.props.onDoubleClickEvent, [event, e]);
+  };
 
   handleShowMore = (events, date, cell, slot, target) => {
     const {
@@ -157,11 +159,11 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
       onShowMore,
       getDrilldownView,
       doShowMoreDrillDown,
-    } = this.props
-    this.clearSelection()
+    } = this.props;
+    this.clearSelection();
 
     if (popup) {
-      let position = getPosition(cell, this.containerRef.current)
+      let position = getPosition(cell, this.containerRef.current);
 
       this.setState({
         overlay: {
@@ -170,19 +172,19 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
           position: { ...position, width: '200px' },
           target,
         },
-      })
+      });
     } else if (doShowMoreDrillDown) {
-      notify(onDrillDown, [date, getDrilldownView(date) || views.DAY])
+      notify(onDrillDown, [date, getDrilldownView(date) || views.DAY]);
     }
 
-    notify(onShowMore, [events, date, slot])
-  }
+    notify(onShowMore, [events, date, slot]);
+  };
 
   handleSelectAllDaySlot = (slots, slotInfo) => {
-    const { onSelectSlot } = this.props
+    const { onSelectSlot } = this.props;
 
-    const start = slots[0]
-    const end = this.props.localizer.add(slots[slots.length - 1], 1, 'day')
+    const start = slots[0];
+    const end = this.props.localizer.add(slots[slots.length - 1], 1, 'day');
 
     notify(onSelectSlot, {
       slots,
@@ -190,16 +192,16 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
       end,
       action: slotInfo.action,
       resourceId: slotInfo.resourceId,
-    })
-  }
+    });
+  };
 
   renderEvents(range, events, backgroundEvents, now) {
     let { min, max, components, accessors, localizer, dayLayoutAlgorithm } =
-      this.props
+      this.props;
 
-    const resources = this.memoizedResources(this.props.resources, accessors)
-    const groupedEvents = resources.groupEvents(events)
-    const groupedBackgroundEvents = resources.groupEvents(backgroundEvents)
+    const resources = this.memoizedResources(this.props.resources, accessors);
+    const groupedEvents = resources.groupEvents(events);
+    const groupedBackgroundEvents = resources.groupEvents(backgroundEvents);
 
     return resources.map(([id, resource], i) =>
       range.map((date, jj) => {
@@ -210,7 +212,7 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
             accessors.end(event),
             'day'
           )
-        )
+        );
 
         let daysBackgroundEvents = (
           groupedBackgroundEvents.get(id) || []
@@ -221,7 +223,7 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
             accessors.end(event),
             'day'
           )
-        )
+        );
 
         return (
           <DayColumn
@@ -238,9 +240,9 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
             backgroundEvents={daysBackgroundEvents}
             dayLayoutAlgorithm={dayLayoutAlgorithm}
           />
-        )
+        );
       })
-    )
+    );
   }
 
   render() {
@@ -262,43 +264,43 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
       showMultiDayTimes,
       longPressThreshold,
       resizable,
-    } = this.props
+    } = this.props;
 
-    width = width || this.state.gutterWidth
+    width = width || this.state.gutterWidth;
 
     let start = range[0],
-      end = range[range.length - 1]
+      end = range[range.length - 1];
 
-    this.slots = range.length
+    this.slots = range.length;
 
     let allDayEvents = [],
       rangeEvents = [],
-      rangeBackgroundEvents = []
+      rangeBackgroundEvents = [];
 
     events.forEach((event) => {
       if (inRange(event, start, end, accessors, localizer)) {
         let eStart = accessors.start(event),
-          eEnd = accessors.end(event)
+          eEnd = accessors.end(event);
 
         if (
           accessors.allDay(event) ||
           localizer.startAndEndAreDateOnly(eStart, eEnd) ||
           (!showMultiDayTimes && !localizer.isSameDate(eStart, eEnd))
         ) {
-          allDayEvents.push(event)
+          allDayEvents.push(event);
         } else {
-          rangeEvents.push(event)
+          rangeEvents.push(event);
         }
       }
-    })
+    });
 
     backgroundEvents.forEach((event) => {
       if (inRange(event, start, end, accessors, localizer)) {
-        rangeBackgroundEvents.push(event)
+        rangeBackgroundEvents.push(event);
       }
-    })
+    });
 
-    allDayEvents.sort((a, b) => sortEvents(a, b, accessors, localizer))
+    allDayEvents.sort((a, b) => sortEvents(a, b, accessors, localizer));
 
     return (
       <div
@@ -366,11 +368,11 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
           )}
         </div>
       </div>
-    )
+    );
   }
 
   renderOverlay() {
-    let overlay = this.state?.overlay ?? {}
+    let overlay = this.state?.overlay ?? {};
     let {
       accessors,
       localizer,
@@ -379,9 +381,9 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
       selected,
       popupOffset,
       handleDragStart,
-    } = this.props
+    } = this.props;
 
-    const onHide = () => this.setState({ overlay: null })
+    const onHide = () => this.setState({ overlay: null });
 
     return (
       <PopOverlay
@@ -401,77 +403,77 @@ export default class TimeGrid extends Component<TimeGridProps, any> {
         overlayDisplay={this.overlayDisplay}
         onHide={onHide}
       />
-    )
+    );
   }
 
   overlayDisplay = () => {
     this.setState({
       overlay: null,
-    })
-  }
+    });
+  };
 
   clearSelection() {
-    clearTimeout(this._selectTimer)
-    this._pendingSelection = []
+    clearTimeout(this._selectTimer);
+    this._pendingSelection = [];
   }
 
   measureGutter() {
     if (this.measureGutterAnimationFrameRequest) {
-      window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest)
+      window.cancelAnimationFrame(this.measureGutterAnimationFrameRequest);
     }
     this.measureGutterAnimationFrameRequest = window.requestAnimationFrame(
       () => {
         const width = this.gutterRef?.current
           ? getWidth(this.gutterRef.current)
-          : undefined
+          : undefined;
 
         if (width && this.state.gutterWidth !== width) {
-          this.setState({ gutterWidth: width })
+          this.setState({ gutterWidth: width });
         }
       }
-    )
+    );
   }
 
   applyScroll() {
     // If auto-scroll is disabled, we don't actually apply the scroll
     if (this._scrollRatio != null && this.props.enableAutoScroll === true) {
-      const content = this.contentRef.current
-      content.scrollTop = content.scrollHeight * this._scrollRatio
+      const content = this.contentRef.current;
+      content.scrollTop = content.scrollHeight * this._scrollRatio;
       // Only do this once
-      this._scrollRatio = null
+      this._scrollRatio = null;
     }
   }
 
   calculateScroll(props = this.props) {
-    const { min, max, scrollToTime, localizer } = props
+    const { min, max, scrollToTime, localizer } = props;
 
     const diffMillis = localizer.diff(
       localizer.merge(scrollToTime, min),
       scrollToTime,
       'milliseconds'
-    )
-    const totalMillis = localizer.diff(min, max, 'milliseconds')
+    );
+    const totalMillis = localizer.diff(min, max, 'milliseconds');
 
-    this._scrollRatio = diffMillis / totalMillis
+    this._scrollRatio = diffMillis / totalMillis;
   }
 
   checkOverflow = () => {
-    if (this._updatingOverflow) return
+    if (this._updatingOverflow) return;
 
-    const content = this.contentRef.current
+    const content = this.contentRef.current;
 
-    if (!content?.scrollHeight) return
-    let isOverflowing = content.scrollHeight > content.clientHeight
+    if (!content?.scrollHeight) return;
+    let isOverflowing = content.scrollHeight > content.clientHeight;
 
     if (this.state.isOverflowing !== isOverflowing) {
-      this._updatingOverflow = true
+      this._updatingOverflow = true;
       this.setState({ isOverflowing }, () => {
-        this._updatingOverflow = false
-      })
+        this._updatingOverflow = false;
+      });
     }
-  }
+  };
 
   memoizedResources = memoize((resources, accessors) =>
     Resources(resources, accessors)
-  )
+  );
 }

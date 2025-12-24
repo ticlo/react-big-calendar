@@ -1,7 +1,7 @@
-import React from 'react'
-import clsx from 'clsx'
-import { navigate } from './utils/constants'
-import { DateLocalizer } from './localizer'
+import React from 'react';
+import clsx from 'clsx';
+import { navigate } from './utils/constants';
+import { DateLocalizer } from './localizer';
 
 interface ToolbarProps {
   view: string;
@@ -18,7 +18,7 @@ class Toolbar extends React.Component<ToolbarProps> {
     let {
       localizer: { messages },
       label,
-    } = this.props
+    } = this.props;
 
     return (
       <div className="rbc-toolbar">
@@ -47,20 +47,20 @@ class Toolbar extends React.Component<ToolbarProps> {
 
         <span className="rbc-btn-group">{this.viewNamesGroup(messages)}</span>
       </div>
-    )
+    );
   }
 
   navigate = (action) => {
-    this.props.onNavigate(action)
-  }
+    this.props.onNavigate(action);
+  };
 
   view = (view) => {
-    this.props.onView(view)
-  }
+    this.props.onView(view);
+  };
 
   viewNamesGroup(messages) {
-    let viewNames = this.props.views
-    const view = this.props.view
+    let viewNames = this.props.views;
+    const view = this.props.view;
 
     if (viewNames.length > 1) {
       return viewNames.map((name) => (
@@ -72,9 +72,9 @@ class Toolbar extends React.Component<ToolbarProps> {
         >
           {messages[name]}
         </button>
-      ))
+      ));
     }
   }
 }
 
-export default Toolbar
+export default Toolbar;

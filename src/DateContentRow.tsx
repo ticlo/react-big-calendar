@@ -1,15 +1,15 @@
-import React, { createRef } from 'react'
-import { DateLocalizer } from './localizer'
-import clsx from 'clsx'
-import getHeight from 'dom-helpers/height'
-import qsa from 'dom-helpers/querySelectorAll'
+import React, { createRef } from 'react';
+import { DateLocalizer } from './localizer';
+import clsx from 'clsx';
+import getHeight from 'dom-helpers/height';
+import qsa from 'dom-helpers/querySelectorAll';
 
-import BackgroundCells from './BackgroundCells'
-import EventRow from './EventRow'
-import EventEndingRow from './EventEndingRow'
-import NoopWrapper from './NoopWrapper'
-import ScrollableWeekWrapper from './ScrollableWeekWrapper'
-import * as DateSlotMetrics from './utils/DateSlotMetrics'
+import BackgroundCells from './BackgroundCells';
+import EventRow from './EventRow';
+import EventEndingRow from './EventEndingRow';
+import NoopWrapper from './NoopWrapper';
+import ScrollableWeekWrapper from './ScrollableWeekWrapper';
+import * as DateSlotMetrics from './utils/DateSlotMetrics';
 
 interface DateContentRowProps {
   date?: any;
@@ -48,59 +48,59 @@ class DateContentRow extends React.Component<DateContentRowProps> {
   static defaultProps = {
     minRows: 0,
     maxRows: Infinity,
-  }
+  };
 
-  containerRef: React.RefObject<HTMLDivElement>
-  headingRowRef: React.RefObject<HTMLDivElement>
-  eventRowRef: React.RefObject<HTMLDivElement>
-  slotMetrics: any
+  containerRef: React.RefObject<HTMLDivElement>;
+  headingRowRef: React.RefObject<HTMLDivElement>;
+  eventRowRef: React.RefObject<HTMLDivElement>;
+  slotMetrics: any;
 
   constructor(props: DateContentRowProps) {
-    super(props)
+    super(props);
 
-    this.containerRef = createRef()
-    this.headingRowRef = createRef()
-    this.eventRowRef = createRef()
+    this.containerRef = createRef();
+    this.headingRowRef = createRef();
+    this.eventRowRef = createRef();
 
-    this.slotMetrics = DateSlotMetrics.getSlotMetrics()
+    this.slotMetrics = DateSlotMetrics.getSlotMetrics();
   }
 
   handleSelectSlot = (slot) => {
-    const { range, onSelectSlot } = this.props
+    const { range, onSelectSlot } = this.props;
 
-    onSelectSlot(range.slice(slot.start, slot.end + 1), slot)
-  }
+    onSelectSlot(range.slice(slot.start, slot.end + 1), slot);
+  };
 
   handleShowMore = (slot, target) => {
-    const { range, onShowMore } = this.props
-    let metrics = this.slotMetrics(this.props)
-    let row = qsa(this.containerRef.current, '.rbc-row-bg')[0]
+    const { range, onShowMore } = this.props;
+    let metrics = this.slotMetrics(this.props);
+    let row = qsa(this.containerRef.current, '.rbc-row-bg')[0];
 
-    let cell
-    if (row) cell = row.children[slot - 1]
+    let cell;
+    if (row) cell = row.children[slot - 1];
 
-    let events = metrics.getEventsForSlot(slot)
-    onShowMore(events, range[slot - 1], cell, slot, target)
-  }
+    let events = metrics.getEventsForSlot(slot);
+    onShowMore(events, range[slot - 1], cell, slot, target);
+  };
 
   getContainer = () => {
-    const { container } = this.props
-    return container ? container() : this.containerRef.current
-  }
+    const { container } = this.props;
+    return container ? container() : this.containerRef.current;
+  };
 
   getRowLimit() {
     /* Guessing this only gets called on the dummyRow */
-    const eventHeight = getHeight(this.eventRowRef.current)
+    const eventHeight = getHeight(this.eventRowRef.current);
     const headingHeight = this.headingRowRef?.current
       ? getHeight(this.headingRowRef.current)
-      : 0
-    const eventSpace = getHeight(this.containerRef.current) - headingHeight
+      : 0;
+    const eventSpace = getHeight(this.containerRef.current) - headingHeight;
 
-    return Math.max(Math.floor(eventSpace / eventHeight), 1)
+    return Math.max(Math.floor(eventSpace / eventHeight), 1);
   }
 
   renderHeadingCell = (date, index) => {
-    let { renderHeader, getNow, localizer } = this.props
+    let { renderHeader, getNow, localizer } = this.props;
 
     return renderHeader({
       date,
@@ -109,11 +109,11 @@ class DateContentRow extends React.Component<DateContentRowProps> {
         'rbc-date-cell',
         localizer.isSameDate(date, getNow()) && 'rbc-now'
       ),
-    })
-  }
+    });
+  };
 
   renderDummy = () => {
-    let { className, range, renderHeader, showAllEvents } = this.props
+    let { className, range, renderHeader, showAllEvents } = this.props;
     return (
       <div className={className} ref={this.containerRef}>
         <div
@@ -136,8 +136,8 @@ class DateContentRow extends React.Component<DateContentRowProps> {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     const {
@@ -166,17 +166,17 @@ class DateContentRow extends React.Component<DateContentRowProps> {
       isAllDay,
       resizable,
       showAllEvents,
-    } = this.props
+    } = this.props;
 
-    if (renderForMeasure) return this.renderDummy()
+    if (renderForMeasure) return this.renderDummy();
 
-    let metrics = this.slotMetrics(this.props)
-    let { levels, extra } = metrics
+    let metrics = this.slotMetrics(this.props);
+    let { levels, extra } = metrics;
 
     let ScrollableWeekComponent = showAllEvents
       ? ScrollableWeekWrapper
-      : NoopWrapper
-    let WeekWrapper = components.weekWrapper
+      : NoopWrapper;
+    let WeekWrapper = components.weekWrapper;
 
     const eventRowProps = {
       selected,
@@ -190,7 +190,7 @@ class DateContentRow extends React.Component<DateContentRowProps> {
       resourceId,
       slotMetrics: metrics,
       resizable,
-    }
+    };
 
     return (
       <div className={className} role="rowgroup" ref={this.containerRef}>
@@ -224,7 +224,11 @@ class DateContentRow extends React.Component<DateContentRowProps> {
             </div>
           )}
           <ScrollableWeekComponent>
-            <WeekWrapper isAllDay={isAllDay} {...eventRowProps} rtl={this.props.rtl}>
+            <WeekWrapper
+              isAllDay={isAllDay}
+              {...eventRowProps}
+              rtl={this.props.rtl}
+            >
               {levels.map((segs, idx) => (
                 <EventRow key={idx} segments={segs} {...eventRowProps} />
               ))}
@@ -239,8 +243,8 @@ class DateContentRow extends React.Component<DateContentRowProps> {
           </ScrollableWeekComponent>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default DateContentRow
+export default DateContentRow;

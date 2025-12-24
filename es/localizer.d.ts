@@ -46,7 +46,7 @@ export declare class DateLocalizer {
     startAndEndAreDateOnly: (start: any, end: any) => boolean;
     segmentOffset: number;
     timezone?: string;
+    culture?: string;
     messages: Messages;
     constructor(spec: any);
 }
-export declare function mergeWithDefaults(localizer: any, culture: any, formatOverrides: any, messages: any, timezone: any): any;

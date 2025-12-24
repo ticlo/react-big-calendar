@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 interface DateHeaderProps {
   label?: React.ReactNode;
@@ -8,13 +8,9 @@ interface DateHeaderProps {
   isOffRange?: boolean;
 }
 
-const DateHeader = ({
-  label,
-  drilldownView,
-  onDrillDown
-}: DateHeaderProps) => {
+const DateHeader = ({ label, drilldownView, onDrillDown }: DateHeaderProps) => {
   if (!drilldownView) {
-    return <span>{label}</span>
+    return <span>{label}</span>;
   }
 
   return (
@@ -26,7 +22,7 @@ const DateHeader = ({
     >
       {label}
     </button>
-  )
-}
+  );
+};
 
-export default DateHeader
+export default DateHeader;

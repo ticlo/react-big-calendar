@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 interface ResourceHeaderProps {
   label?: React.ReactNode;
@@ -6,10 +6,8 @@ interface ResourceHeaderProps {
   resource?: object;
 }
 
-const ResourceHeader = ({
-  label
-}: ResourceHeaderProps) => {
-  return <React.Fragment>{label}</React.Fragment>
-}
+const ResourceHeader = ({ label }: ResourceHeaderProps) => {
+  return <React.Fragment>{label}</React.Fragment>;
+};
 
-export default ResourceHeader
+export default ResourceHeader;

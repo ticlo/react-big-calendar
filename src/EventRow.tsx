@@ -1,6 +1,6 @@
-import clsx from 'clsx'
-import React from 'react'
-import EventRowMixin from './EventRowMixin'
+import clsx from 'clsx';
+import React from 'react';
+import EventRowMixin from './EventRowMixin';
 
 interface EventRowProps {
   segments?: any[];
@@ -23,33 +23,33 @@ class EventRow extends React.Component<EventRowProps> {
       segments,
       slotMetrics: { slots },
       className,
-    } = this.props
+    } = this.props;
 
-    let lastEnd = 1
+    let lastEnd = 1;
 
     return (
       <div className={clsx(className, 'rbc-row')}>
         {segments.reduce((row, { event, left, right, span }, li) => {
-          let key = '_lvl_' + li
-          let gap = left - lastEnd
+          let key = '_lvl_' + li;
+          let gap = left - lastEnd;
 
-          let content = EventRowMixin.renderEvent(this.props, event)
+          let content = EventRowMixin.renderEvent(this.props, event);
 
-          if (gap) row.push(EventRowMixin.renderSpan(slots, gap, `${key}_gap`))
+          if (gap) row.push(EventRowMixin.renderSpan(slots, gap, `${key}_gap`));
 
-          row.push(EventRowMixin.renderSpan(slots, span, key, content as any))
+          row.push(EventRowMixin.renderSpan(slots, span, key, content as any));
 
-          lastEnd = right + 1
+          lastEnd = right + 1;
 
-          return row
+          return row;
         }, [])}
       </div>
-    )
+    );
   }
 }
 
-;(EventRow as any).defaultProps = {
+(EventRow as any).defaultProps = {
   ...EventRowMixin.defaultProps,
-}
+};
 
-export default EventRow
+export default EventRow;

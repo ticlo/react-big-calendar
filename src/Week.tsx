@@ -1,10 +1,10 @@
-import React from 'react'
-import { DateLocalizer } from './localizer'
+import React from 'react';
+import { DateLocalizer } from './localizer';
 
-import { navigate } from './utils/constants'
-import { DayLayoutAlgorithmPropType } from './utils/propTypes'
+import { navigate } from './utils/constants';
+import { DayLayoutAlgorithmPropType } from './utils/propTypes';
 
-import TimeGrid from './TimeGrid'
+import TimeGrid from './TimeGrid';
 
 interface WeekProps {
   date: Date;
@@ -29,7 +29,7 @@ interface WeekProps {
   localizer: DateLocalizer;
   allDayMaxRows?: number;
   selected?: object;
-  selectable?: true | false | "ignoreEvents";
+  selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onNavigate?: (...args: unknown[]) => unknown;
   onSelectSlot?: (...args: unknown[]) => unknown;
@@ -46,14 +46,16 @@ interface WeekProps {
   doShowMoreDrillDown?: boolean;
   popup?: boolean;
   handleDragStart?: (...args: unknown[]) => unknown;
-  popupOffset?: number | {
-    x?: number;
-    y?: number;
-  };
+  popupOffset?:
+    | number
+    | {
+        x?: number;
+        y?: number;
+      };
 }
 
 class Week extends React.Component<WeekProps> {
-  static defaultProps = TimeGrid.defaultProps
+  static defaultProps = TimeGrid.defaultProps;
 
   static navigate = (
     date: any,
@@ -62,31 +64,31 @@ class Week extends React.Component<WeekProps> {
   ) => {
     switch (action) {
       case navigate.PREVIOUS:
-        return localizer.add(date, -1, 'week')
+        return localizer.add(date, -1, 'week');
 
       case navigate.NEXT:
-        return localizer.add(date, 1, 'week')
+        return localizer.add(date, 1, 'week');
 
       default:
-        return date
+        return date;
     }
-  }
+  };
 
   static range = (date: any, { localizer }: { localizer: DateLocalizer }) => {
-    let firstOfWeek = localizer.startOfWeek()
-    let start = localizer.startOf(date, 'week', firstOfWeek)
-    let end = localizer.endOf(date, 'week', firstOfWeek)
+    let firstOfWeek = localizer.startOfWeek();
+    let start = localizer.startOf(date, 'week', firstOfWeek);
+    let end = localizer.endOf(date, 'week', firstOfWeek);
 
-    let r: any = localizer.range(start, end)
-    r.start = start
-    r.end = end
-    return r
-  }
+    let r: any = localizer.range(start, end);
+    r.start = start;
+    r.end = end;
+    return r;
+  };
 
   static title = (date: any, { localizer }: { localizer: DateLocalizer }) => {
-    let [start, ...rest] = Week.range(date, { localizer })
-    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat')
-  }
+    let [start, ...rest] = Week.range(date, { localizer });
+    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat');
+  };
 
   render() {
     /**
@@ -102,8 +104,8 @@ class Week extends React.Component<WeekProps> {
       scrollToTime = localizer.startOf(undefined, 'day'),
       enableAutoScroll = true,
       ...props
-    } = this.props
-    let range = Week.range(date, this.props)
+    } = this.props;
+    let range = Week.range(date, this.props);
 
     return (
       <TimeGrid
@@ -116,9 +118,8 @@ class Week extends React.Component<WeekProps> {
         scrollToTime={scrollToTime}
         enableAutoScroll={enableAutoScroll}
       />
-    )
+    );
   }
 }
 
-
-export default Week
+export default Week;
