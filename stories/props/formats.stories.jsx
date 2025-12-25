@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import { DateTime } from 'luxon'
-import { Calendar, luxonLocalizer } from '../../src'
+import { Calendar } from '../helpers'
 import demoEvents from '../resources/events'
 // import mdx from '...' 
 
-const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -25,10 +24,10 @@ export function Formats() {
         dateFormat: 'D',
         // the day of the week header in the 'month' view
         weekdayFormat: (date, culture, localizer) =>
-          localizer.format(date, 'dddd', culture),
+          localizer.format(date, 'EEEE', culture),
         // the day header in the 'week' and 'day' (Time Grid) views
         dayFormat: (date, culture, localizer) =>
-          localizer.format(date, 'dddd Do', culture),
+          localizer.format(date, 'EEEE d', culture),
         // the time in the gutter in the Time Grid views
         timeGutterFormat: (date, culture, localizer) =>
           localizer.format(date, 'hh:mm a', culture),
@@ -37,13 +36,17 @@ export function Formats() {
     []
   )
 
+  const localizer = useMemo(
+    () => luxonLocalizer(DateTime, { formats }),
+    [formats]
+  )
+
   return (
     <div className="height600">
       <Calendar
         defaultDate={defaultDate}
         events={demoEvents}
-        formats={formats}
-        localizer={mLocalizer}
+        localizer={localizer}
       />
     </div>
   )

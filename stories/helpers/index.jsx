@@ -20,23 +20,27 @@ const BaseCalendar = uncontrollable(ControledCalendar, {
   selected: 'onSelectEvent',
 })
 
-const localizer = luxonLocalizer(DateTime)
-
 export const date = (year, month, day, hour = 0, minute = 0, second = 0) =>
   DateTime.fromObject({ year, month, day, hour, minute, second }).toJSDate()
 
-export const Calendar = (props) => (
-  <div style={{ height: 650 }}>
-    <BaseCalendar localizer={localizer} {...props} />
-  </div>
-)
+export const Calendar = ({ culture, messages, formats, localizer, ...props }) => {
+  const memoizedLocalizer = React.useMemo(
+    () => localizer || luxonLocalizer(DateTime, { culture, messages, formats }),
+    [localizer, culture, messages, formats]
+  )
+  return (
+    <div style={{ height: 650 }}>
+      <BaseCalendar localizer={memoizedLocalizer} {...props} />
+    </div>
+  )
+}
 
-export const DragableCalendar = (props) => {
+export const DragAndDropCalendar = (props) => {
   return (
     <Calendar
       popup
       selectable
-      localizer={localizer}
+
       onEventDrop={action('event dropped')}
       onSelectEvent={action('event selected')}
       onSelectSlot={action('slot selected')}
@@ -44,6 +48,7 @@ export const DragableCalendar = (props) => {
     />
   )
 }
+export const DragableCalendar = DragAndDropCalendar
 
 export const events = [
   {

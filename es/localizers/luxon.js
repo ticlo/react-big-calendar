@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = _default;
 exports.formats = void 0;
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/slicedToArray"));
 var _localizer = require("../localizer");
@@ -19,25 +20,20 @@ var weekRangeFormat = function weekRangeFormat(_ref, culture, local) {
   // updated to use this localizer 'eq()' method
   local.format(end, local.eq(start, end, 'month') ? 'dd' : 'LLLL dd', culture);
 };
-var dateRangeFormat = function dateRangeFormat(_ref2, culture, local) {
+var timeRangeFormat = function timeRangeFormat(_ref2, culture, local) {
   var start = _ref2.start,
     end = _ref2.end;
-  return local.format(start, 'D', culture) + ' – ' + local.format(end, 'D', culture);
-};
-var timeRangeFormat = function timeRangeFormat(_ref3, culture, local) {
-  var start = _ref3.start,
-    end = _ref3.end;
   if (start.getMonth() === end.getMonth() && start.getDate() === end.getDate()) {
     return local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture);
   }
   return local.format(start, 'ff', culture) + ' – ' + local.format(end, 'ff', culture);
 };
-var timeRangeStartFormat = function timeRangeStartFormat(_ref4, culture, local) {
-  var start = _ref4.start;
+var timeRangeStartFormat = function timeRangeStartFormat(_ref3, culture, local) {
+  var start = _ref3.start;
   return local.format(start, 't', culture) + ' – ';
 };
-var timeRangeEndFormat = function timeRangeEndFormat(_ref5, culture, local) {
-  var end = _ref5.end;
+var timeRangeEndFormat = function timeRangeEndFormat(_ref4, culture, local) {
+  var end = _ref4.end;
   return ' – ' + local.format(end, 't', culture);
 };
 var formats = exports.formats = {
@@ -67,17 +63,17 @@ function fixUnit(unit) {
 // Luxon uses 1 based values for month and weekday
 // So we default to Sunday (7)
 function _default(DateTime) {
-  var _ref6 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    _ref6$firstDayOfWeek = _ref6.firstDayOfWeek,
-    firstDayOfWeek = _ref6$firstDayOfWeek === void 0 ? 7 : _ref6$firstDayOfWeek,
-    _ref6$timezone = _ref6.timezone,
-    defaultTimezone = _ref6$timezone === void 0 ? undefined : _ref6$timezone,
-    _ref6$culture = _ref6.culture,
-    culture = _ref6$culture === void 0 ? undefined : _ref6$culture,
-    _ref6$messages = _ref6.messages,
-    messages = _ref6$messages === void 0 ? undefined : _ref6$messages,
-    _ref6$formats = _ref6.formats,
-    formatOverrides = _ref6$formats === void 0 ? undefined : _ref6$formats;
+  var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+    _ref5$firstDayOfWeek = _ref5.firstDayOfWeek,
+    firstDayOfWeek = _ref5$firstDayOfWeek === void 0 ? 7 : _ref5$firstDayOfWeek,
+    _ref5$timezone = _ref5.timezone,
+    defaultTimezone = _ref5$timezone === void 0 ? undefined : _ref5$timezone,
+    _ref5$culture = _ref5.culture,
+    culture = _ref5$culture === void 0 ? undefined : _ref5$culture,
+    _ref5$messages = _ref5.messages,
+    messages = _ref5$messages === void 0 ? undefined : _ref5$messages,
+    _ref5$formats = _ref5.formats,
+    formatOverrides = _ref5$formats === void 0 ? undefined : _ref5$formats;
   var fromJSDate = function fromJSDate(date, localizer) {
     if (date && DateTime.isDateTime(date)) {
       if (localizer && localizer.timezone && date.zoneName !== localizer.timezone) {
@@ -329,15 +325,15 @@ function _default(DateTime) {
   }
 
   // These two are used by eventLevels
-  function sortEvents(_ref7) {
-    var _ref7$evtA = _ref7.evtA,
-      aStart = _ref7$evtA.start,
-      aEnd = _ref7$evtA.end,
-      aAllDay = _ref7$evtA.allDay,
-      _ref7$evtB = _ref7.evtB,
-      bStart = _ref7$evtB.start,
-      bEnd = _ref7$evtB.end,
-      bAllDay = _ref7$evtB.allDay;
+  function sortEvents(_ref6) {
+    var _ref6$evtA = _ref6.evtA,
+      aStart = _ref6$evtA.start,
+      aEnd = _ref6$evtA.end,
+      aAllDay = _ref6$evtA.allDay,
+      _ref6$evtB = _ref6.evtB,
+      bStart = _ref6$evtB.start,
+      bEnd = _ref6$evtB.end,
+      bAllDay = _ref6$evtB.allDay;
     var startSort = Number(startOf.call(this, aStart, 'day')) - Number(startOf.call(this, bStart, 'day'));
     var durA = daySpan.call(this, aStart, aEnd);
     var durB = daySpan.call(this, bStart, bEnd);
@@ -352,13 +348,13 @@ function _default(DateTime) {
     Number(aEnd) - Number(bEnd) // then sort by end time *don't need moment conversion here either
     ;
   }
-  function inEventRange(_ref8) {
-    var _ref8$event = _ref8.event,
-      start = _ref8$event.start,
-      end = _ref8$event.end,
-      _ref8$range = _ref8.range,
-      rangeStart = _ref8$range.start,
-      rangeEnd = _ref8$range.end;
+  function inEventRange(_ref7) {
+    var _ref7$event = _ref7.event,
+      start = _ref7$event.start,
+      end = _ref7$event.end,
+      _ref7$range = _ref7.range,
+      rangeStart = _ref7$range.start,
+      rangeEnd = _ref7$range.end;
     var eStart = startOf.call(this, start, 'day');
     var startsBeforeEnd = lte.call(this, eStart, rangeEnd, 'day');
     // when the event is zero duration we need to handle a bit differently
@@ -406,7 +402,9 @@ function _default(DateTime) {
       }
       return formatDate.call(this, value, _format);
     },
-    formats: formats,
+    formats: (0, _objectSpread2.default)((0, _objectSpread2.default)({}, formats), formatOverrides),
+    culture: culture,
+    messages: messages,
     firstOfWeek: firstOfWeek,
     firstVisibleDay: firstVisibleDay,
     lastVisibleDay: lastVisibleDay,

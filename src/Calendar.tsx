@@ -1,17 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import {
-  accessor,
-  dateFormat,
-  dateRangeFormat,
-  DayLayoutAlgorithmPropType,
-  views as componentViews,
-} from './utils/propTypes';
-
 import { notify } from './utils/helpers';
 import { navigate, views } from './utils/constants';
 
-import message from './utils/messages';
 import moveDate from './utils/move';
 import VIEWS from './Views';
 import Toolbar from './Toolbar';
@@ -19,12 +10,10 @@ import NoopWrapper from './NoopWrapper';
 import {
   CalendarEvent,
   Components,
-  Messages,
   Getters,
   Accessors,
   ViewNames,
   DayLayoutAlgorithm,
-  Culture,
 } from './types';
 import { DateLocalizer } from './localizer';
 

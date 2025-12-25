@@ -13,9 +13,7 @@ export default {
   },
 }
 
-const localizer = luxonLocalizer(DateTime)
-
 export function Example5() {
-  return <CultureDemo localizer={localizer} />
+  return <CultureDemo />
 }
 Example5.storyName = 'Localization'

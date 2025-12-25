@@ -6,7 +6,7 @@ interface BackgroundCellsProps {
     components: any;
     container?: (...args: any[]) => any;
     dayPropGetter?: (...args: any[]) => any;
-    selectable?: true | false | "ignoreEvents";
+    selectable?: true | false | 'ignoreEvents';
     longPressThreshold?: number;
     onSelectSlot: (args: {
         start: any;

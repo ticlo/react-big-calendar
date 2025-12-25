@@ -5,10 +5,10 @@ import { Calendar, Views, DateLocalizer } from '../../../src'
 import Card from '../../resources/Card'
 import DemoLink from '../../DemoLink.component'
 // Storybook cannot alias this, so you would use 'react-big-calendar/lib/addons/dragAndDrop'
-import withDragAndDrop from '../../../src/addons/dragAndDrop'
-// Storybook cannot alias this, so you would use 'react-big-calendar/lib/addons/dragAndDrop/styles.scss'
-import '../../../src/addons/dragAndDrop/styles.scss'
+// import withDragAndDrop from '../../../src/addons/dragAndDrop'
+// import '../../../src/addons/dragAndDrop/styles.scss'
 
+const withDragAndDrop = (C) => C
 const DragAndDropCalendar = withDragAndDrop(Calendar)
 
 const adjEvents = events.map((it, ind) => ({

@@ -5,12 +5,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DateLocalizer = void 0;
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/createClass"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/classCallCheck"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 var _invariant = _interopRequireDefault(require("invariant"));
 var _dates = require("./utils/dates");
+// eslint-disable-line no-unused-vars
+
 var localePropType = _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.func]);
+var defaultMessages = {
+  date: 'Date',
+  time: 'Time',
+  event: 'Event',
+  allDay: 'All Day',
+  week: 'Week',
+  work_week: 'Work Week',
+  day: 'Day',
+  month: 'Month',
+  previous: 'Back',
+  next: 'Next',
+  yesterday: 'Yesterday',
+  tomorrow: 'Tomorrow',
+  today: 'Today',
+  agenda: 'Agenda',
+  noEventsInRange: 'There are no events in this range.',
+  showMore: function showMore(total) {
+    return "+".concat(total, " more");
+  }
+};
 function _format(localizer, formatter, value, format, culture) {
   var result = typeof format === 'function' ? format(value, culture, localizer) : formatter.call(localizer, value, format, culture);
   (0, _invariant.default)(result == null || typeof result === 'string', '`localizer format(..)` must return a string, null, or undefined');
@@ -194,5 +217,5 @@ var DateLocalizer = exports.DateLocalizer = /*#__PURE__*/(0, _createClass2.defau
   this.segmentOffset = spec.browserTZOffset ? spec.browserTZOffset() : 0;
   this.timezone = spec.timezone;
   this.culture = spec.culture;
-  this.messages = spec.messages;
+  this.messages = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, defaultMessages), spec.messages);
 });

@@ -1,14 +1,10 @@
 import React, { Fragment, useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Calendar, DateLocalizer } from '../../../src'
+import { Calendar, DateLocalizer, luxonLocalizer } from '../../../src'
+import { DateTime } from 'luxon'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
 import Layout from 'react-tackle-box/Layout'
-
-import 'globalize/lib/cultures/globalize.culture.en-GB'
-import 'globalize/lib/cultures/globalize.culture.es'
-import 'globalize/lib/cultures/globalize.culture.fr'
-import 'globalize/lib/cultures/globalize.culture.ar-AE'
 
 const cultures = ['en', 'en-GB', 'es', 'fr', 'ar-AE']
 const lang = {
@@ -52,7 +48,7 @@ const lang = {
   },
 }
 
-export default function CulturesDemo({ localizer }) {
+export default function CulturesDemo() {
   const [culture, setCulture] = useState('fr')
   const [rightToLeft, setRightToLeft] = useState(false)
 
@@ -71,6 +67,11 @@ export default function CulturesDemo({ localizer }) {
       messages: lang[culture],
     }),
     [culture]
+  )
+
+  const localizer = useMemo(
+    () => luxonLocalizer(DateTime, { culture, messages }),
+    [culture, messages]
   )
 
   return (
@@ -94,17 +95,13 @@ export default function CulturesDemo({ localizer }) {
       </DemoLink>
       <div className="height600">
         <Calendar
-          culture={culture}
           defaultDate={defaultDate}
           events={events}
           localizer={localizer}
-          messages={messages}
           rtl={rightToLeft}
         />
       </div>
     </Fragment>
   )
 }
-CulturesDemo.propTypes = {
-  localizer: PropTypes.instanceOf(DateLocalizer),
-}
+

@@ -27,11 +27,17 @@ export default {
   },
 }
 
-const Template = (args) => (
-  <div className="height600">
-    <Calendar {...args} />
-  </div>
-)
+const Template = ({ culture, ...args }) => {
+  const localizer = React.useMemo(
+    () => luxonLocalizer(DateTime, { culture }),
+    [culture]
+  )
+  return (
+    <div className="height600">
+      <Calendar {...args} localizer={localizer} />
+    </div>
+  )
+}
 
 export const Culture = Template.bind({})
 Culture.storyName = 'culture'

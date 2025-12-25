@@ -36,13 +36,17 @@ export function Messages() {
     []
   )
 
+  const localizer = useMemo(
+    () => luxonLocalizer(DateTime, { messages }),
+    [messages]
+  )
+
   return (
     <div className="height600">
       <Calendar
         defaultDate={defaultDate}
         events={demoEvents}
-        localizer={mLocalizer}
-        messages={messages}
+        localizer={localizer}
       />
     </div>
   )

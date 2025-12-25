@@ -128,4 +128,6 @@ interface PopupProps {
 const Popup = React.forwardRef<any, any>((props, ref) => (
   <Pop {...props} popperRef={ref} />
 ));
+Popup.displayName = 'Popup';
+
 export default Popup;

@@ -6,8 +6,13 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  extends: ['prettier', 'plugin:storybook/recommended'],
-  plugins: ['react-hooks', 'import'],
+  extends: ['prettier', 'plugin:storybook/recommended', 'plugin:react/recommended'],
+  plugins: ['react', 'react-hooks', 'import'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   env: {
     node: true,
     browser: true,
@@ -27,6 +32,7 @@ module.exports = {
   ],
   rules: {
     'global-require': 'off',
+    'react/prop-types': 'off', // Disabling for now to avoid many new errors
     'no-console': [
       'error',
       {

@@ -10,8 +10,7 @@ const weekRangeFormat = ({ start, end }, culture, local) =>
   // updated to use this localizer 'eq()' method
   local.format(end, local.eq(start, end, 'month') ? 'dd' : 'LLLL dd', culture);
 
-const dateRangeFormat = ({ start, end }, culture, local) =>
-  local.format(start, 'D', culture) + ' – ' + local.format(end, 'D', culture);
+
 
 const timeRangeFormat = ({ start, end }, culture, local) => {
   if (
@@ -279,7 +278,7 @@ export default function (
     const dtB = fromJSDate(b, this);
     return Math.floor(
       dtB.diff(dtA, datePart, { conversionAccuracy: 'longterm' }).toObject()[
-        datePart
+      datePart
       ]
     );
   }
@@ -431,7 +430,12 @@ export default function (
       return formatDate.call(this, value, format);
     },
 
-    formats,
+    formats: {
+      ...formats,
+      ...formatOverrides,
+    },
+    culture,
+    messages,
 
     firstOfWeek,
     firstVisibleDay: firstVisibleDay,

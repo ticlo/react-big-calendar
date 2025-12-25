@@ -1,4 +1,4 @@
-import { Culture, Format, Messages } from './types';
+import type { Culture, Format, Messages } from './types';
 export declare class DateLocalizer {
     propType: any;
     formats: {

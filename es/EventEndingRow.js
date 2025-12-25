@@ -112,6 +112,5 @@ var EventEndingRow = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }(_react.default.Component);
-;
 EventEndingRow.defaultProps = (0, _objectSpread2.default)({}, _EventRowMixin.default.defaultProps);
 var _default = exports.default = EventEndingRow;

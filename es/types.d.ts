@@ -1,5 +1,5 @@
 import React from 'react';
-import { DateLocalizer } from './localizer';
+import type { DateLocalizer } from './localizer';
 export type Culture = string | string[];
 export type Format = string | ((date: any, culture?: Culture, localizer?: DateLocalizer) => string);
 export interface CalendarEvent {

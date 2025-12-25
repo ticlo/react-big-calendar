@@ -95,5 +95,6 @@ interface PopOverlayProps {
 const PopOverlay = React.forwardRef<HTMLElement, PopOverlayProps>(
   (props, ref) => <CalOverlay {...props} containerRef={ref} />
 );
+PopOverlay.displayName = 'PopOverlay';
 
 export default PopOverlay;

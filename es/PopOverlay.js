@@ -74,4 +74,5 @@ var PopOverlay = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
     containerRef: ref
   }));
 });
+PopOverlay.displayName = 'PopOverlay';
 var _default = exports.default = PopOverlay;

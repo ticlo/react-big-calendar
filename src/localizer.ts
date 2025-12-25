@@ -24,9 +24,28 @@ import {
   minutes,
   isJustDate,
 } from './utils/dates';
-import { Culture, Format, Messages } from './types';
+import type { Culture, Format, Messages } from './types'; // eslint-disable-line no-unused-vars
 
 const localePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.func]);
+
+const defaultMessages: Messages = {
+  date: 'Date',
+  time: 'Time',
+  event: 'Event',
+  allDay: 'All Day',
+  week: 'Week',
+  work_week: 'Work Week',
+  day: 'Day',
+  month: 'Month',
+  previous: 'Back',
+  next: 'Next',
+  yesterday: 'Yesterday',
+  tomorrow: 'Tomorrow',
+  today: 'Today',
+  agenda: 'Agenda',
+  noEventsInRange: 'There are no events in this range.',
+  showMore: (total) => `+${total} more`,
+};
 
 function _format(localizer, formatter, value, format, culture) {
   let result =
@@ -247,6 +266,6 @@ export class DateLocalizer {
     this.segmentOffset = spec.browserTZOffset ? spec.browserTZOffset() : 0;
     this.timezone = spec.timezone;
     this.culture = spec.culture;
-    this.messages = spec.messages;
+    this.messages = { ...defaultMessages, ...spec.messages };
   }
 }

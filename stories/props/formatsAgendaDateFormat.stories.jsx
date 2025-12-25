@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
 import { DateTime } from 'luxon'
-import { Calendar, Views, luxonLocalizer } from '../../src'
+import { Views } from '../../src'
+import { Calendar } from '../helpers'
 import demoEvents from '../resources/events'
 // import mdx from '...' 
 
-const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -22,7 +22,7 @@ export function FormatsAgendDateFormat() {
       defaultDate: new Date(2015, 3, 13),
       formats: {
         agendaDateFormat: (date, culture, localizer) =>
-          localizer.format(date, 'dddd MMMM Do', culture),
+          localizer.format(date, 'EEEE MMMM d', culture),
       },
       views: [Views.WEEK, Views.DAY, Views.AGENDA],
     }),
@@ -36,7 +36,7 @@ export function FormatsAgendDateFormat() {
         defaultView={Views.AGENDA}
         events={demoEvents}
         formats={formats}
-        localizer={mLocalizer}
+        
         views={views}
       />
     </div>

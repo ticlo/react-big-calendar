@@ -10,7 +10,7 @@ import { notify } from './utils/helpers';
 import * as DayEventLayout from './utils/DayEventLayout';
 import TimeSlotGroup from './TimeSlotGroup';
 import TimeGridEvent from './TimeGridEvent';
-import { DayLayoutAlgorithmPropType } from './utils/propTypes';
+
 
 import DayColumnWrapper from './DayColumnWrapper';
 

@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import { DateTime } from 'luxon'
-import { Calendar, luxonLocalizer } from '../../src'
+import { Calendar } from '../helpers'
 import demoEvents from '../resources/events'
 // import mdx from '...' 
 
-const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -22,7 +21,7 @@ export function FormatsWeekdayFormat() {
       defaultDate: new Date(2015, 3, 1),
       formats: {
         weekdayFormat: (date, culture, localizer) =>
-          localizer.format(date, 'dddd', culture),
+          localizer.format(date, 'EEEE', culture),
       },
     }),
     []
@@ -34,7 +33,7 @@ export function FormatsWeekdayFormat() {
         defaultDate={defaultDate}
         events={demoEvents}
         formats={formats}
-        localizer={mLocalizer}
+        
       />
     </div>
   )

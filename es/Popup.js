@@ -125,4 +125,5 @@ var Popup = /*#__PURE__*/_react.default.forwardRef(function (props, ref) {
     popperRef: ref
   }));
 });
+Popup.displayName = 'Popup';
 var _default = exports.default = Popup;

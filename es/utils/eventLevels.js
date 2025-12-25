@@ -64,7 +64,6 @@ function eventLevels(rowSegments) {
     if (j >= limit) {
       extra.push(seg);
     } else {
-      ;
       (levels[j] || (levels[j] = [])).push(seg);
     }
   }

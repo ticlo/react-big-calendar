@@ -2,7 +2,7 @@ import React from 'react';
 import { DateLocalizer } from './localizer';
 
 import { navigate } from './utils/constants';
-import { DayLayoutAlgorithmPropType } from './utils/propTypes';
+
 
 import TimeGrid from './TimeGrid';
 

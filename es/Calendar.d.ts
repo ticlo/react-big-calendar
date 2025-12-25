@@ -49,7 +49,7 @@ interface CalendarProps<TEvent extends CalendarEvent = CalendarEvent, TResource 
         x?: number;
         y?: number;
     };
-    selectable?: true | false | "ignoreEvents";
+    selectable?: true | false | 'ignoreEvents';
     longPressThreshold?: number;
     step?: number;
     timeslots?: number;

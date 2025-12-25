@@ -23,7 +23,7 @@ interface WeekProps {
     localizer: DateLocalizer;
     allDayMaxRows?: number;
     selected?: object;
-    selectable?: true | false | "ignoreEvents";
+    selectable?: true | false | 'ignoreEvents';
     longPressThreshold?: number;
     onNavigate?: (...args: unknown[]) => unknown;
     onSelectSlot?: (...args: unknown[]) => unknown;

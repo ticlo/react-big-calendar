@@ -15,7 +15,7 @@ import { views } from './utils/constants';
 import { inRange, sortEvents } from './utils/eventLevels';
 import { notify } from './utils/helpers';
 import Resources from './utils/Resources';
-import { DayLayoutAlgorithmPropType } from './utils/propTypes';
+
 
 interface TimeGridProps {
   events: any[];

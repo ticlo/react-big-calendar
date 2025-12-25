@@ -22,7 +22,7 @@ export default function Luxon() {
       return {
         defaultDate: getDate(defaultDateStr, DateTime),
         getNow: () => DateTime.local().toJSDate(),
-        localizer: luxonLocalizer(DateTime),
+        localizer: luxonLocalizer(DateTime, { timezone }),
         myEvents: [...events],
         scrollToTime: DateTime.local().toJSDate(),
       }

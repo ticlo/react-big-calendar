@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import { DateTime } from 'luxon'
-import { Calendar, luxonLocalizer } from '../../src'
+import { Calendar } from '../helpers'
 import demoEvents from '../resources/events'
 // import mdx from '...' 
 
-const mLocalizer = luxonLocalizer(DateTime)
 
 export default {
   title: 'props',
@@ -34,7 +33,7 @@ export function FormatsDateFormat() {
         defaultDate={defaultDate}
         events={demoEvents}
         formats={formats}
-        localizer={mLocalizer}
+        
       />
     </div>
   )
