@@ -76,6 +76,11 @@ export default function (
     formats: formatOverrides = undefined,
   } = {} as any
 ) {
+  const validatedTimezone =
+    defaultTimezone && !DateTime.now().setZone(defaultTimezone).isValid
+      ? 'Factory'
+      : defaultTimezone
+
   const fromJSDate = (date, localizer) => {
     if (date && DateTime.isDateTime(date)) {
       if (
@@ -422,7 +427,7 @@ export default function (
   }
 
   const spec = {
-    timezone: defaultTimezone,
+    timezone: validatedTimezone,
     format(value, format, culture) {
       if (culture) {
         return formatDateWithCulture.call(this, value, culture, format);

@@ -73,3 +73,11 @@ Tokyo.args = {
     events: events,
     timezone: 'Asia/Tokyo',
 }
+
+export const Invalid = Template.bind({})
+Invalid.args = {
+    defaultView: Views.DAY,
+    defaultDate: now.toJSDate(),
+    events: events,
+    timezone: 'Invalid/Timezone',
+}

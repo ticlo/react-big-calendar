@@ -1,5 +1,6 @@
 lib/
 dist/
+es/
 
 # Logs
 logs
