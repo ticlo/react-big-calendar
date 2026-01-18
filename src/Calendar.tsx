@@ -14,6 +14,7 @@ import {
   Accessors,
   ViewNames,
   DayLayoutAlgorithm,
+  SlotInfo,
 } from './types';
 import { DateLocalizer } from './localizer';
 
@@ -75,7 +76,7 @@ interface CalendarProps<
     range: any[] | { start: any; end: any },
     view?: string
   ) => void;
-  onSelectSlot?: (slotInfo: any) => void;
+  onSelectSlot?: (slotInfo: SlotInfo) => void;
   onSelectEvent?: (event: TEvent, e: React.SyntheticEvent) => void;
   onDoubleClickEvent?: (event: TEvent, e: React.SyntheticEvent) => void;
   onKeyPressEvent?: (event: TEvent, e: React.SyntheticEvent) => void;
@@ -428,7 +429,7 @@ export default class Calendar<
     notify(this.props.onKeyPressEvent as any, [event, e]);
   };
 
-  handleSelectSlot = (slotInfo) => {
+  handleSelectSlot = (slotInfo: SlotInfo) => {
     notify(this.props.onSelectSlot, slotInfo);
   };
 

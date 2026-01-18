@@ -15,7 +15,7 @@ import { views } from './utils/constants';
 import { inRange, sortEvents } from './utils/eventLevels';
 import { notify } from './utils/helpers';
 import Resources from './utils/Resources';
-
+import { SlotInfo } from './types';
 
 interface TimeGridProps {
   events: any[];
@@ -43,7 +43,7 @@ interface TimeGridProps {
   selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onNavigate?: (...args: unknown[]) => unknown;
-  onSelectSlot?: (...args: unknown[]) => unknown;
+  onSelectSlot?: (slotInfo: SlotInfo) => unknown;
   onSelectEnd?: (...args: unknown[]) => unknown;
   onSelectStart?: (...args: unknown[]) => unknown;
   onSelectEvent?: (...args: unknown[]) => unknown;

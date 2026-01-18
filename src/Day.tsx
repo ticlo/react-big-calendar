@@ -3,7 +3,7 @@ import { DateLocalizer } from './localizer';
 
 import { navigate } from './utils/constants';
 
-
+import { SlotInfo } from './types';
 import TimeGrid from './TimeGrid';
 
 interface DayProps {
@@ -32,7 +32,7 @@ interface DayProps {
   selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onNavigate?: (...args: unknown[]) => unknown;
-  onSelectSlot?: (...args: unknown[]) => unknown;
+  onSelectSlot?: (slotInfo: SlotInfo) => unknown;
   onSelectEnd?: (...args: unknown[]) => unknown;
   onSelectStart?: (...args: unknown[]) => unknown;
   onSelectEvent?: (...args: unknown[]) => unknown;

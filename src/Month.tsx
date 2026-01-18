@@ -17,6 +17,7 @@ import Header from './Header';
 import DateHeader from './DateHeader';
 
 import { inRange, sortWeekEvents } from './utils/eventLevels';
+import { SlotInfo } from './types';
 
 let eventsForWeek = (evts, start, end, accessors, localizer) =>
   evts.filter((e) => inRange(e, start, end, accessors, localizer));
@@ -42,7 +43,7 @@ interface MonthViewProps {
   selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onNavigate?: (...args: any[]) => any;
-  onSelectSlot?: (...args: any[]) => any;
+  onSelectSlot?: (slotInfo: SlotInfo) => any;
   onSelectEvent?: (...args: any[]) => any;
   onDoubleClickEvent?: (...args: any[]) => any;
   onKeyPressEvent?: (...args: any[]) => any;
