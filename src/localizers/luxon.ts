@@ -656,6 +656,24 @@ export default function luxonLocalizer(
     getDstOffset(this: DateLocalizer, start: DateTime, end: DateTime): number {
       return this.getTimezoneOffset(start) - this.getTimezoneOffset(end);
     },
+    startAndEndAreDateOnly(
+      this: DateLocalizer,
+      start: DateTime,
+      end: DateTime
+    ): boolean {
+      const s = fromJSDate(start, this);
+      const e = fromJSDate(end, this);
+      return (
+        s.hour === 0 &&
+        s.minute === 0 &&
+        s.second === 0 &&
+        s.millisecond === 0 &&
+        e.hour === 0 &&
+        e.minute === 0 &&
+        e.second === 0 &&
+        e.millisecond === 0
+      );
+    },
   };
 
   return new DateLocalizer(spec);

@@ -11,7 +11,6 @@ import * as DayEventLayout from './utils/DayEventLayout';
 import TimeSlotGroup from './TimeSlotGroup';
 import TimeGridEvent from './TimeGridEvent';
 
-
 import DayColumnWrapper from './DayColumnWrapper';
 
 interface DayColumnProps {

@@ -1,5 +1,6 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
+import { DateTime } from 'luxon'
 
 import {
   events,
@@ -32,7 +33,7 @@ const Template = (args) => (
 export const DraggableAndResizable = Template.bind({})
 DraggableAndResizable.storyName = 'draggable and resizable'
 DraggableAndResizable.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.WEEK,
   events,
   resizable: true,
@@ -44,7 +45,7 @@ export const CustomStepsAndTimeslots = Template.bind({})
 CustomStepsAndTimeslots.storyName =
   'draggable and resizable with non-default steps and timeslots'
 CustomStepsAndTimeslots.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.WEEK,
   events,
   resizable: true,
@@ -57,7 +58,7 @@ CustomStepsAndTimeslots.args = {
 export const WithMultiDayTimes = Template.bind({})
 WithMultiDayTimes.storyName = 'draggable and resizable with showMultiDayTimes'
 WithMultiDayTimes.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.WEEK,
   events,
   resizable: true,
@@ -70,7 +71,7 @@ export const WithCustomDateCellWrapper = Template.bind({})
 WithCustomDateCellWrapper.storyName =
   'draggable and resizable with custom dateCellWrapper'
 WithCustomDateCellWrapper.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.WEEK,
   events,
   resizable: true,
@@ -86,7 +87,7 @@ export const WithCustomTimeslotWrapper = Template.bind({})
 WithCustomTimeslotWrapper.storyName =
   'draggable and resizable with custom timeSlotWrapper'
 WithCustomTimeslotWrapper.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.WEEK,
   events,
   resizable: true,
@@ -102,7 +103,7 @@ export const WithCustomEventWrapper = Template.bind({})
 WithCustomEventWrapper.storyName =
   'draggable and resizable with custom eventWrapper'
 WithCustomEventWrapper.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.WEEK,
   events,
   resizable: true,
@@ -118,7 +119,7 @@ export const DraggableMultipleResources = Template.bind({})
 DraggableMultipleResources.storyName =
   'draggable and resizable with multiple resource lanes'
 DraggableMultipleResources.args = {
-  defaultDate: new Date(),
+  defaultDate: DateTime.now(),
   defaultView: Views.DAY,
   views: [Views.DAY, Views.WEEK, Views.AGENDA],
   events: resourceEvents,

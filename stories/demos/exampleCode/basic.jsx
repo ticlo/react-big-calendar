@@ -9,7 +9,6 @@ import {
 } from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
-import * as dates from '../../../src/utils/dates'
 
 const l = luxonLocalizer(DateTime)
 
@@ -34,8 +33,8 @@ export default function Basic({
       components: {
         timeSlotWrapper: ColoredDateCellWrapper,
       },
-      defaultDate: new Date(2015, 3, 1),
-      max: dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours'),
+      defaultDate: DateTime.fromObject({ year: 2015, month: 4, day: 1 }),
+      max: DateTime.fromObject({ year: 2015, month: 4, day: 1, hour: 23 }),
       views: Object.keys(Views).map((k) => Views[k]),
     }),
     []

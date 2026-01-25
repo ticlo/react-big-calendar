@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { DateTime } from 'luxon'
 import { Calendar, Views, DateLocalizer } from '../../../src'
 import DemoLink from '../../DemoLink.component'
 import events from '../../resources/events'
@@ -30,18 +31,18 @@ EventAgenda.propTypes = {
 }
 
 const customDayPropGetter = (date) => {
-  if (date.getDate() === 7 || date.getDate() === 15)
+  if (date.day === 7 || date.day === 15)
     return {
       className: styles.specialDay,
       style: {
-        border: 'solid 3px ' + (date.getDate() === 7 ? '#faa' : '#afa'),
+        border: 'solid 3px ' + (date.day === 7 ? '#faa' : '#afa'),
       },
     }
   else return {}
 }
 
 const customSlotPropGetter = (date) => {
-  if (date.getDate() === 7 || date.getDate() === 15)
+  if (date.day === 7 || date.day === 15)
     return {
       className: styles.specialDay,
     }
@@ -57,7 +58,7 @@ export default function Rendering({ localizer }) {
         },
         event: Event,
       },
-      defaultDate: new Date(2015, 3, 7),
+      defaultDate: DateTime.fromObject({ year: 2015, month: 4, day: 7 }),
     }),
     []
   )
