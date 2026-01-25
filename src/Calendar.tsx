@@ -15,6 +15,14 @@ import {
   ViewNames,
   DayLayoutAlgorithm,
   SlotInfo,
+  View,
+  ViewsProps,
+  NavigateAction,
+  EventPropGetter,
+  DayPropGetter,
+  SlotPropGetter,
+  SlotGroupPropGetter,
+  Formats,
 } from './types';
 import { DateLocalizer } from './localizer';
 
@@ -49,8 +57,8 @@ interface CalendarProps<
   localizer: DateLocalizer;
   elementProps?: React.HTMLAttributes<HTMLDivElement>;
   date?: any;
-  view?: string;
-  defaultView?: string;
+  view?: View;
+  defaultView?: View;
   events?: TEvent[];
   backgroundEvents?: TEvent[];
   titleAccessor?: keyof TEvent | ((event: TEvent) => React.ReactNode);
@@ -65,16 +73,12 @@ interface CalendarProps<
     | keyof TResource
     | ((resource: TResource) => React.ReactNode);
   getNow?: () => any;
-  onNavigate?: (newDate: any, view: string, action: string) => void;
-  onView?: (view: string) => void;
-  onDrillDown?: (
-    date: any,
-    view: string,
-    drilldownView?: string | null
-  ) => void;
+  onNavigate?: (newDate: any, view: View, action: NavigateAction) => void;
+  onView?: (view: View) => void;
+  onDrillDown?: (date: any, view: View, drilldownView?: View | null) => void;
   onRangeChange?: (
     range: any[] | { start: any; end: any },
-    view?: string
+    view?: View
   ) => void;
   onSelectSlot?: (slotInfo: SlotInfo) => void;
   onSelectEvent?: (event: TEvent, e: React.SyntheticEvent) => void;
@@ -88,14 +92,14 @@ interface CalendarProps<
   onShowMore?: (events: TEvent[], date: any) => void;
   showAllEvents?: boolean;
   selected?: any;
-  views?: ViewNames;
+  views?: ViewsProps;
   doShowMoreDrillDown?: boolean;
-  drilldownView?: string | null;
+  drilldownView?: View | null;
   getDrilldownView?: (
     targetDate: any,
-    currentViewName: string,
-    configuredViewNames: string[]
-  ) => string | null;
+    currentViewName: View,
+    configuredViewNames: View[]
+  ) => View | null;
   length?: number;
   toolbar?: boolean;
   popup?: boolean;
@@ -105,27 +109,11 @@ interface CalendarProps<
   step?: number;
   timeslots?: number;
   rtl?: boolean;
-  eventPropGetter?: (
-    event: TEvent,
-    start: any,
-    end: any,
-    isSelected: boolean
-  ) => { className?: string; style?: React.CSSProperties };
-  backgroundEventPropGetter?: (
-    event: TEvent,
-    start: any,
-    end: any,
-    isSelected: boolean
-  ) => { className?: string; style?: React.CSSProperties };
-  slotPropGetter?: (
-    date: any,
-    resourceId?: any
-  ) => { className?: string; style?: React.CSSProperties };
-  slotGroupPropGetter?: () => { style?: React.CSSProperties };
-  dayPropGetter?: (
-    date: any,
-    resourceId?: any
-  ) => { className?: string; style?: React.CSSProperties };
+  eventPropGetter?: EventPropGetter<TEvent>;
+  backgroundEventPropGetter?: EventPropGetter<TEvent>;
+  slotPropGetter?: SlotPropGetter;
+  slotGroupPropGetter?: SlotGroupPropGetter;
+  dayPropGetter?: DayPropGetter;
   showMultiDayTimes?: boolean;
   allDayMaxRows?: number;
   min?: any;
@@ -133,7 +121,9 @@ interface CalendarProps<
   scrollToTime?: any;
   enableAutoScroll?: boolean;
 
-  components?: Components;
+  components?: Components<TEvent, TResource>;
+  formats?: Formats;
+  messages?: any; // messages is generic in localizer but can be typed here if needed
 
   dayLayoutAlgorithm?: DayLayoutAlgorithm;
 
@@ -284,7 +274,11 @@ export default class Calendar<
 
     if (!getDrilldownView) return drilldownView as any;
 
-    return getDrilldownView(date, view as any, Object.keys(this.getViews()));
+    return getDrilldownView(
+      date,
+      view as any,
+      Object.keys(this.getViews()) as View[]
+    );
   };
 
   render() {
@@ -374,7 +368,7 @@ export default class Calendar<
    * when you need to have both: range and view type at once, i.e. for manage rbc
    * state via url
    */
-  handleRangeChange = (date: any, viewComponent: any, view?: string) => {
+  handleRangeChange = (date: any, viewComponent: any, view?: View) => {
     let { onRangeChange, localizer } = this.props;
 
     if (onRangeChange) {
@@ -388,7 +382,7 @@ export default class Calendar<
     }
   };
 
-  handleNavigate = (action: string, newDate?: any) => {
+  handleNavigate = (action: NavigateAction, newDate?: any) => {
     let { view, date, getNow, onNavigate, ...props } = this.props;
     let ViewComponent = this.getView();
     let today = getNow();
@@ -404,7 +398,7 @@ export default class Calendar<
     this.handleRangeChange(date, ViewComponent);
   };
 
-  handleViewChange = (view: string) => {
+  handleViewChange = (view: View) => {
     if (view !== this.props.view && isValidView(view, this.props as any)) {
       this.props.onView(view);
     }
@@ -433,7 +427,7 @@ export default class Calendar<
     notify(this.props.onSelectSlot, slotInfo);
   };
 
-  handleDrillDown = (date: any, view: string) => {
+  handleDrillDown = (date: any, view: View) => {
     const { onDrillDown } = this.props;
     if (onDrillDown) {
       onDrillDown(date, view, this.props.drilldownView as any);

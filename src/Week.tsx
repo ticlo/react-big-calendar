@@ -1,4 +1,5 @@
 import React from 'react';
+import type { DateTime } from 'luxon';
 import { DateLocalizer } from './localizer';
 
 import { navigate } from './utils/constants';
@@ -7,25 +8,25 @@ import { SlotInfo } from './types';
 import TimeGrid from './TimeGrid';
 
 interface WeekProps {
-  date: Date;
+  date: DateTime;
   events: unknown[];
   backgroundEvents: unknown[];
   resources?: unknown[];
   step?: number;
   timeslots?: number;
-  range?: Date[];
-  min?: Date;
-  max?: Date;
-  getNow: (...args: unknown[]) => unknown;
-  scrollToTime?: Date;
+  range?: DateTime[];
+  min?: DateTime;
+  max?: DateTime;
+  getNow: () => DateTime;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
   showMultiDayTimes?: boolean;
   rtl?: boolean;
   resizable?: boolean;
   width?: number;
-  accessors: any;
-  components: any;
-  getters: any;
+  accessors: unknown;
+  components: unknown;
+  getters: unknown;
   localizer: DateLocalizer;
   allDayMaxRows?: number;
   selected?: object;
@@ -58,10 +59,10 @@ class Week extends React.Component<WeekProps> {
   static defaultProps = TimeGrid.defaultProps;
 
   static navigate = (
-    date: any,
+    date: DateTime,
     action: string,
     { localizer }: { localizer: DateLocalizer }
-  ) => {
+  ): DateTime => {
     switch (action) {
       case navigate.PREVIOUS:
         return localizer.add(date, -1, 'week');
@@ -74,20 +75,32 @@ class Week extends React.Component<WeekProps> {
     }
   };
 
-  static range = (date: any, { localizer }: { localizer: DateLocalizer }) => {
+  static range = (
+    date: DateTime,
+    { localizer }: { localizer: DateLocalizer }
+  ): DateTime[] & { start?: DateTime; end?: DateTime } => {
     let firstOfWeek = localizer.startOfWeek();
     let start = localizer.startOf(date, 'week', firstOfWeek);
     let end = localizer.endOf(date, 'week', firstOfWeek);
 
-    let r: any = localizer.range(start, end);
+    let r: DateTime[] & { start?: DateTime; end?: DateTime } = localizer.range(
+      start,
+      end
+    );
     r.start = start;
     r.end = end;
     return r;
   };
 
-  static title = (date: any, { localizer }: { localizer: DateLocalizer }) => {
+  static title = (
+    date: DateTime,
+    { localizer }: { localizer: DateLocalizer }
+  ): string => {
     let [start, ...rest] = Week.range(date, { localizer });
-    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat');
+    return localizer.format(
+      { start, end: rest.pop()! },
+      'dayRangeHeaderFormat'
+    );
   };
 
   render() {

@@ -2,16 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { navigate } from './utils/constants';
 import { DateLocalizer } from './localizer';
-
-interface ToolbarProps {
-  view: string;
-  views: string[];
-  label: React.ReactNode;
-  localizer: DateLocalizer;
-  onNavigate: (action: string, newDate?: any) => void;
-  onView: (view: string) => void;
-  date: any;
-}
+import { NavigateAction, ToolbarProps, View, ViewsProps } from './types';
 
 class Toolbar extends React.Component<ToolbarProps> {
   render() {
@@ -50,15 +41,15 @@ class Toolbar extends React.Component<ToolbarProps> {
     );
   }
 
-  navigate = (action) => {
+  navigate = (action: NavigateAction) => {
     this.props.onNavigate(action);
   };
 
-  view = (view) => {
+  view = (view: View) => {
     this.props.onView(view);
   };
 
-  viewNamesGroup(messages) {
+  viewNamesGroup(messages: any) {
     let viewNames = this.props.views;
     const view = this.props.view;
 

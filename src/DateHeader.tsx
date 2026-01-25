@@ -1,10 +1,11 @@
 import React from 'react';
+import type { DateTime } from 'luxon';
 
 interface DateHeaderProps {
   label?: React.ReactNode;
-  date?: Date;
+  date?: DateTime;
   drilldownView?: string;
-  onDrillDown?: (...args: unknown[]) => unknown;
+  onDrillDown?: () => void;
   isOffRange?: boolean;
 }
 

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
+import type { DateTime } from 'luxon';
 import {
   merge,
   inRange,
@@ -159,42 +160,57 @@ function startAndEndAreDateOnly(start, end) {
 }
 
 export class DateLocalizer {
-  propType: any;
+  propType: typeof PropTypes.string;
   formats: { [key: string]: Format };
-  format: (value: any, format: Format, culture?: Culture) => string;
+  format: (value: DateTime, format: Format, culture?: Culture) => string;
   startOfWeek: (culture?: Culture) => number;
-  merge: (date: any, time: any) => any;
-  inRange: (date: any, min: any, max: any, unit?: string) => boolean;
-  lt: (date: any, b: any, unit?: string) => boolean;
-  lte: (date: any, b: any, unit?: string) => boolean;
-  gt: (date: any, b: any, unit?: string) => boolean;
-  gte: (date: any, b: any, unit?: string) => boolean;
-  eq: (date: any, b: any, unit?: string) => boolean;
-  neq: (date: any, b: any, unit?: string) => boolean;
-  startOf: (date: any, unit?: string, firstOfWeek?: number) => any;
-  endOf: (date: any, unit?: string, firstOfWeek?: number) => any;
-  add: (date: any, amount: number, unit?: string) => any;
-  range: (start: any, end: any, unit?: string) => any[];
-  diff: (a: any, b: any, unit?: string) => number;
-  ceil: (date: any, unit: string) => any;
-  min: (...args: any[]) => any;
-  max: (...args: any[]) => any;
-  minutes: (date: any) => number;
-  daySpan: (start: any, end: any) => number;
-  firstVisibleDay: (date: any, culture?: Culture) => any;
-  lastVisibleDay: (date: any, culture?: Culture) => any;
-  visibleDays: (date: any, culture?: Culture) => any[];
-  getSlotDate: (dt: any, minutesFromMidnight: number, offset: number) => any;
-  getTimezoneOffset: (value: any) => number;
-  getDstOffset: (start: any, end: any) => number;
-  getTotalMin: (start: any, end: any) => number;
-  getMinutesFromMidnight: (start: any) => number;
-  continuesPrior: (start: any, first: any) => boolean;
-  continuesAfter: (start: any, end: any, last: any) => boolean;
-  sortEvents: (args: { evtA: any; evtB: any }) => number;
-  inEventRange: (args: { event: any; range: any }) => boolean;
-  isSameDate: (date1: any, date2: any) => boolean;
-  startAndEndAreDateOnly: (start: any, end: any) => boolean;
+  merge: (date: DateTime, time: DateTime) => DateTime;
+  inRange: (
+    date: DateTime,
+    min: DateTime,
+    max: DateTime,
+    unit?: string
+  ) => boolean;
+  lt: (date: DateTime, b: DateTime, unit?: string) => boolean;
+  lte: (date: DateTime, b: DateTime, unit?: string) => boolean;
+  gt: (date: DateTime, b: DateTime, unit?: string) => boolean;
+  gte: (date: DateTime, b: DateTime, unit?: string) => boolean;
+  eq: (date: DateTime, b: DateTime, unit?: string) => boolean;
+  neq: (date: DateTime, b: DateTime, unit?: string) => boolean;
+  startOf: (date: DateTime, unit?: string, firstOfWeek?: number) => DateTime;
+  endOf: (date: DateTime, unit?: string, firstOfWeek?: number) => DateTime;
+  add: (date: DateTime, amount: number, unit?: string) => DateTime;
+  range: (start: DateTime, end: DateTime, unit?: string) => DateTime[];
+  diff: (a: DateTime, b: DateTime, unit?: string) => number;
+  ceil: (date: DateTime, unit: string) => DateTime;
+  min: (a: DateTime, b: DateTime) => DateTime;
+  max: (a: DateTime, b: DateTime) => DateTime;
+  minutes: (date: DateTime) => number;
+  daySpan: (start: DateTime, end: DateTime) => number;
+  firstVisibleDay: (date: DateTime, culture?: Culture) => DateTime;
+  lastVisibleDay: (date: DateTime, culture?: Culture) => DateTime;
+  visibleDays: (date: DateTime, culture?: Culture) => DateTime[];
+  getSlotDate: (
+    dt: DateTime,
+    minutesFromMidnight: number,
+    offset: number
+  ) => DateTime;
+  getTimezoneOffset: (value: DateTime) => number;
+  getDstOffset: (start: DateTime, end: DateTime) => number;
+  getTotalMin: (start: DateTime, end: DateTime) => number;
+  getMinutesFromMidnight: (start: DateTime) => number;
+  continuesPrior: (start: DateTime, first: DateTime) => boolean;
+  continuesAfter: (start: DateTime, end: DateTime, last: DateTime) => boolean;
+  sortEvents: (args: {
+    evtA: { start: DateTime; end: DateTime; allDay?: boolean };
+    evtB: { start: DateTime; end: DateTime; allDay?: boolean };
+  }) => number;
+  inEventRange: (args: {
+    event: { start: DateTime; end: DateTime };
+    range: { start: DateTime; end: DateTime };
+  }) => boolean;
+  isSameDate: (date1: DateTime, date2: DateTime) => boolean;
+  startAndEndAreDateOnly: (start: DateTime, end: DateTime) => boolean;
   segmentOffset: number;
   timezone?: string;
   culture?: string;

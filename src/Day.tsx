@@ -1,4 +1,5 @@
 import React from 'react';
+import type { DateTime } from 'luxon';
 import { DateLocalizer } from './localizer';
 
 import { navigate } from './utils/constants';
@@ -7,25 +8,25 @@ import { SlotInfo } from './types';
 import TimeGrid from './TimeGrid';
 
 interface DayProps {
-  date: Date;
+  date: DateTime;
   events: unknown[];
   backgroundEvents: unknown[];
   resources?: unknown[];
   step?: number;
   timeslots?: number;
-  range?: Date[];
-  min?: Date;
-  max?: Date;
-  getNow: (...args: unknown[]) => unknown;
-  scrollToTime?: Date;
+  range?: DateTime[];
+  min?: DateTime;
+  max?: DateTime;
+  getNow: () => DateTime;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
   showMultiDayTimes?: boolean;
   rtl?: boolean;
   resizable?: boolean;
   width?: number;
-  accessors: any;
-  components: any;
-  getters: any;
+  accessors: unknown;
+  components: unknown;
+  getters: unknown;
   localizer: DateLocalizer;
   allDayMaxRows?: number;
   selected?: object;
@@ -54,18 +55,23 @@ interface DayProps {
       };
 }
 class Day extends React.Component<DayProps> {
-  static range = (date: any, { localizer }: { localizer: DateLocalizer }) => {
-    let r: any = [localizer.startOf(date, 'day')];
+  static range = (
+    date: DateTime,
+    { localizer }: { localizer: DateLocalizer }
+  ): DateTime[] & { start?: DateTime; end?: DateTime } => {
+    let r: DateTime[] & { start?: DateTime; end?: DateTime } = [
+      localizer.startOf(date, 'day'),
+    ];
     r.start = r[0];
     r.end = localizer.endOf(date, 'day');
     return r;
   };
 
   static navigate = (
-    date: any,
+    date: DateTime,
     action: string,
     { localizer }: { localizer: DateLocalizer }
-  ) => {
+  ): DateTime => {
     switch (action) {
       case navigate.PREVIOUS:
         return localizer.add(date, -1, 'day');
@@ -78,8 +84,10 @@ class Day extends React.Component<DayProps> {
     }
   };
 
-  static title = (date: any, { localizer }: { localizer: DateLocalizer }) =>
-    localizer.format(date, 'dayHeaderFormat');
+  static title = (
+    date: DateTime,
+    { localizer }: { localizer: DateLocalizer }
+  ): string => localizer.format(date, 'dayHeaderFormat');
 
   render() {
     /**

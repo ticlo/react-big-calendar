@@ -1,24 +1,28 @@
 import React from 'react';
+import type { DateTime } from 'luxon';
 import { DateLocalizer } from './localizer';
 
 import Week from './Week';
 import TimeGrid from './TimeGrid';
 
 interface WorkWeekProps {
-  date: Date;
+  date: DateTime;
   localizer: DateLocalizer;
-  min?: Date;
-  max?: Date;
-  scrollToTime?: Date;
+  min?: DateTime;
+  max?: DateTime;
+  scrollToTime?: DateTime;
   enableAutoScroll?: boolean;
 }
 
 class WorkWeek extends React.Component<WorkWeekProps> {
   static defaultProps = TimeGrid.defaultProps;
 
-  static range = (date: any, options: { localizer: DateLocalizer }) => {
+  static range = (date: DateTime, options: { localizer: DateLocalizer }) => {
     const { localizer } = options;
-    let r: any = Week.range(date, options).filter((d: any) => {
+    let r: DateTime[] & { start?: DateTime; end?: DateTime } = Week.range(
+      date,
+      options
+    ).filter((d: DateTime) => {
       const weekday = localizer.add(d, 0, 'minutes').weekday;
       return [6, 7].indexOf(weekday) === -1;
     });
@@ -29,10 +33,16 @@ class WorkWeek extends React.Component<WorkWeekProps> {
 
   static navigate = Week.navigate;
 
-  static title = (date: any, { localizer }: { localizer: DateLocalizer }) => {
+  static title = (
+    date: DateTime,
+    { localizer }: { localizer: DateLocalizer }
+  ): string => {
     let [start, ...rest] = WorkWeek.range(date, { localizer });
 
-    return localizer.format({ start, end: rest.pop() }, 'dayRangeHeaderFormat');
+    return localizer.format(
+      { start, end: rest.pop()! },
+      'dayRangeHeaderFormat'
+    );
   };
 
   render() {

@@ -1,22 +1,45 @@
+import { DateTime } from 'luxon';
 import { DateLocalizer } from '../localizer';
+import type { Culture, DateRange, Formats, Messages } from '../types';
 
-function pluralizeUnit(unit) {
+type DateUnit =
+  | 'year'
+  | 'month'
+  | 'week'
+  | 'day'
+  | 'hour'
+  | 'minute'
+  | 'second'
+  | 'millisecond'
+  | 'years'
+  | 'months'
+  | 'weeks'
+  | 'days'
+  | 'hours'
+  | 'minutes'
+  | 'seconds'
+  | 'milliseconds';
+
+function pluralizeUnit(unit: string): string {
   return /s$/.test(unit) ? unit : unit + 's';
 }
 
-const weekRangeFormat = ({ start, end }, culture, local) =>
+const weekRangeFormat = (
+  { start, end }: DateRange,
+  culture: Culture | undefined,
+  local: DateLocalizer
+): string =>
   local.format(start, 'LLLL dd', culture) +
   ' – ' +
   // updated to use this localizer 'eq()' method
   local.format(end, local.eq(start, end, 'month') ? 'dd' : 'LLLL dd', culture);
 
-
-
-const timeRangeFormat = ({ start, end }, culture, local) => {
-  if (
-    start.getMonth() === end.getMonth() &&
-    start.getDate() === end.getDate()
-  ) {
+const timeRangeFormat = (
+  { start, end }: DateRange,
+  culture: Culture | undefined,
+  local: DateLocalizer
+): string => {
+  if (start.month === end.month && start.day === end.day) {
     return (
       local.format(start, 't', culture) +
       ' – ' +
@@ -30,11 +53,17 @@ const timeRangeFormat = ({ start, end }, culture, local) => {
   );
 };
 
-const timeRangeStartFormat = ({ start }, culture, local) =>
-  local.format(start, 't', culture) + ' – ';
+const timeRangeStartFormat = (
+  { start }: { start: DateTime },
+  culture: Culture | undefined,
+  local: DateLocalizer
+): string => local.format(start, 't', culture) + ' – ';
 
-const timeRangeEndFormat = ({ end }, culture, local) =>
-  ' – ' + local.format(end, 't', culture);
+const timeRangeEndFormat = (
+  { end }: { end: DateTime },
+  culture: Culture | undefined,
+  local: DateLocalizer
+): string => ' – ' + local.format(end, 't', culture);
 
 export const formats = {
   dateFormat: 'dd',
@@ -53,7 +82,7 @@ export const formats = {
   dayRangeHeaderFormat: weekRangeFormat,
 };
 
-function fixUnit(unit) {
+function fixUnit(unit: string | undefined): string | undefined {
   let datePart = unit ? pluralizeUnit(unit.toLowerCase()) : unit;
   if (datePart === 'FullYear') {
     datePart = 'year';
@@ -63,26 +92,37 @@ function fixUnit(unit) {
   return datePart;
 }
 
+interface LuxonLocalizerOptions {
+  firstDayOfWeek?: number;
+  timezone?: string;
+  culture?: string;
+  messages?: Messages;
+  formats?: Partial<Formats>;
+}
+
 // Luxon does not currently have weekInfo by culture
 // Luxon uses 1 based values for month and weekday
 // So we default to Sunday (7)
-export default function (
-  DateTime,
+export default function luxonLocalizer(
+  DateTimeClass: typeof DateTime,
   {
     firstDayOfWeek = 7,
     timezone: defaultTimezone = undefined,
     culture = undefined,
     messages = undefined,
     formats: formatOverrides = undefined,
-  } = {} as any
-) {
-  const validatedTimezone =
-    defaultTimezone && !DateTime.now().setZone(defaultTimezone).isValid
+  }: LuxonLocalizerOptions = {}
+): DateLocalizer {
+  const validatedTimezone: string | undefined =
+    defaultTimezone && !DateTimeClass.now().setZone(defaultTimezone).isValid
       ? 'Factory'
-      : defaultTimezone
+      : defaultTimezone;
 
-  const fromJSDate = (date, localizer) => {
-    if (date && DateTime.isDateTime(date)) {
+  const fromJSDate = (
+    date: DateTime | Date | null | undefined,
+    localizer?: DateLocalizer
+  ): DateTime => {
+    if (date && DateTimeClass.isDateTime(date)) {
       if (
         localizer &&
         localizer.timezone &&
@@ -92,27 +132,41 @@ export default function (
       }
       return date;
     }
-    return DateTime.fromJSDate(date, {
+    return DateTimeClass.fromJSDate(date as Date, {
       zone: localizer ? localizer.timezone : undefined,
     });
   };
 
-  function formatDate(value, format) {
+  function formatDate(
+    this: DateLocalizer,
+    value: DateTime,
+    format: string
+  ): string {
     return fromJSDate(value, this).toFormat(format);
   }
 
-  function formatDateWithCulture(value, culture, format) {
+  function formatDateWithCulture(
+    this: DateLocalizer,
+    value: DateTime,
+    culture: string,
+    format: string
+  ): string {
     return fromJSDate(value, this).setLocale(culture).toFormat(format);
   }
 
   /*** BEGIN localized date arithmetic methods with Luxon ***/
-  function defineComparators(a, b, unit) {
+  function defineComparators(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): [DateTime, DateTime, string | undefined] {
     const datePart = fixUnit(unit);
     const dtA = datePart
-      ? fromJSDate(a, this).startOf(datePart)
+      ? fromJSDate(a, this).startOf(datePart as keyof DateTime)
       : fromJSDate(a, this);
     const dtB = datePart
-      ? fromJSDate(b, this).startOf(datePart)
+      ? fromJSDate(b, this).startOf(datePart as keyof DateTime)
       : fromJSDate(b, this);
     return [dtA, dtB, datePart];
   }
@@ -121,7 +175,7 @@ export default function (
   // for culture based weekInfo, we need to handle
   // the start of the week differently
   // depending on locale, the firstDayOfWeek could also be Saturday, Sunday or Monday
-  function startOfDTWeek(dtObj) {
+  function startOfDTWeek(dtObj: DateTime): DateTime {
     const weekday = dtObj.weekday;
     if (weekday === firstDayOfWeek) {
       return dtObj.startOf('day'); // already beginning of week
@@ -133,7 +187,7 @@ export default function (
     return dtObj.minus({ day: diff }).startOf('day');
   }
 
-  function endOfDTWeek(dtObj) {
+  function endOfDTWeek(dtObj: DateTime): DateTime {
     const weekday = dtObj.weekday;
     const eow = firstDayOfWeek === 1 ? 7 : firstDayOfWeek - 1;
     if (weekday === eow) {
@@ -147,72 +201,122 @@ export default function (
   }
 
   // This returns a DateTime instance
-  function startOfDT(date, unit) {
-    if (!date) date = DateTime.now({ zone: this.timezone });
+  function startOfDT(
+    this: DateLocalizer,
+    date: DateTime | undefined,
+    unit?: string
+  ): DateTime {
+    if (!date) date = DateTimeClass.now().setZone(this.timezone);
     const datePart = fixUnit(unit);
     if (datePart) {
       const dt = fromJSDate(date, this);
       return datePart.includes('week')
         ? startOfDTWeek(dt)
-        : dt.startOf(datePart);
+        : dt.startOf(datePart as keyof DateTime);
     }
     return fromJSDate(date, this);
   }
 
-  function firstOfWeek() {
+  function firstOfWeek(): number {
     return firstDayOfWeek;
   }
 
-  // This returns a JS Date from a DateTime instance
-  function startOf(date, unit) {
-    return startOfDT.call(this, date, unit).toJSDate();
+  // This returns a DateTime from a DateTime instance
+  function startOf(
+    this: DateLocalizer,
+    date: DateTime,
+    unit?: string
+  ): DateTime {
+    return startOfDT.call(this, date, unit);
   }
 
   // This returns a DateTime instance
-  function endOfDT(date, unit) {
-    if (!date) date = DateTime.now({ zone: this.timezone });
+  function endOfDT(
+    this: DateLocalizer,
+    date: DateTime | undefined,
+    unit?: string
+  ): DateTime {
+    if (!date) date = DateTimeClass.now().setZone(this.timezone);
     const datePart = fixUnit(unit);
     if (datePart) {
       const dt = fromJSDate(date, this);
-      return datePart.includes('week') ? endOfDTWeek(dt) : dt.endOf(datePart);
+      return datePart.includes('week')
+        ? endOfDTWeek(dt)
+        : dt.endOf(datePart as keyof DateTime);
     }
     return fromJSDate(date, this);
   }
 
-  function endOf(date, unit) {
-    return endOfDT.call(this, date, unit).toJSDate();
+  function endOf(this: DateLocalizer, date: DateTime, unit?: string): DateTime {
+    return endOfDT.call(this, date, unit);
   }
 
-  function eq(a, b, unit) {
+  function eq(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): boolean {
     const [dtA, dtB] = defineComparators.call(this, a, b, unit);
     return +dtA == +dtB;
   }
 
-  function neq(a, b, unit) {
+  function neq(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): boolean {
     return !eq.call(this, a, b, unit);
   }
 
-  function gt(a, b, unit) {
+  function gt(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): boolean {
     const [dtA, dtB] = defineComparators.call(this, a, b, unit);
     return +dtA > +dtB;
   }
 
-  function lt(a, b, unit) {
+  function lt(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): boolean {
     const [dtA, dtB] = defineComparators.call(this, a, b, unit);
     return +dtA < +dtB;
   }
 
-  function gte(a, b, unit) {
+  function gte(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): boolean {
     const [dtA, dtB] = defineComparators.call(this, a, b, unit);
     return +dtA >= +dtB;
   }
 
-  function lte(a, b, unit) {
+  function lte(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit?: string
+  ): boolean {
     const [dtA, dtB] = defineComparators.call(this, a, b, unit);
     return +dtA <= +dtB;
   }
 
-  function inRange(day, min, max, unit = 'day') {
+  function inRange(
+    this: DateLocalizer,
+    day: DateTime,
+    min: DateTime,
+    max: DateTime,
+    unit: string = 'day'
+  ): boolean {
     const datePart = fixUnit(unit);
     const mDay = startOfDT.call(this, day, datePart);
     const mMin = startOfDT.call(this, min, datePart);
@@ -220,54 +324,70 @@ export default function (
     return +mDay >= +mMin && +mDay <= +mMax;
   }
 
-  function min(dateA, dateB) {
+  function min(
+    this: DateLocalizer,
+    dateA: DateTime,
+    dateB: DateTime
+  ): DateTime {
     const dtA = fromJSDate(dateA, this);
     const dtB = fromJSDate(dateB, this);
-    return DateTime.min(dtA, dtB).toJSDate();
+    return DateTimeClass.min(dtA, dtB);
   }
 
-  function max(dateA, dateB) {
+  function max(
+    this: DateLocalizer,
+    dateA: DateTime,
+    dateB: DateTime
+  ): DateTime {
     const dtA = fromJSDate(dateA, this);
     const dtB = fromJSDate(dateB, this);
-    return DateTime.max(dtA, dtB).toJSDate();
+    return DateTimeClass.max(dtA, dtB);
   }
 
-  function merge(date, time) {
-    if (!date && !time) return null;
-
+  function merge(
+    this: DateLocalizer,
+    date: DateTime,
+    time: DateTime
+  ): DateTime {
     const tm = fromJSDate(time, this);
     const dt = startOfDT.call(this, date, 'day');
-    return dt
-      .set({
-        hour: tm.hour,
-        minute: tm.minute,
-        second: tm.second,
-        millisecond: tm.millisecond,
-      })
-      .toJSDate();
+    return dt.set({
+      hour: tm.hour,
+      minute: tm.minute,
+      second: tm.second,
+      millisecond: tm.millisecond,
+    });
   }
 
-  function add(date, adder, unit) {
+  function add(
+    this: DateLocalizer,
+    date: DateTime,
+    adder: number,
+    unit?: string
+  ): DateTime {
     const datePart = fixUnit(unit);
-    return fromJSDate(date, this)
-      .plus({ [datePart]: adder })
-      .toJSDate();
+    return fromJSDate(date, this).plus({ [datePart as string]: adder });
   }
 
-  function range(start, end, unit = 'day') {
+  function range(
+    this: DateLocalizer,
+    start: DateTime,
+    end: DateTime,
+    unit: string = 'day'
+  ): DateTime[] {
     const datePart = fixUnit(unit);
     let current = fromJSDate(start, this);
-    const days = [];
+    const days: DateTime[] = [];
 
     while (lte.call(this, current, end)) {
-      days.push(current.toJSDate());
-      current = fromJSDate(add.call(this, current, 1, datePart), this);
+      days.push(current);
+      current = add.call(this, current, 1, datePart);
     }
 
     return days;
   }
 
-  function ceil(date, unit) {
+  function ceil(this: DateLocalizer, date: DateTime, unit: string): DateTime {
     const datePart = fixUnit(unit);
     const floor = startOf.call(this, date, datePart);
 
@@ -276,36 +396,43 @@ export default function (
       : add.call(this, floor, 1, datePart);
   }
 
-  function diff(a, b, unit = 'day') {
+  function diff(
+    this: DateLocalizer,
+    a: DateTime,
+    b: DateTime,
+    unit: string = 'day'
+  ): number {
     const datePart = fixUnit(unit);
     // don't use 'defineComparators' here, as we don't want to mutate the values
     const dtA = fromJSDate(a, this);
     const dtB = fromJSDate(b, this);
     return Math.floor(
-      dtB.diff(dtA, datePart, { conversionAccuracy: 'longterm' }).toObject()[
-      datePart
-      ]
+      dtB
+        .diff(dtA, datePart as keyof DateTime, {
+          conversionAccuracy: 'longterm',
+        })
+        .toObject()[datePart as string] as number
     );
   }
 
-  function firstVisibleDay(date) {
+  function firstVisibleDay(this: DateLocalizer, date: DateTime): DateTime {
     const startOfMonth = startOfDT.call(this, date, 'month');
-    return startOfDTWeek(startOfMonth).toJSDate();
+    return startOfDTWeek(startOfMonth);
   }
 
-  function lastVisibleDay(date) {
+  function lastVisibleDay(this: DateLocalizer, date: DateTime): DateTime {
     const endOfMonth = endOfDT.call(this, date, 'month');
-    return endOfDTWeek(endOfMonth).toJSDate();
+    return endOfDTWeek(endOfMonth);
   }
 
-  function visibleDays(date) {
+  function visibleDays(this: DateLocalizer, date: DateTime): DateTime[] {
     let current = fromJSDate(firstVisibleDay.call(this, date), this);
     const last = lastVisibleDay.call(this, date);
-    const days = [];
+    const days: DateTime[] = [];
 
     while (lte.call(this, current, last)) {
-      days.push(current.toJSDate());
-      current = fromJSDate(add.call(this, current, 1, 'day'), this);
+      days.push(current);
+      current = add.call(this, current, 1, 'day');
     }
 
     return days;
@@ -314,54 +441,86 @@ export default function (
 
   /**
    * Moved from TimeSlots.js, this method overrides the method of the same name
-   * in the localizer.js, using moment to construct the js Date
-   * @param {Date} dt - date to start with
-   * @param {Number} minutesFromMidnight
-   * @param {Number} offset
-   * @returns {Date}
+   * in the localizer.js, using moment to construct the DateTime
+   * @param dt - date to start with
+   * @param minutesFromMidnight
+   * @param offset
+   * @returns DateTime
    */
-  function getSlotDate(dt, minutesFromMidnight, offset) {
+  function getSlotDate(
+    this: DateLocalizer,
+    dt: DateTime,
+    minutesFromMidnight: number,
+    offset: number
+  ): DateTime {
     return startOfDT
       .call(this, dt, 'day')
-      .set({ minutes: minutesFromMidnight + offset })
-      .toJSDate();
+      .set({ minute: minutesFromMidnight + offset });
   }
 
   // Luxon will automatically handle DST differences in it's calculations
-  function getTotalMin(start, end) {
+  function getTotalMin(
+    this: DateLocalizer,
+    start: DateTime,
+    end: DateTime
+  ): number {
     return diff.call(this, start, end, 'minutes');
   }
 
-  function getMinutesFromMidnight(start) {
+  function getMinutesFromMidnight(
+    this: DateLocalizer,
+    start: DateTime
+  ): number {
     const dayStart = startOfDT.call(this, start, 'day');
     const day = fromJSDate(start, this);
     return Math.round(
       day
         .diff(dayStart, 'minutes', { conversionAccuracy: 'longterm' })
-        .toObject().minutes
+        .toObject().minutes as number
     );
   }
 
   // These two are used by DateSlotMetrics
-  function continuesPrior(start, first) {
+  function continuesPrior(
+    this: DateLocalizer,
+    start: DateTime,
+    first: DateTime
+  ): boolean {
     return lt.call(this, start, first);
   }
 
-  function continuesAfter(start, end, last) {
+  function continuesAfter(
+    this: DateLocalizer,
+    start: DateTime,
+    end: DateTime,
+    last: DateTime
+  ): boolean {
     return gte.call(this, end, last);
   }
 
-  function daySpan(start, end) {
+  function daySpan(
+    this: DateLocalizer,
+    start: DateTime,
+    end: DateTime
+  ): number {
     const dtStart = fromJSDate(start, this);
     const dtEnd = fromJSDate(end, this);
     return dtEnd.diff(dtStart).as('days');
   }
 
   // These two are used by eventLevels
-  function sortEvents({
-    evtA: { start: aStart, end: aEnd, allDay: aAllDay },
-    evtB: { start: bStart, end: bEnd, allDay: bAllDay },
-  }) {
+  interface EventForSort {
+    start: DateTime;
+    end: DateTime;
+    allDay?: boolean;
+  }
+
+  function sortEvents(
+    this: DateLocalizer,
+    { evtA, evtB }: { evtA: EventForSort; evtB: EventForSort }
+  ): number {
+    const { start: aStart, end: aEnd, allDay: aAllDay } = evtA;
+    const { start: bStart, end: bEnd, allDay: bAllDay } = evtB;
     const startSort =
       Number(startOf.call(this, aStart, 'day')) -
       Number(startOf.call(this, bStart, 'day'));
@@ -379,10 +538,18 @@ export default function (
     );
   }
 
-  function inEventRange({
-    event: { start, end },
-    range: { start: rangeStart, end: rangeEnd },
-  }) {
+  function inEventRange(
+    this: DateLocalizer,
+    {
+      event,
+      range,
+    }: {
+      event: { start: DateTime; end: DateTime };
+      range: { start: DateTime; end: DateTime };
+    }
+  ): boolean {
+    const { start, end } = event;
+    const { start: rangeStart, end: rangeEnd } = range;
     const eStart = startOf.call(this, start, 'day');
 
     const startsBeforeEnd = lte.call(this, eStart, rangeEnd, 'day');
@@ -397,7 +564,11 @@ export default function (
   // moment treats 'day' and 'date' equality very different
   // moment(date1).isSame(date2, 'day') would test that they were both the same day of the week
   // moment(date1).isSame(date2, 'date') would test that they were both the same date of the month of the year
-  function isSameDate(date1, date2) {
+  function isSameDate(
+    this: DateLocalizer,
+    date1: DateTime,
+    date2: DateTime
+  ): boolean {
     const dt = fromJSDate(date1, this);
     const dt2 = fromJSDate(date2, this);
     return dt.hasSame(dt2, 'day');
@@ -409,7 +580,7 @@ export default function (
    * specifically when using a timezone that is greater than the browser native timezone.
    * @returns number
    */
-  function browserTZOffset() {
+  function browserTZOffset(this: DateLocalizer): number {
     /**
      * Date.prototype.getTimezoneOffset horrifically flips the positive/negative from
      * what you see in it's string, so we have to jump through some hoops to get a value
@@ -420,15 +591,20 @@ export default function (
     const dtOffset = dt.getTimezoneOffset();
     const comparator = Number(`${neg}${Math.abs(dtOffset)}`);
     // moment correctly provides positive/negative offset, as expected
-    const mtOffset = DateTime.local({
-      zone: this.timezone || defaultTimezone,
-    }).offset;
+    const mtOffset = DateTimeClass.local().setZone(
+      this.timezone || defaultTimezone
+    ).offset;
     return mtOffset > comparator ? 1 : 0;
   }
 
   const spec = {
     timezone: validatedTimezone,
-    format(value, format, culture) {
+    format(
+      this: DateLocalizer,
+      value: DateTime,
+      format: string,
+      culture?: string
+    ): string {
       if (culture) {
         return formatDateWithCulture.call(this, value, culture, format);
       }
@@ -474,10 +650,10 @@ export default function (
     isSameDate: isSameDate,
     daySpan: daySpan,
     browserTZOffset: browserTZOffset,
-    getTimezoneOffset(value) {
+    getTimezoneOffset(this: DateLocalizer, value: DateTime): number {
       return -fromJSDate(value, this).offset;
     },
-    getDstOffset(start, end) {
+    getDstOffset(this: DateLocalizer, start: DateTime, end: DateTime): number {
       return this.getTimezoneOffset(start) - this.getTimezoneOffset(end);
     },
   };

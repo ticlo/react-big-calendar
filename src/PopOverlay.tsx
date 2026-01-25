@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import type { DateTime } from 'luxon';
 import { DateLocalizer } from './localizer';
 import { Overlay } from 'react-overlays';
 import Popup from './Popup';
@@ -18,14 +19,35 @@ function CalOverlay({
   handleDragStart,
   onHide,
   overlayDisplay,
-}: any) {
+}: {
+  containerRef: React.ForwardedRef<HTMLElement>;
+  popupOffset?: number | { x?: number; y?: number };
+  overlay?: {
+    position?: { top: number; left: number; width: number; height: number };
+    events?: unknown[];
+    date?: DateTime;
+    end?: DateTime;
+    target?: HTMLElement;
+  };
+  accessors: unknown;
+  localizer: DateLocalizer;
+  components: unknown;
+  getters: unknown;
+  selected?: object;
+  handleSelectEvent?: (...args: unknown[]) => unknown;
+  handleDoubleClickEvent?: (...args: unknown[]) => unknown;
+  handleKeyPressEvent?: (...args: unknown[]) => unknown;
+  handleDragStart?: (...args: unknown[]) => unknown;
+  onHide?: () => void;
+  overlayDisplay?: (...args: unknown[]) => unknown;
+}) {
   const popperRef = useRef(null);
   if (!overlay.position) return null;
 
-  let offset = popupOffset;
-  if (!isNaN(popupOffset)) {
-    offset = { x: popupOffset, y: popupOffset };
-  }
+  let offset: { x: number; y: number } =
+    typeof popupOffset === 'number'
+      ? { x: popupOffset, y: popupOffset }
+      : { x: popupOffset.x ?? 0, y: popupOffset.y ?? 0 };
 
   const { position, events, date, end } = overlay;
   return (
@@ -73,22 +95,22 @@ interface PopOverlayProps {
         y?: number;
       };
   overlay?: {
-    position?: object;
+    position?: { top: number; left: number; width: number; height: number };
     events?: unknown[];
-    date?: Date;
-    end?: Date;
-    target?: any;
+    date?: DateTime;
+    end?: DateTime;
+    target?: HTMLElement;
   };
-  accessors: any;
+  accessors: unknown;
   localizer: DateLocalizer;
-  components: any;
-  getters: any;
+  components: unknown;
+  getters: unknown;
   selected?: object;
   handleSelectEvent?: (...args: unknown[]) => unknown;
   handleDoubleClickEvent?: (...args: unknown[]) => unknown;
   handleKeyPressEvent?: (...args: unknown[]) => unknown;
   handleDragStart?: (...args: unknown[]) => unknown;
-  onHide?: (...args: unknown[]) => unknown;
+  onHide?: () => void;
   overlayDisplay?: (...args: unknown[]) => unknown;
 }
 

@@ -1,34 +1,50 @@
 import React, { createRef } from 'react';
+import type { DateTime } from 'luxon';
 import clsx from 'clsx';
 
 import { notify } from './utils/helpers';
 import { dateCellSelection, getSlotAtX, pointInBox } from './utils/selection';
 import Selection, { getBoundsForNode, isEvent, isShowMore } from './Selection';
+import { DateLocalizer } from './localizer';
 
 interface BackgroundCellsProps {
-  date?: Date;
-  getNow: (...args: any[]) => any;
-  getters: any;
-  components: any;
-  container?: (...args: any[]) => any;
-  dayPropGetter?: (...args: any[]) => any;
+  date?: DateTime;
+  getNow: () => DateTime;
+  getters: {
+    dayProp: (date: DateTime) => {
+      className?: string;
+      style?: React.CSSProperties;
+    };
+  };
+  components: {
+    dateCellWrapper: React.ComponentType<{
+      value: DateTime;
+      range: DateTime[];
+      children: React.ReactNode;
+    }>;
+  };
+  container?: () => HTMLElement | null;
+  dayPropGetter?: (date: DateTime) => {
+    className?: string;
+    style?: React.CSSProperties;
+  };
   selectable?: true | false | 'ignoreEvents';
   longPressThreshold?: number;
   onSelectSlot: (args: {
-    start: any;
-    end: any;
-    action: any;
-    bounds: any;
-    box: any;
-    resourceId: any;
-  }) => any;
-  onSelectEnd?: (...args: any[]) => any;
-  onSelectStart?: (...args: any[]) => any;
-  range?: any[];
+    start: number;
+    end: number;
+    action: string;
+    bounds: { top: number; left: number; right: number; bottom: number } | null;
+    box: { x: number; y: number; clientX: number; clientY: number } | null;
+    resourceId: number | string | undefined;
+  }) => void;
+  onSelectEnd?: (state: BackgroundCellsState) => void;
+  onSelectStart?: (box: { x: number; y: number }) => void;
+  range?: DateTime[];
   rtl?: boolean;
   type?: string;
-  resourceId?: any;
-  localizer?: any;
+  resourceId?: number | string;
+  localizer?: DateLocalizer;
 }
 
 interface BackgroundCellsState {

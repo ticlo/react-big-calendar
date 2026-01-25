@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import type { DateTime } from 'luxon';
 import { DateLocalizer } from './localizer';
 import clsx from 'clsx';
 
@@ -11,7 +12,15 @@ import TimeSlotGroup from './TimeSlotGroup';
  * and, if so, change the beginning and end 'date' by a day to properly display the slots times
  * used.
  */
-function adjustForDST({ min, max, localizer }) {
+function adjustForDST({
+  min,
+  max,
+  localizer,
+}: {
+  min: DateTime;
+  max: DateTime;
+  localizer: DateLocalizer;
+}): { start: DateTime; end: DateTime } {
   if (localizer.getTimezoneOffset(min) !== localizer.getTimezoneOffset(max)) {
     return {
       start: localizer.add(min, -1, 'day'),
@@ -22,17 +31,22 @@ function adjustForDST({ min, max, localizer }) {
 }
 
 interface TimeGutterProps {
-  min: Date;
-  max: Date;
-  date?: Date;
+  min: DateTime;
+  max: DateTime;
+  date?: DateTime;
   timeslots: number;
   step: number;
-  getNow: (...args: unknown[]) => unknown;
-  components: any;
-  getters?: any;
+  getNow: () => DateTime;
+  components: {
+    timeGutterWrapper: React.ComponentType<{
+      slotMetrics: unknown;
+      children: React.ReactNode;
+    }>;
+  };
+  getters?: unknown;
   localizer: DateLocalizer;
   resource?: string;
-  gutterRef?: any;
+  gutterRef?: React.Ref<HTMLDivElement>;
   className?: string;
 }
 
